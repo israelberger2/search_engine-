@@ -1,0 +1,45 @@
+#include <cppconn/prepared_statement.h>
+#include <cppconn/resultset.h>
+#include <memory>
+
+#include "mysql_word_data.hpp"
+#include "se_exceptions.hpp"
+
+
+db::MysqlWordData::MysqlWordData()
+: m_connector()
+{}
+
+int db::MysqlWordData::insertAndGetID(const std::string& word)
+{
+    std::unique_ptr<sql::Connection> con = m_connector.get_conector();
+    con->setSchema("DBsearchEngine");
+     
+    std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(
+        "INSERT INTO Word (Token) SELECT ? WHERE NOT EXISTS (SELECT * FROM Word WHERE Token = ?);")
+    );
+
+    stmt->setString(1, word);
+    stmt->setString(2, word);
+
+    try{
+        stmt->execute();
+    } catch(const sql::SQLException& error){
+        throw se::InValidWord("SQLerror::invalidWord");
+    }
+
+    std::unique_ptr<sql::PreparedStatement> IDresult(con->prepareStatement(
+    "SELECT ID FROM Word WHERE Token = ?;")
+    );
+
+    IDresult->setString(1, word);
+
+    std::unique_ptr<sql::ResultSet> res(IDresult->executeQuery());
+    int wordId;
+    
+    if (res->next()){
+        wordId = res->getInt("id");
+    }
+
+    return wordId;
+}

@@ -1,0 +1,9 @@
+{
+  "scans":30,
+  "threads":4,
+  "lengthResult":50,
+  "isBounded": true,
+  "addresses": [
+    "https://harrypotter.fandom.com/wiki/Main_Page"
+  ]
+}
