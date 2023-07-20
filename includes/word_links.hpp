@@ -1,24 +1,3 @@
-// #ifndef WORDLINKS_HPP
-// #define WORDLINKS_HPP
-
-// #include <string>
-
-// #include "link.hpp"
-
-
-// namespace db
-// {
-    
-// class WordLinks 
-// {
-// public:
-//     virtual ~WordLinks() = default;
-//     virtual void insert(const std::string& word, const se::Link& link, int count) = 0;
-// };
-
-// } // db
-// #endif
-
 #ifndef WORDLINKS_HPP
 #define WORDLINKS_HPP
 

@@ -1,4 +1,3 @@
- 
 #include <utility>
 #include <unordered_map>
 #include <iostream>
@@ -46,10 +45,7 @@ void Crawler::close()
 void Crawler::process_link()
 {
   std::string current_url;
-  int q = 0;
-  while(true){
-    std::cout << ++q << '\n';
-    
+  while(true){    
     if(! m_borderManager.check_limit()){ 
       m_unvisited_links.setStatus();
       m_unvisited_links.notify();
@@ -99,6 +95,7 @@ void Crawler::fill_queue(const std::unordered_map<std::string, int>& result_link
     }
   }
 }
+
 // void Crawler::fill_queue(const std::vector<std::string>& result_links) 
 // {
 //   for(auto& link : result_links){

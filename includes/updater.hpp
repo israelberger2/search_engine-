@@ -32,7 +32,7 @@ private:
     size_t m_mount;
     Publisher& m_publisher;
     std::shared_mutex m_mtx;
-    std::shared_mutex  m_notMtx;
+    std::shared_mutex m_notMtx;
     db::GraphData& m_graphData;
     db::WordLinks& m_wordsData;
 };
