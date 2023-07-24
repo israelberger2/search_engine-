@@ -65,21 +65,21 @@ se::WordsMap se::StringSplit::parser()
             }
         }
 
-        if (isValidWord && word.length() >= 2) {
-            fillMap(allWords, word);
+        if (isValidWord && word.length() >= 3){
+            allWords[word]++;        
         }
     }
 
     return allWords;
 }
 
-void se::StringSplit::fillMap(WordsMap& allWords, const std::string& word)const
-{    
-    auto it = allWords.find(word);
+// void se::StringSplit::fillMap(WordsMap& allWords, const std::string& word)const
+// {    
+//     auto it = allWords.find(word);
     
-    if(it == allWords.end()){
-        allWords.insert({word, 1});
-    } else {
-        allWords[word]++;
-    }
-}
+//     if(it == allWords.end()){
+//         allWords.insert({word, 1});
+//     } else {
+//         allWords[word]++;
+//     }
+// }
