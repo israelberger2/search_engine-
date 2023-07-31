@@ -1,6 +1,7 @@
 #ifndef MYSQL_WORDLINKS_HPP
 #define MYSQL_WORDLINKS_HPP
 
+#include <vector>
 #include <string>
 #include <unordered_map>
 
@@ -19,9 +20,11 @@ public:
     MysqlWordLinks();
     ~MysqlWordLinks() = default;
     MysqlWordLinks(const MysqlWordLinks&) = delete;
-    MysqlWordLinks operator= (const MysqlWordLinks&) = delete;
+    MysqlWordLinks& operator= (const MysqlWordLinks&) = delete;
 
     void insert(const WordsMap& words, const std::string& link)override;
+    std::vector<int> getLinksForWord(const std::string& word)override;
+
 
 private:
     Connector m_connector;

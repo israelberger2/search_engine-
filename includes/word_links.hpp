@@ -1,6 +1,7 @@
 #ifndef WORDLINKS_HPP
 #define WORDLINKS_HPP
 
+#include <vector>
 #include <string>
 #include <unordered_map>
 
@@ -15,6 +16,7 @@ class WordLinks
 public:
     virtual ~WordLinks() = default;
     virtual void insert(const WordsMap& words, const std::string& link) = 0;
+    virtual std::vector<int> getLinksForWord(const std::string& word) = 0;
 };
 
 } // db
