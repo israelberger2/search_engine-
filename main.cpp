@@ -31,182 +31,7 @@
 
 
 using namespace se;
-
-
-void f1(const std::vector<int>& wordsID, int linksID, std::vector<int>& suitableLinks)
-{
-  db::Connector connector{};
-  
-  std::unique_ptr<sql::Connection> con = connector.get_conector();
-  con->setSchema("DBsearchEngine");
-
-  std::string query  = "SELECT WordLink.LinkID FROM WordLink WHERE WordLink.LinkID = ?  and (WordLink.WordID = ? ";
-  std::string appendString;
-  for(size_t i = 1; i < wordsID.size(); ++i){
-    std::string appendString = " OR WordLink.WordID = ?";
-    query.append(appendString);
-  }
-  query.append(")");
-   
-  std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
-
-  stmt->setInt(1, linksID);
-  for(size_t i = 0; i < wordsID.size(); ++i){
-    stmt->setInt(i+2, wordsID[i]);
-  }
-
-  std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
-
-  int  r;
-  size_t s = 0;
-
-  while(result->next()){
-    ++s;
-    r = result->getInt("LinkID");
-  }
-
-  if(s == wordsID.size()){
-    suitableLinks.push_back(r);
-  }  
-}
-
-
-
-std::vector<int> f(const std::vector<int>& wordsID, const std::vector<int>& linksID)
-{
-  if(wordsID.empty() || linksID.empty()){
-    return linksID;
-  }
-
-  db::Connector connector{};
-  
-  std::unique_ptr<sql::Connection> con = connector.get_conector();
-  con->setSchema("DBsearchEngine");
-
-  std::string query  = "SELECT COUNT(WordLink.LinkID) FROM WordLink WHERE WordLink.LinkID = ?  and (WordLink.WordID = ? ";
-  std::string appendString;
-  for(size_t i = 1; i < wordsID.size(); ++i){
-    std::string appendString = " OR WordLink.WordID = ?";
-    query.append(appendString);
-  }
-  query.append(")");
-   
-  std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
-
-  stmt->setInt(1, linksID[0]);
-  for(size_t i = 0; i < wordsID.size(); ++i){
-    stmt->setInt(i+2, wordsID[i]);
-  }
-
-  std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
-  std::vector<int> res;
-  size_t  r;
-  size_t s = 0;
-  while(result->next()){
-    ++s;
-    r = result->getInt(1);
-    std::cout << "r: " << r << '\n';
-    
-  }
-  if(r == wordsID.size()){
-    res.push_back(linksID[0]);
-  } else{
-    std::cout << "links that contain the words is: " << s << '\n';
-    
-  }
-
-  return res;
-}
-// std::vector<int> f(const std::vector<int>& wordsID, const std::vector<int>& linksID)
-// {
-//   if(wordsID.empty() || linksID.empty()){
-//     return linksID;
-//   }
-
-//   db::Connector connector{};
-  
-//   std::unique_ptr<sql::Connection> con = connector.get_conector();
-//   con->setSchema("DBsearchEngine");
-
-//   std::string query  = "SELECT WordLink.LinkID FROM WordLink WHERE WordLink.LinkID = ?  and (WordLink.WordID = ? ";
-//   std::string appendString;
-//   for(size_t i = 1; i < wordsID.size(); ++i){
-//     std::string appendString = " OR WordLink.WordID = ?";
-//     query.append(appendString);
-//   }
-//   query.append(")");
-   
-//   std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
-
-//   stmt->setInt(1, linksID[0]);
-//   for(size_t i = 0; i < wordsID.size(); ++i){
-//     stmt->setInt(i+2, wordsID[i]);
-//   }
-
-//   std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
-//   std::vector<int> res;
-//   int  r;
-//   size_t s = 0;
-//   while(result->next()){
-//     ++s;
-//     r = result->getInt("LinkID");
-//   }
-//   if(s == wordsID.size()){
-//     res.push_back(r);
-//   } else{
-//     std::cout << "links that contain the words is: " << s << '\n';
-    
-//   }
-
-//   return res;
-// }
-
-// std::vector<int> f(const std::vector<int>& wordsID, const std::vector<int>& linksID)
-// {
-//   if(wordsID.empty() || linksID.empty()){
-//     return linksID;
-//   }
-
-//   db::Connector connector{};
-  
-//   std::unique_ptr<sql::Connection> con = connector.get_conector();
-//   con->setSchema("DBsearchEngine");
-
-//   std::string query  = "SELECT COUNT(WordLink.LinkID) FROM WordLink WHERE WordLink.LinkID = ?  and (WordLink.WordID = ? ";
-//   std::string appendString;
-//   for(size_t i = 1; i < wordsID.size(); ++i){
-//     std::string appendString = " OR WordLink.WordID = ?";
-//     query.append(appendString);
-//   }
-//   query.append(")");
-   
-//   std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
-
-//   stmt->setInt(1, linksID[0]);
-//   for(size_t i = 0; i < wordsID.size(); ++i){
-//     stmt->setInt(i+2, wordsID[i]);
-//   }
-
-//   std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
-//   std::vector<int> res;
-//   size_t  r;
-//   size_t s = 0;
-//   while(result->next()){
-//     ++s;
-//     r = result->getInt(1);
-//     std::cout << "r: " << r << '\n';
-    
-//   }
-//   if(r == wordsID.size()){
-//     res.push_back(linksID[0]);
-//   } else{
-//     std::cout << "links that contain the words is: " << s << '\n';
-    
-//   }
-
-//   return res;
-// }
-
+ 
 
 bool fff(const std::vector<int>& wordsID, int linksID)
 {
@@ -268,7 +93,11 @@ int main(int argc, char* argv[])
 
   db::MysqlWordLinks wl{};
   std::vector<int> linksID = wl.getLinksForWord("Ball");
- 
+
+  for(auto link : linksID){
+    std::cout << "links: " << link << '\n';
+    
+  }
   std::vector<int> result = check(wordsID, linksID);
   for(auto res : result){
     std::cout << "id: " << res << '\n';
