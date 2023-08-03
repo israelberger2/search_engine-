@@ -49,7 +49,31 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)
     }
 }
 
-std::vector<int> db::MysqlWordLinks::getLinksForWord(const std::string& word)
+std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& word)
+{
+    std::unique_ptr<sql::Connection> con = m_connector.get_conector();
+    con->setSchema("DBsearchEngine");
+
+    std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(
+    " SELECT Link.Address FROM Link"
+    " JOIN WordLink ON Link.ID = WordLink.LinkID"
+    " JOIN Word ON WordLink.WordID = Word.ID"
+    " WHERE Word.Token = ?")
+    );
+
+    stmt->setString(1, word);
+    
+    std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+    std::vector<std::string> links;
+
+    while(res->next()){
+        links.push_back(res->getString(1));
+    }
+
+    return links;
+}
+
+std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)
 {
     std::unique_ptr<sql::Connection> con = m_connector.get_conector();
     con->setSchema("DBsearchEngine");

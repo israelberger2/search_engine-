@@ -46,31 +46,31 @@ int db::MysqlWordData::insertAndGetID(const std::string& word)
 
 std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& queries)
 {
-  if(queries.empty()){
+  if(queries.empty()){    
     return std::vector<int>{};
   }
 
   std::unique_ptr<sql::Connection> con = m_connector.get_conector();
   con->setSchema("DBsearchEngine");
    
-  std::string query = "SELECT ID FROM Word WHERE TOKEN = ? ";
+  std::string query = "SELECT ID FROM Word WHERE TOKEN = ?";
   size_t size = 0;
   
   while(size++ < queries.size()-1){
     std::string supplementary = " OR Token = ?";
     query += supplementary;
   }
-  
+   
   std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
   
   for(size_t i  = 0; i < queries.size(); ++i){
     stmt->setString(i+1, queries[i]);
   }
   
-
   std::unique_ptr<sql::ResultSet> linkResultes(stmt->executeQuery());
 
   std::vector<int> result;
+
   while(linkResultes->next()){
     result.push_back(linkResultes->getInt("id"));
   }

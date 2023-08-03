@@ -24,29 +24,34 @@
 
 #include <vector>
 #include <string>
+#include <utility>
 
+#include "word_links.hpp"
 #include "word_data.hpp"
-#include "links_data.hpp"
 
  
 namespace se{
- 
+
+using WordsInstance = std::pair<std::string,int>;
+
 class Searcher
 {
 public:
-    Searcher(db::WordData& wordData, db::LinksData& linkData);
+    Searcher(db::WordLinks& wordLinks, db::WordData& wordData);
     ~Searcher() = default;
     Searcher(const Searcher&) = default;
     Searcher& operator= (const Searcher&) = default;
-
-    std::vector<int> search(const std::vector<std::string>& positiveWords, const std::vector<std::string>& negativeWords)const;
-
-private:
-    bool validLink(const std::vector<int>& wordsID, int linksID, bool existingWordsSearch);
+   
+    std::vector<WordsInstance> search(const std::vector<std::string>& positiveWords, const std::vector<std::string>& negativeWords)const;
 
 private:
+    std::pair<size_t,int> sumAndCountOfwordInLink(const std::vector<int>& wordsID, const std::string& url)const;
+    std::vector<WordsInstance> checkNegativeWords(const std::vector<int>& wordsID, std::vector<WordsInstance>& IntermediateResult)const;
+    void checkPositiveWords(const std::vector<int>& wordsID, const std::string& url, std::vector<WordsInstance>& resLinks)const;
+
+private:
+    db::WordLinks& m_wordLinks;
     db::WordData& m_wordData;
-    db::LinksData& m_linkData;
 };
  
 } //se

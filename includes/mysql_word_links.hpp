@@ -23,7 +23,8 @@ public:
     MysqlWordLinks& operator= (const MysqlWordLinks&) = delete;
 
     void insert(const WordsMap& words, const std::string& link)override;
-    std::vector<int> getLinksForWord(const std::string& word)override;
+    std::vector<std::string> getLinksForWord(const std::string& word)override;
+    std::vector<int> getIDLinksForWord(const std::string& word)override;
 
 
 private:
