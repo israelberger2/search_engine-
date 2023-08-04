@@ -49,7 +49,7 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)
     }
 }
 
-std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& word)
+std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& word)const
 {
     std::unique_ptr<sql::Connection> con = m_connector.get_conector();
     con->setSchema("DBsearchEngine");

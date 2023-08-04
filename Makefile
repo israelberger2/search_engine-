@@ -12,7 +12,7 @@ LDLIBS = -lgumbo -lcurl -lcurlpp -lmysqlcppconn
 main : main.o src/parser_html.o src/links_map.o src/indexer.o src/crawler.o src/database.o src/extract_html.o \
 src/reg_algo_links_maintenance.o src/search_engine.o src/text_client.o  src/communicator.o \
 src/regular_sorter.o src/border_manager.o src/acceptor.o src/net_client.o src/publisher.o \
-src/updater.o src/threads.o src/configuration.o src/searcher.o \
+src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o \
 src/pageRank.o src/pr_sorter.o src/string_split.o  src/safe_scores_map.o src/pagerank_scheduler.o src/connector.o \
 src/link.o src/mysql_links_data.o src/mysql_domain_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o
 
@@ -58,7 +58,7 @@ src/mysql_domain_data.o : src/mysql_domain_data.cpp includes/mysql_domain_data.h
 src/mysql_graph_data.o : src/mysql_graph_data.cpp includes/mysql_graph_data.hpp includes/graph_data.hpp
 src/mysql_word_data.0 : src/mysql_word_data.cpp includes/mysql_word_data.hpp includes/word_data.hpp
 src/mysql_word_links.o : src/mysql_word_links.cpp includes/mysql_word_links.hpp includes/word_links.hpp
-
+src/mysql_searcher.o : src/mysql_searcher.cpp includes/mysql_searcher.hpp includes/searcher.hpp
 
 clean:
 	$(RM) *.o ./main src/*.o

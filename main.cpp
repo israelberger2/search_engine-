@@ -29,119 +29,117 @@
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <utility>
-#include "searcher.hpp"
+#include "mysql_searcher.hpp"
 
 
 using namespace se;
 
-std::pair<size_t,int> sendQuery(const std::vector<int>& wordsID, const std::string& url)
-{
-  db::Connector connector{};
-  std::unique_ptr<sql::Connection> con = connector.get_conector();
-  con->setSchema("DBsearchEngine");
+// std::pair<size_t,int> sendQuery(const std::vector<int>& wordsID, const std::string& url)
+// {
+//   db::Connector connector{};
+//   std::unique_ptr<sql::Connection> con = connector.get_conector();
+//   con->setSchema("DBsearchEngine");
 
-  std::string query  = "SELECT COUNT(WordLink.LinkID), SUM(WordLink.Count) FROM Link JOIN WordLink ON"
-  " Link.ID = WordLink.LinkID WHERE Link.Address = ? and (WordLink.WordID = ? ";
-  std::string appendString;
+//   std::string query  = "SELECT COUNT(WordLink.LinkID), SUM(WordLink.Count) FROM Link JOIN WordLink ON"
+//   " Link.ID = WordLink.LinkID WHERE Link.Address = ? and (WordLink.WordID = ? ";
+//   std::string appendString;
   
-  for(size_t i = 1; i < wordsID.size(); ++i){        
-    std::string appendString = " OR WordLink.WordID = ?";
-    query.append(appendString);
-  }
-  query.append(")");
+//   for(size_t i = 1; i < wordsID.size(); ++i){        
+//     std::string appendString = " OR WordLink.WordID = ?";
+//     query.append(appendString);
+//   }
+//   query.append(")");
     
-  std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
+//   std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(query));
 
-  stmt->setString(1, url);
-  for(size_t i = 0; i < wordsID.size(); ++i){
-    stmt->setInt(i+2, wordsID[i]);
-  }
+//   stmt->setString(1, url);
+//   for(size_t i = 0; i < wordsID.size(); ++i){
+//     stmt->setInt(i+2, wordsID[i]);
+//   }
    
-  std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
+//   std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
 
-  size_t count = 0;
-  int sum;
+//   size_t count = 0;
+//   int sum;
 
-  while(result->next()){        
-    count = result->getInt(1);
-    sum = result->getInt(2);
-  }
+//   while(result->next()){        
+//     count = result->getInt(1);
+//     sum = result->getInt(2);
+//   }
 
-  return std::pair<size_t,int>{count,sum};
-}
+//   return std::pair<size_t,int>{count,sum};
+// }
 
-void exist(const std::vector<int>& wordsID, const std::string& url, std::vector<std::pair<std::string,int>>& resLinks)
-{
-  if(wordsID.empty()){
-    return;
-  }
+// void exist(const std::vector<int>& wordsID, const std::string& url, std::vector<std::pair<std::string,int>>& resLinks)
+// {
+//   if(wordsID.empty()){
+//     return;
+//   }
 
-  std::pair<size_t,int> result = sendQuery(wordsID, url);
+//   std::pair<size_t,int> result = sendQuery(wordsID, url);
   
-  if(result.first == wordsID.size()){      
-    resLinks.push_back({url,result.second});
-  }
-}
+//   if(result.first == wordsID.size()){      
+//     resLinks.push_back({url,result.second});
+//   }
+// }
 
-std::vector<std::pair<std::string,int>> checkNegativeWords(const std::vector<int>& wordsID, std::vector<std::pair<std::string,int>>& IntermediateResult)
-{
-  if(wordsID.empty()){
-    return IntermediateResult;
-  }
+// std::vector<std::pair<std::string,int>> checkNegativeWords(const std::vector<int>& wordsID, std::vector<std::pair<std::string,int>>& IntermediateResult)
+// {
+//   if(wordsID.empty()){
+//     return IntermediateResult;
+//   }
 
-  std::vector<std::pair<std::string,int>> result;
+//   std::vector<std::pair<std::string,int>> result;
 
-  for(auto& pair : IntermediateResult){
-    std::pair<size_t, int> res = sendQuery(wordsID, pair.first);
-    if(res.first == 0){
-      result.push_back({pair.first, pair.second});
-    }
-  }
+//   for(auto& pair : IntermediateResult){
+//     std::pair<size_t, int> res = sendQuery(wordsID, pair.first);
+//     if(res.first == 0){
+//       result.push_back({pair.first, pair.second});
+//     }
+//   }
    
-  return result;
-}
+//   return result;
+// }
 
 
-std::vector<std::pair<std::string,int>> find(const std::vector<std::string>& positiveWords, const std::vector<std::string>& negativeWords)
-{
-  if(positiveWords.empty()){
-    return std::vector<std::pair<std::string,int>>{};
-  }
+// std::vector<std::pair<std::string,int>> find(const std::vector<std::string>& positiveWords, const std::vector<std::string>& negativeWords)
+// {
+//   if(positiveWords.empty()){
+//     return std::vector<std::pair<std::string,int>>{};
+//   }
 
-  db::MysqlWordLinks wordlinks{};
-  std::vector<std::string> links = wordlinks.getLinksForWord(positiveWords[0]);
+//   db::MysqlWordLinks wordlinks{};
+//   std::vector<std::string> links = wordlinks.getLinksForWord(positiveWords[0]);
 
-  db::MysqlWordData wordData{};
-  std::vector<int> wordsID = wordData.getWordsID(positiveWords);
+//   db::MysqlWordData wordData{};
+//   std::vector<int> wordsID = wordData.getWordsID(positiveWords);
 
-  if(links.empty() || wordsID.size() < positiveWords.size()){
-    return std::vector<std::pair<std::string,int>>{};
-  }
+//   if(links.empty() || wordsID.size() < positiveWords.size()){
+//     return std::vector<std::pair<std::string,int>>{};
+//   }
 
-  std::vector<std::pair<std::string,int>> IntermediateResult;
+//   std::vector<std::pair<std::string,int>> IntermediateResult;
 
-  for(auto& link : links){
-    exist(wordsID, link, IntermediateResult);
-  }
+//   for(auto& link : links){
+//     exist(wordsID, link, IntermediateResult);
+//   }
   
-  if(IntermediateResult.empty()){
-    return std::vector<std::pair<std::string,int>>{};
-  }
+//   if(IntermediateResult.empty()){
+//     return std::vector<std::pair<std::string,int>>{};
+//   }
 
-  std::vector<int> negativewordsID = wordData.getWordsID(negativeWords);
+//   std::vector<int> negativewordsID = wordData.getWordsID(negativeWords);
 
-  std::vector<std::pair<std::string, int>> result = checkNegativeWords(negativewordsID, IntermediateResult);
+//   std::vector<std::pair<std::string, int>> result = checkNegativeWords(negativewordsID, IntermediateResult);
 
-  return result;
-}
+//   return result;
+// }
 
 
 int main(int argc, char* argv[]) 
 {
-  db::MysqlWordLinks wordLinks{};
-  db::MysqlWordData wordData{};
-
-  Searcher searcher(wordLinks, wordData);
+  
+  MysqlSearcher searcher{};
   auto res = searcher.search(std::vector<std::string>{ "report"}, std::vector<std::string>{"Potter"});
   std::cout << "res: " << res.size() << "\n";
   // std::vector<std::string> query = {"Ball"};

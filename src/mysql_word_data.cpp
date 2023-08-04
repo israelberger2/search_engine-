@@ -44,7 +44,7 @@ int db::MysqlWordData::insertAndGetID(const std::string& word)
     return wordId;
 }
 
-std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& queries)
+std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& queries)const
 {
   if(queries.empty()){    
     return std::vector<int>{};
