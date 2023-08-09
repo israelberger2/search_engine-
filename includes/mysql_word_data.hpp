@@ -17,9 +17,6 @@ public:
 
     int insertAndGetID(const std::string& word)override;
     std::vector<int> getWordsID(const std::vector<std::string>& queries)const override;
-
-private:
-    Connector m_connector;
 };
  
 } //db

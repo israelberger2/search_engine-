@@ -38,9 +38,11 @@ using namespace se;
 int main(int argc, char* argv[]) 
 {
   
-   db::MysqlWordData word{};
-  int res = word.insertAndGetID("aaaaasccccccssssssssssaaaaaaaaaaaaaaaBall");
-   std::cout << "id of Baal: " << res << '\n';
+  db::MysqlWordData word{};
+  std::vector<int> res = word.getWordsID(std::vector<std::string>{"queries", "and"});
+  for(auto r : res){
+    std::cout << "id is: " << r << '\n';
+  }
   
 
   
