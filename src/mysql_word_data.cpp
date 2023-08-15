@@ -3,13 +3,14 @@
 #include <memory>
 
 #include "mysql_word_data.hpp"
+#include "connector.hpp"
 #include "se_exceptions.hpp"
 
 
 db::MysqlWordData::MysqlWordData()
 {}
 
-int db::MysqlWordData::insertAndGetID(const std::string &word)
+int db::MysqlWordData::insertAndGetID(const std::string &word)const
 {
   std::string query = "INSERT INTO Word (Token) SELECT ? WHERE NOT EXISTS (SELECT * FROM Word WHERE Token = ?);";
 

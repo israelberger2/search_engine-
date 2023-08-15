@@ -2,7 +2,6 @@
 #define MYSQLWORD_HPP 
 
 #include "word_data.hpp"
-#include "connector.hpp"
 
 
 namespace db{
@@ -15,7 +14,7 @@ public:
     MysqlWordData(const MysqlWordData&) = delete;
     MysqlWordData& operator= (const MysqlWordData&) = delete;
 
-    int insertAndGetID(const std::string& word)override;
+    int insertAndGetID(const std::string& word)const override;
     std::vector<int> getWordsID(const std::vector<std::string>& queries)const override;
 };
  

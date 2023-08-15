@@ -11,7 +11,8 @@ class WordData
 {
 public:
     virtual ~WordData() = default;
-    virtual int insertAndGetID(const std::string& word) = 0;
+    
+    virtual int insertAndGetID(const std::string& word)const = 0;
     virtual std::vector<int> getWordsID(const std::vector<std::string>& queries)const = 0;
 };
  

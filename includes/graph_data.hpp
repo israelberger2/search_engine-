@@ -2,6 +2,7 @@
 #define GRAPH_HPP 
 
 #include <string>
+#include <unordered_map>
 
 
 namespace db{
@@ -12,8 +13,7 @@ class GraphData
 {
 public:
     virtual ~GraphData() = default;
-
-    virtual void insert(const Map& destinations, const std::string& src) = 0;
+    virtual void insert(const Map& destinations, const std::string& src)const = 0;
 };
  
 } //db

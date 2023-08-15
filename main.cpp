@@ -38,14 +38,11 @@ using namespace se;
 int main(int argc, char* argv[]) 
 {
   
- 
+  db::MysqlGraphData g{};
+  g.insert(std::unordered_map<std::string,int>{{"eee",9}}, "src");
+   
 
-  db::MysqlWordLinks wordLinks{};
-  wordLinks.insert(std::unordered_map<std::string, int>{{"word1",100},{"word2",200},{"word3",300}},"link111");
-  std::vector<int> res = wordLinks.getIDLinksForWord("word2");
-  for(auto& r : res){
-    std::cout << r << '\n';
-  }
+  
 
   
 

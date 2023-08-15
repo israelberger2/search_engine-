@@ -4,7 +4,6 @@
 #include <unordered_map>
  
 #include "graph_data.hpp"
-#include "connector.hpp"
  
 
 namespace db{
@@ -19,10 +18,7 @@ public:
     MysqlGraphData(const MysqlGraphData&) = delete;
     MysqlGraphData& operator= (const MysqlGraphData&) = delete;
 
-    void insert(const Map& destinations, const std::string& src)override;
-
-private:
-    Connector m_connector;
+    void insert(const Map& destinations, const std::string& src)const override;
 };
  
 } //db
