@@ -9,7 +9,7 @@
 db::MysqlWordData::MysqlWordData()
 {}
 
-int db::MysqlWordData::insertAndGetID(const std::string& word)
+int db::MysqlWordData::insertAndGetID(const std::string &word)
 {
   std::string query = "INSERT INTO Word (Token) SELECT ? WHERE NOT EXISTS (SELECT * FROM Word WHERE Token = ?);";
 

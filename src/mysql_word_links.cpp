@@ -8,10 +8,9 @@
 
 
 db::MysqlWordLinks::MysqlWordLinks()
-: m_connector()
 {}
  
-void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)
+void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)const
 {   
     MysqlLinksData linksData{};
     int linkID;
@@ -31,15 +30,12 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)
             continue;
         }
         
-        std::unique_ptr<sql::Connection> con = m_connector.get_conector();
-        con->setSchema("DBsearchEngine");
-    
-        std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(
-        "INSERT INTO WordLink (WordID, LinkID, Count) "
-        "SELECT ?, ?, ? "
-        "WHERE NOT EXISTS (SELECT * FROM WordLink WHERE WordID = ? AND LinkID = ?)")
-        );
+        std::string query = "INSERT INTO WordLink (WordID, LinkID, Count) SELECT ?, ?, ? \
+            WHERE NOT EXISTS (SELECT * FROM WordLink WHERE WordID = ? AND LinkID = ?)";
 
+        Connector1 connector{};
+        std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+   
         stmt->setInt(1, wordID);
         stmt->setInt(2, linkID);
         stmt->setInt(3, word.second);
@@ -51,16 +47,15 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)
 
 std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& word)const
 {
-    std::unique_ptr<sql::Connection> con = m_connector.get_conector();
-    con->setSchema("DBsearchEngine");
 
-    std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(
-    " SELECT Link.Address FROM Link"
-    " JOIN WordLink ON Link.ID = WordLink.LinkID"
-    " JOIN Word ON WordLink.WordID = Word.ID"
-    " WHERE Word.Token = ?")
-    );
+    std::string query = "SELECT Link.Address FROM Link \
+        JOIN WordLink ON Link.ID = WordLink.LinkID \
+        JOIN Word ON WordLink.WordID = Word.ID \
+        WHERE Word.Token = ?";
 
+    Connector1 connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query); 
+ 
     stmt->setString(1, word);
     
     std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
@@ -73,17 +68,17 @@ std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& 
     return links;
 }
 
-std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)
+std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)const
 {
-    std::unique_ptr<sql::Connection> con = m_connector.get_conector();
-    con->setSchema("DBsearchEngine");
 
-    std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(
-    " SELECT Link.ID FROM Link"
-    " JOIN WordLink ON Link.ID = WordLink.LinkID"
-    " JOIN Word ON WordLink.WordID = Word.ID"
-    " WHERE Word.Token = ?")
-    );
+    std::string query = " SELECT Link.ID FROM Link \
+        JOIN WordLink ON Link.ID = WordLink.LinkID \
+        JOIN Word ON WordLink.WordID = Word.ID \
+        WHERE Word.Token = ?";
+
+    Connector1 connector{};
+
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
     stmt->setString(1, word);
     

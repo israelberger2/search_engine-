@@ -7,19 +7,14 @@
 
 
 db::MysqlLinksData::MysqlLinksData()
-: m_connector()
 {}
 
-int db::MysqlLinksData::insertAndGetLinkID(const std::string& link)const
+int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
 {  
-   
-  std::unique_ptr<sql::Connection> con = m_connector.get_conector();
-  con->setSchema("DBsearchEngine");
+  std::string query = "INSERT INTO Link (Address) SELECT ? WHERE NOT EXISTS (SELECT * FROM Link WHERE Address = ?)";
 
-  std::unique_ptr<sql::PreparedStatement> stmt(con->prepareStatement(
-    "INSERT INTO Link (Address)"
-    "SELECT ? WHERE NOT EXISTS (SELECT * FROM Link WHERE Address = ?);")
-  );
+  Connector1 connector{};
+  std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
   stmt->setString(1, link);
   stmt->setString(2, link);
@@ -30,17 +25,17 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string& link)const
     throw se::InValidLink("SQLerror::invalidLink");
   }
 
-  std::unique_ptr<sql::PreparedStatement> resQuery(con->prepareStatement(
-  "SELECT ID FROM Link WHERE Address = ? ;")
-  );
+  std::string idQuery = "SELECT ID FROM Link WHERE Address = ? ";
 
+  Connector1 resConnector{};
+  std::unique_ptr<sql::PreparedStatement> resQuery = resConnector.get_conector(idQuery);
   resQuery->setString(1, link);
  
   std::unique_ptr<sql::ResultSet> linkResultes(resQuery->executeQuery());
-
   int idLink;
+  
   if(linkResultes->next()){
-    idLink = linkResultes->getInt("id");
+    idLink = linkResultes->getInt(1);
   }
 
   return idLink;

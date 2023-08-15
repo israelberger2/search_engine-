@@ -18,9 +18,6 @@ public:
     MysqlLinksData& operator= (const MysqlLinksData&) = delete;
 
     int insertAndGetLinkID(const std::string& link)const override;
-
-private:
-    Connector m_connector;
 };
  
 } //db

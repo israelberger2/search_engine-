@@ -38,11 +38,15 @@ using namespace se;
 int main(int argc, char* argv[]) 
 {
   
-  db::MysqlWordData word{};
-  std::vector<int> res = word.getWordsID(std::vector<std::string>{"queries", "and"});
-  for(auto r : res){
-    std::cout << "id is: " << r << '\n';
+ 
+
+  db::MysqlWordLinks wordLinks{};
+  wordLinks.insert(std::unordered_map<std::string, int>{{"word1",100},{"word2",200},{"word3",300}},"link111");
+  std::vector<int> res = wordLinks.getIDLinksForWord("word2");
+  for(auto& r : res){
+    std::cout << r << '\n';
   }
+
   
 
   
