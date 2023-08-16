@@ -27,7 +27,7 @@ public:
     void opening_message()const;
 
 private:
-    std::shared_ptr<Searcher> m_searcher;
+    std::shared_ptr<db::Searcher> m_searcher;
     Database& m_database;
     Client& m_client;
     Isorter& m_arranger;

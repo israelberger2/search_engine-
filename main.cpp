@@ -30,6 +30,7 @@
 #include <cppconn/resultset.h>
 #include "mysql_searcher.hpp"
 #include "mysql_word_data.hpp"
+#include "mysql_searcher.hpp"
 
 
 using namespace se;
@@ -38,9 +39,13 @@ using namespace se;
 int main(int argc, char* argv[]) 
 {
   
-  db::MysqlGraphData g{};
-  g.insert(std::unordered_map<std::string,int>{{"eee",9}}, "src");
-   
+  db::MysqlSearcher s{};
+  std::vector<db::WordsInstance> result = s.search(std::vector<std::string>{"Ball", "Potter"}, std::vector<std::string>{"Baaaaaaaall"});
+  int x = 0;
+  for(const auto& res : result){
+    std::cout << ++x << "  " <<  res.first  << "  " << res.second << '\n';
+    
+  }
 
   
 

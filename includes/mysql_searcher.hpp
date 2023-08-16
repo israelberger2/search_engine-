@@ -10,7 +10,7 @@
 #include "mysql_word_data.hpp"
 
  
-namespace se{
+namespace db{
 
 using WordsInstance = std::pair<std::string,int>;
 using Links = std::vector<std::string>;
@@ -31,8 +31,8 @@ private:
     void checkPositiveWords(const std::vector<int>& wordsID, const std::string& url, std::vector<WordsInstance>& resLinks)const;
 
 private:
-    db::MysqlWordLinks m_wordLinks;
-    db::MysqlWordData m_wordData;
+    MysqlWordLinks m_wordLinks;
+    MysqlWordData m_wordData;
 };
  
 } //se

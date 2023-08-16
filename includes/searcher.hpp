@@ -6,7 +6,7 @@
 #include <utility>
 
  
-namespace se{
+namespace db{
 
 using WordsInstance = std::pair<std::string,int>;
 

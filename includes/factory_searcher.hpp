@@ -19,7 +19,7 @@ public:
     FactorySearcher(const FactorySearcher&) = default;
     FactorySearcher& operator= (const FactorySearcher&) = default;
 
-    static std::unique_ptr<Searcher> creator(const std::vector<std::string>& input,const Database& database);
+    static std::unique_ptr<db::Searcher> creator(const std::vector<std::string>& input,const Database& database);
 
 private:
     static bool exist_words(const std::vector<std::string>& input);
