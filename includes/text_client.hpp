@@ -18,7 +18,7 @@ public:
     TextClient& operator= (const TextClient&) = default;
 
     std::vector<std::string> load_query() override;
-    void send_data(const std::vector<std::pair<std::string, size_t>>& links)const;
+    void send_data(const std::vector<std::pair<std::string, int>>& links)const;
 
 private:
     bool is_valide_input(const std::string& input)const;

@@ -20,7 +20,7 @@ public:
     NetClient& operator= (const NetClient&) = delete;
 
     std::vector<std::string> load_query() override;
-    void send_data(const std::vector<std::pair<std::string, size_t>>& links)const override;
+    void send_data(const std::vector<std::pair<std::string, int>>& links)const override;
 
 private:
     std::shared_ptr<Communicator> m_communicator;

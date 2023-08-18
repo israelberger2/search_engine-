@@ -12,7 +12,7 @@ class Isorter
 {
 public:
     virtual ~Isorter() = default;
-    virtual void sort_links(std::vector<std::pair<std::string, size_t>>& linksVector, size_t num_res)const = 0;
+    virtual void sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const = 0;
 };
 
 } // namespace se

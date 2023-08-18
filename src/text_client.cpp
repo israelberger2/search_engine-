@@ -26,13 +26,14 @@ std::vector<std::string> TextClient::load_query()
             break;
         }     
     }  
+    
     return keywords; 
 } 
 
 
 bool TextClient::is_valide_input(const std::string& input)const
 {
-    if (input.length() < 2){
+    if (input.length() < 3){
         std::cout << "A keyword should be at least two letters long\n";
         return false;  
     }
@@ -64,7 +65,7 @@ std::vector<std::string> TextClient::get_substrings(const std::string& input)con
     return substrings;
 }
 
-void TextClient::send_data(const std::vector<std::pair<std::string, size_t>>& links)const
+void TextClient::send_data(const std::vector<std::pair<std::string, int>>& links)const
 {    
     if(links.size() == 0){
         std::cout << "The keyword wes not found" << "\n";

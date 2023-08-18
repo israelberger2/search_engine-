@@ -40,7 +40,7 @@ std::vector<std::string> NetClient::load_query()
     }
 }
 
-void NetClient::send_data(const std::vector<std::pair<std::string, size_t>>& links)const
+void NetClient::send_data(const std::vector<std::pair<std::string, int>>& links)const
 {
     json j = links;
     std::string data = j.dump();

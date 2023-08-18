@@ -48,7 +48,7 @@ public:
     PrSorted(const PrSorted&) = default;
     PrSorted& operator= (const PrSorted&) = default;
 
-    void sort_links(std::vector<std::pair<std::string, size_t>>& linksVector, size_t num_res)const override;
+    void sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const override;
 
 private:
     const SafeScoresPointer& m_score;

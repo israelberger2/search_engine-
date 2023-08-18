@@ -9,7 +9,7 @@ PrSorted::PrSorted(const SafeScoresPointer& score)
 : m_score(score)
 {}
 
-void PrSorted::sort_links(std::vector<std::pair<std::string, size_t>>& linksVector, size_t num_res)const
+void PrSorted::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
 {        
     if(linksVector.empty()){
         return;

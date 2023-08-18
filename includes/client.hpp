@@ -13,7 +13,7 @@ public:
     virtual ~Client() = default;
 
     virtual std::vector<std::string> load_query() = 0;
-    virtual void send_data(const std::vector<std::pair<std::string, size_t>>& links)const = 0;
+    virtual void send_data(const std::vector<std::pair<std::string, int>>& links)const = 0;
 };
     
 } // namespace se
