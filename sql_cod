@@ -1,4 +1,4 @@
-REATE DATABASE DBsearchEngine;
+CREATE DATABASE DBsearchEngine;
 
 -- -- CREATE TABLE DBsearchEngine.Word(
 -- --      ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -33,3 +33,5 @@ REATE DATABASE DBsearchEngine;
 -- --         ON DELETE CASCADE ON UPDATE CASCADE,
 -- -- 	CONSTRAINT G_Count CHECK(Count > 0)
 -- --     );
+
+

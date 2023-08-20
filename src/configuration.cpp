@@ -23,6 +23,10 @@ void Config::fill_dataMembers(std::ifstream& stream)
     nlohmann::json js; 
     stream >> js;  
 
+    m_sql_password = js["sql_password"];
+    m_sql_username = js["sql_username"];
+    m_sql_schema = js["sql_schema"];
+    m_sql_connectionString = js["sql_connectionString"];
     m_numScans = js["scans"];
     m_numThreads = js["threads"];
     m_bounded = js["isBounded"];
@@ -34,7 +38,27 @@ const Config& Config::getInstance()
 { 
     static Config config;
     return config;
-} 
+}
+
+std::string Config::getSqlUsername()
+{
+    return Config::getInstance().m_sql_username;
+}
+
+std::string Config::getSqlPassword()
+{
+    return Config::getInstance().m_sql_password;
+}
+
+std::string Config::getSqlSchema()
+{
+    return Config::getInstance().m_sql_schema;
+}
+
+std::string Config::getSqlConnectionString()
+{
+    return Config::getInstance().m_sql_connectionString;
+}
 
 size_t Config::getNumScans()
 {

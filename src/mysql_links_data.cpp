@@ -13,7 +13,7 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
 {  
   std::string query = "INSERT INTO Link (Address) SELECT ? WHERE NOT EXISTS (SELECT * FROM Link WHERE Address = ?)";
 
-  Connector1 connector{};
+  Connector connector{};
   std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
   stmt->setString(1, link);
@@ -27,7 +27,7 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
 
   std::string idQuery = "SELECT ID FROM Link WHERE Address = ? ";
 
-  Connector1 resConnector{};
+  Connector resConnector{};
   std::unique_ptr<sql::PreparedStatement> resQuery = resConnector.get_conector(idQuery);
   resQuery->setString(1, link);
  

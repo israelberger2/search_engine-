@@ -31,7 +31,7 @@ void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)
         std::string query = "INSERT INTO Graph (Src, Destination, Count) \
             SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM Graph WHERE Src = ? AND Destination = ?)";
         
-        Connector1 connector{};
+        Connector connector{};
         std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
       
         stmt->setInt(1, srcID);

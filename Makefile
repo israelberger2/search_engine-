@@ -14,7 +14,7 @@ src/reg_algo_links_maintenance.o src/search_engine.o src/text_client.o  src/comm
 src/regular_sorter.o src/border_manager.o src/acceptor.o src/net_client.o src/publisher.o \
 src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o \
 src/pageRank.o src/pr_sorter.o src/string_split.o  src/safe_scores_map.o src/pagerank_scheduler.o src/connector.o \
-src/link.o src/mysql_links_data.o src/mysql_domain_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o
+src/link.o src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o
 
 	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 
@@ -22,7 +22,7 @@ src/link.o src/mysql_links_data.o src/mysql_domain_data.o src/mysql_graph_data.o
  
 main.o : main.cpp  includes/crawler.hpp includes/indexer.hpp includes/links_map.hpp includes/database.hpp \
 includes/search_engine.hpp includes/text_client.hpp includes/net_client.hpp includes/updater.hpp includes/pageRank.hpp \
-includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_domain_data.hpp includes/mysql_graph_data.hpp includes/searcher.hpp
+includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/links_maintenance.hpp includes/string_split.hpp
 src/links_map.o : src/links_map.cpp includes/links_map.hpp includes/links_map_insertion.hpp includes/links_map_get.hpp
@@ -54,7 +54,6 @@ src/configuration.o : src/configuration.cpp includes/configuration.hpp
 src/connector.o : src/connector.cpp includes/connector.hpp
 src/link.o : src/link.cpp includes/link.hpp
 src/mysql_links_data.o : src/mysql_links_data.cpp includes/mysql_links_data.hpp includes/links_data.hpp
-src/mysql_domain_data.o : src/mysql_domain_data.cpp includes/mysql_domain_data.hpp includes/domain_data.hpp
 src/mysql_graph_data.o : src/mysql_graph_data.cpp includes/mysql_graph_data.hpp includes/graph_data.hpp
 src/mysql_word_data.0 : src/mysql_word_data.cpp includes/mysql_word_data.hpp includes/word_data.hpp
 src/mysql_word_links.o : src/mysql_word_links.cpp includes/mysql_word_links.hpp includes/word_links.hpp

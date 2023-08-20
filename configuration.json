@@ -1,4 +1,8 @@
 {
+  "sql_password": "#Bb12345678",
+  "sql_username": "sammy",
+  "sql_schema": "DBsearchEngine",
+  "sql_connectionString": "tcp://127.0.0.1:3306",
   "scans":30,
   "threads":4,
   "lengthResult":5,
@@ -6,4 +10,6 @@
   "addresses": [
     "https://harrypotter.fandom.com/wiki/Main_Page"
   ]
+
+  
 }

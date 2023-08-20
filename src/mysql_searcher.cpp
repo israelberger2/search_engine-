@@ -54,7 +54,7 @@ std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<
   }
   query.append(")");
   
-  db::Connector1 connector{};
+  db::Connector connector{};
   std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
   stmt->setString(1, url);

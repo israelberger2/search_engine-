@@ -14,7 +14,7 @@ int db::MysqlWordData::insertAndGetID(const std::string &word)const
 {
   std::string query = "INSERT INTO Word (Token) SELECT ? WHERE NOT EXISTS (SELECT * FROM Word WHERE Token = ?);";
 
-  Connector1 connector{};
+  Connector connector{};
   std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
   stmt->setString(1, word);
@@ -28,7 +28,7 @@ int db::MysqlWordData::insertAndGetID(const std::string &word)const
 
   std::string resQuery = "SELECT ID FROM Word WHERE Token = ?;";
   
-  Connector1 resConnector{};
+  Connector resConnector{};
   std::unique_ptr<sql::PreparedStatement> IDresult = resConnector.get_conector(resQuery);
   IDresult->setString(1, word);
 
@@ -56,7 +56,7 @@ std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& q
     query += supplementary;
   }
    
-  Connector1 connector{};
+  Connector connector{};
   std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
   
   for(size_t i  = 0; i < queries.size(); ++i){

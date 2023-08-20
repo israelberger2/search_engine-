@@ -33,7 +33,7 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
         std::string query = "INSERT INTO WordLink (WordID, LinkID, Count) SELECT ?, ?, ? \
             WHERE NOT EXISTS (SELECT * FROM WordLink WHERE WordID = ? AND LinkID = ?)";
 
-        Connector1 connector{};
+        Connector connector{};
         std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
    
         stmt->setInt(1, wordID);
@@ -53,7 +53,7 @@ std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& 
         JOIN Word ON WordLink.WordID = Word.ID \
         WHERE Word.Token = ?";
 
-    Connector1 connector{};
+    Connector connector{};
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query); 
  
     stmt->setString(1, word);
@@ -76,7 +76,7 @@ std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)c
         JOIN Word ON WordLink.WordID = Word.ID \
         WHERE Word.Token = ?";
 
-    Connector1 connector{};
+    Connector connector{};
 
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
