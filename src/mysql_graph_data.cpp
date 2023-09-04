@@ -43,4 +43,30 @@ void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)
     }
 }
 
+db::Graph db::MysqlGraphData::linkRelationships()const
+{
+    std::string query = "SELECT DISTINCT Src FROM Graph ";
+
+    Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+
+    std::unique_ptr<sql::ResultSet> links(stmt->executeQuery());
+
+    std::vector<int> result;
+
+    while(links->next()){
+        result.push_back(links->getInt(1));
+    }
+    
+    Graph graph{};
+    for(auto res : result){
+        std::string query = " SELECT Destination FROM Graph WHERE Src = ?";
+        Connector connector{};
+        std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+        stmt->setInt(1, res);
+        
+    }
+
+     return Graph{};
+}
  

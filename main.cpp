@@ -125,43 +125,50 @@ using namespace se;
  
 int main(int argc, char* argv[]) 
 {
- 
-  LinksMap links{}; 
-  Indexer indexer{};
-  SafeScoresPointer scores{};
-  PageRank pagerank;
-  PagerankScheduler scheduler(scores, links);
-  Publisher publisher(scheduler);
   db::MysqlGraphData graph{};
-  db::MysqlWordLinks wordsLinks{};
+  graph.linkRelationships();
+  db::MysqlLinksData link{};
+  std::cout << link.getLink(280) << '\n';
+   
 
-  Updater inserter(3, publisher, graph, wordsLinks);
 
-  Crawler cr(inserter);
-  try{
-    cr.crawl();
+  
+  // LinksMap links{}; 
+  // Indexer indexer{};
+  // SafeScoresPointer scores{};
+  // PageRank pagerank;
+  // PagerankScheduler scheduler(scores, links);
+  // Publisher publisher(scheduler);
+  // db::MysqlGraphData graph{};
+  // db::MysqlWordLinks wordsLinks{};
 
-    std::unique_ptr<Client> client;
-    if(argc >= 2 &&  !std::strcmp(argv[1], "net")){
-        client = std::make_unique<NetClient>();
-      } else {
-        client = std::make_unique<TextClient>();
-      }
+  // Updater inserter(3, publisher, graph, wordsLinks);
 
-    RegularSorter sorter{};
-    std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
+  // Crawler cr(inserter);
+  // try{
+  //   cr.crawl();
 
-    SearchEngine search(mysqlSearcher, *client, sorter);
-    search.handle(Config::getLengthResult());
-    cr.close();
+  //   std::unique_ptr<Client> client;
+  //   if(argc >= 2 &&  !std::strcmp(argv[1], "net")){
+  //       client = std::make_unique<NetClient>();
+  //     } else {
+  //       client = std::make_unique<TextClient>();
+  //     }
+
+  //   RegularSorter sorter{};
+  //   std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
+
+  //   SearchEngine search(mysqlSearcher, *client, sorter);
+  //   search.handle(Config::getLengthResult());
+  //   cr.close();
  
-  }catch (const ServerSocketError& error){
-    std::clog << error.what() << "\n";
-    return 1;
-  } catch (...){
-    std::clog << "ERROR:: the Program failed\n";
-    return 1;
-  }
+  // }catch (const ServerSocketError& error){
+  //   std::clog << error.what() << "\n";
+  //   return 1;
+  // } catch (...){
+  //   std::clog << "ERROR:: the Program failed\n";
+  //   return 1;
+  // }
   
   return 0; 
 }

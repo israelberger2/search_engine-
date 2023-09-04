@@ -18,6 +18,7 @@ public:
     MysqlLinksData& operator= (const MysqlLinksData&) = delete;
 
     int insertAndGetLinkID(const std::string& link)const override;
+    std::string getLink(int id)const override;
 };
  
 } //db

@@ -40,3 +40,23 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
 
   return idLink;
 }
+
+std::string db::MysqlLinksData::getLink(int id)const
+{
+  std::string query = " SELECT Address FROM Link WHERE ID = ? ";
+
+  Connector connector{};
+  std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+  
+  stmt->setInt(1, id);
+
+  std::string link;
+
+  std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
+  
+  if(resQuery->next()){    
+    link = resQuery->getString(1);
+  }
+
+  return link;
+}

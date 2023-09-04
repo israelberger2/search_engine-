@@ -19,6 +19,7 @@ public:
     MysqlGraphData& operator= (const MysqlGraphData&) = delete;
 
     void insert(const Map& destinations, const std::string& src)const override;
+    Graph linkRelationships()const override; 
 };
  
 } //db

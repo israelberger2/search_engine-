@@ -63,9 +63,9 @@ public:
     PageRank& operator= (const PageRank&) = default;
 
     FloatelMap calculate(const LinksMapGet &linkser);
-    void calculator(std::unordered_map<std::string, IntMap>& links);
  
 private:
+    void calculator(std::unordered_map<std::string, IntMap>& links);
     void DampingFactor_calculate(size_t totalLinks);
     void restartMaps();
     void initMaps(std::unordered_map<std::string, IntMap>& links, size_t sizeMap);

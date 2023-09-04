@@ -133,6 +133,7 @@ FloatelMap PageRank::calculate(const LinksMapGet &linkser)
     std::unordered_map<std::string, IntMap> specificMap;
     specificMap.reserve(sizeMap);
     std::vector<std::string> keys;  
+    
     for(auto link : links){
         keys.push_back(link.first);
     }
@@ -157,6 +158,7 @@ FloatelMap PageRank::calculate(const LinksMapGet &linkser)
         calculator(specificMap);
         DampingFactor_calculate(sizeMap);
     }    
+    
     return m_curMap;
 }
 
@@ -194,10 +196,10 @@ void PageRank::calculator(std::unordered_map<std::string, IntMap>& links)
 {   
     size_t sizeMap = links.size();
 
-    for(auto item : links){
-        float degreePage = m_curMap[item.first] / sizeMap;
-        for(auto it : item.second){
-            m_curMap[it.first] += degreePage;
+    for(auto link : links){
+        float degreePage = m_curMap[link.first] / sizeMap;
+        for(auto l : link.second){
+            m_curMap[l.first] += degreePage;
         }
     }
 }
