@@ -126,9 +126,9 @@ using namespace se;
 int main(int argc, char* argv[]) 
 {
   db::MysqlGraphData graph{};
-  graph.linkRelationships();
-  db::MysqlLinksData link{};
-  std::cout << link.getLink(280) << '\n';
+  graph.linkRelated(280);
+  // db::MysqlLinksData link{};
+  // std::cout << link.getLink(280) << '\n';
    
 
 

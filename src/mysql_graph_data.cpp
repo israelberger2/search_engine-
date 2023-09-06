@@ -64,9 +64,27 @@ db::Graph db::MysqlGraphData::linkRelationships()const
         Connector connector{};
         std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
         stmt->setInt(1, res);
-        
+    }
+    // fill all the related links of each link and return it
+    return Graph{};
+}
+
+std::vector<int> db::MysqlGraphData::linkRelated(int linkID)const
+{
+    std::string query = "SELECT Destination FROM Graph WHERE Src = ?";
+
+    Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+    stmt->setInt(1, linkID);
+
+    std::unique_ptr<sql::ResultSet> resultQuery(stmt->executeQuery());
+
+    std::vector<int> links;
+
+    while(resultQuery->next()){
+        int id = resultQuery->getInt(1);
+        links.push_back(id);
     }
 
-     return Graph{};
+    return links;    
 }
- 

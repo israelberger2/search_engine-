@@ -20,6 +20,7 @@ public:
 
     void insert(const Map& destinations, const std::string& src)const override;
     Graph linkRelationships()const override; 
+    std::vector<int> linkRelated(int linkID)const;
 };
  
 } //db
