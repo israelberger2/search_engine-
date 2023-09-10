@@ -125,14 +125,11 @@ using namespace se;
  
 int main(int argc, char* argv[]) 
 {
-  db::MysqlGraphData graph{};
-  graph.linkRelated(280);
-  // db::MysqlLinksData link{};
-  // std::cout << link.getLink(280) << '\n';
    
+ 
 
 
-  
+
   // LinksMap links{}; 
   // Indexer indexer{};
   // SafeScoresPointer scores{};

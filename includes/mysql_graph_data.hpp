@@ -2,7 +2,8 @@
 #define MYSQL_GRAPH_HPP 
 
 #include <unordered_map>
- 
+#include <utility>
+
 #include "graph_data.hpp"
  
 
@@ -20,7 +21,10 @@ public:
 
     void insert(const Map& destinations, const std::string& src)const override;
     Graph linkRelationships()const override; 
-    std::vector<int> linkRelated(int linkID)const;
+    
+private:
+    std::vector<int> linkRelated(int linkID)const; 
+    std::pair<std::string, std::vector<std::string>> relatedLinksfromOneLink(int linkID)const;
 };
  
 } //db

@@ -42,7 +42,7 @@ void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)
         stmt->execute();
     }
 }
-
+ 
 db::Graph db::MysqlGraphData::linkRelationships()const
 {
     std::string query = "SELECT DISTINCT Src FROM Graph ";
@@ -50,23 +50,21 @@ db::Graph db::MysqlGraphData::linkRelationships()const
     Connector connector{};
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
-    std::unique_ptr<sql::ResultSet> links(stmt->executeQuery());
+    std::unique_ptr<sql::ResultSet> resultQuery(stmt->executeQuery());
 
-    std::vector<int> result;
+    std::vector<int> uniqueLinks;
 
-    while(links->next()){
-        result.push_back(links->getInt(1));
+    while(resultQuery->next()){
+        uniqueLinks.push_back(resultQuery->getInt(1));
+    }
+
+    Graph graph{};
+    for(auto link : uniqueLinks){    
+        std::pair<std::string, std::vector<std::string>> resut = relatedLinksfromOneLink(link);
+        graph.insert({resut.first,resut.second});
     }
     
-    Graph graph{};
-    for(auto res : result){
-        std::string query = " SELECT Destination FROM Graph WHERE Src = ?";
-        Connector connector{};
-        std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
-        stmt->setInt(1, res);
-    }
-    // fill all the related links of each link and return it
-    return Graph{};
+    return graph;
 }
 
 std::vector<int> db::MysqlGraphData::linkRelated(int linkID)const
@@ -87,4 +85,15 @@ std::vector<int> db::MysqlGraphData::linkRelated(int linkID)const
     }
 
     return links;    
+}
+
+std::pair<std::string, std::vector<std::string>> db::MysqlGraphData::relatedLinksfromOneLink(int linkID)const
+{
+    std::vector<int> linksID = linkRelated(linkID); 
+
+    MysqlLinksData linksData{};
+    std::vector<std::string> linksAddresses =  linksData.getLink(linksID);
+    std::string srcAddress = linksData.getLink(linkID);
+
+    return std::pair<std::string, std::vector<std::string>>(srcAddress, linksAddresses);
 }

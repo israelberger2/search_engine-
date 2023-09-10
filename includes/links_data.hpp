@@ -13,6 +13,7 @@ public:
 
     virtual int insertAndGetLinkID(const std::string& link)const = 0;
     virtual std::string getLink(int id)const = 0;
+    virtual std::vector<std::string> getLink(std::vector<int> linksID)const = 0;
 };
  
 } //db

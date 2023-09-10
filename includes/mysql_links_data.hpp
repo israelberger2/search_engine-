@@ -19,6 +19,7 @@ public:
 
     int insertAndGetLinkID(const std::string& link)const override;
     std::string getLink(int id)const override;
+    std::vector<std::string> getLink(std::vector<int> linksID)const override;
 };
  
 } //db
