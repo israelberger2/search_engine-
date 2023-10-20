@@ -79,7 +79,7 @@ std::vector<std::string> db::MysqlLinksData::getLink(std::vector<int> linksID)co
 
   std::vector<std::string> links;
 
-   std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
+  std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
   
   while(resQuery->next()){ 
     links.push_back(resQuery->getString("Address"));
