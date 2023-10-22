@@ -50,7 +50,7 @@
 
 namespace se{
 
-using FloatelMap = std::unordered_map<std::string, float>;
+using DoubleMap = std::unordered_map<std::string, double>;
 using IntMap = std::unordered_map<std::string, size_t>;
 
 class PageRank
@@ -62,17 +62,17 @@ public:
     PageRank(const PageRank&) = default;
     PageRank& operator= (const PageRank&) = default;
 
-    FloatelMap calculate();
+    DoubleMap calculate();
  
 private:
-    void calculator( std::unordered_map<std::string, float>& links);
+    void calculator( std::unordered_map<std::string, double>& links);
     void DampingFactor_calculate(size_t totalLinks);
     void restartMaps();
     void initMaps(std::unordered_map<std::string, IntMap>& links, size_t sizeMap);
 
 private:
-    FloatelMap m_curMap;
-    FloatelMap m_preMap;
+    DoubleMap m_curMap;
+    DoubleMap m_preMap;
 };
 
 } // namespace se

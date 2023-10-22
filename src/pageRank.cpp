@@ -11,7 +11,7 @@
 // , m_preMap()
 // {}
 
-// FloatelMap PageRank::calculate(const LinksMapGet &linkser)
+// doubleelMap PageRank::calculate(const LinksMapGet &linkser)
 // {    
 //     std::unordered_map<std::string, IntMap> links = linkser.get_map();
 //     size_t sizeMap = linkser.size();
@@ -61,8 +61,8 @@
 
 // void PageRank::DampingFactor_calculate(size_t totalLinks)
 // {
-//     float outChance = 0.85;
-//     float stayChanc = 0.15;
+//     double outChance = 0.85;
+//     double stayChanc = 0.15;
 
 //     for(auto page : m_curMap){
 //         page.second *= outChance;
@@ -83,17 +83,19 @@
 //     size_t sizeMap = links.size();
 
 //     for(auto link : links){
-//         float degreePage = m_curMap[link.first] / sizeMap;
+//         double degreePage = m_curMap[link.first] / sizeMap;
 //         for(auto l : link.second){
 //             m_curMap[l.first] += degreePage;
 //         }
 //     }
 // }
 #include <iostream>
+#include <algorithm>
+#include <limits>
+
 #include "pageRank.hpp"
 #include "mysql_graph_data.hpp"
 
-#include <algorithm>
 
 namespace se {
 
@@ -103,29 +105,33 @@ PageRank::PageRank()
 , m_preMap()
 {}
 
-FloatelMap PageRank::calculate()
+DoubleMap PageRank::calculate()
 {  
-    db::MysqlGraphData graphData{};
-    std::unordered_map<std::string, std::vector<std::string>> graph = graphData.linkRelationships();
-    
+    // db::MysqlGraphData graphData{};
+    // std::unordered_map<std::string, std::vector<std::string>> graph = graphData.linkRelationships();
+    std::unordered_map<std::string, std::vector<std::string>> graph = {{"A",std::vector<std::string>{"B",}},{"B",std::vector<std::string>{"C"}},{"C",std::vector<std::string>{"D"}},{"D",std::vector<std::string>{"B"}}};
     size_t sizeMap = graph.size();
     std::cout << "sizedatais " << sizeMap << '\n';
     
     
-    std::unordered_map<std::string, float> preMap;
+    std::unordered_map<std::string, double> preMap;
     preMap.reserve(sizeMap);
     
     for(auto& g : graph){
         preMap.insert({g.first, 1});
     }
     
-
+    double difference = std::numeric_limits<double>::max();  
+    std::cout << "mmmmmm" << difference << '\n';
+;
     int counter = 0;
+    
+    
     while(counter++ <= 61){
-        std::cout << "i is: " << counter << '\n';
+        // std::cout << "i is: " << counter << '\n';
         
-        std::unordered_map<std::string, float> currentMap;
-        std::cout << "size is: " << preMap.size() << '\n';
+        std::unordered_map<std::string, double> currentMap;
+        // std::cout << "size is: " << preMap.size() << '\n';
         
         currentMap.reserve(preMap.size());
         
@@ -134,32 +140,37 @@ FloatelMap PageRank::calculate()
         }
 
         for(auto& src : graph){
-            float degreePage = preMap[src.first] / src.second.size();
+            double degreePage = preMap[src.first] / src.second.size();
             for(auto& destination : src.second){
                 currentMap[destination] += degreePage;
             }
         }
         
-        float outChance = 0.85;
-        float stayChanc = 0.15;
+        double outChance = 0.85;
+        double stayChanc = 0.15;
         int totalLinks = preMap.size();
 
         for(auto& page : currentMap){
             page.second *= outChance;
-            page.second += (stayChanc / totalLinks);// this is the first theorem of pagerank
+            page.second += (stayChanc / totalLinks);  
         }
 
-        float res = 0;
+        double curDifference = 0;
         for(auto c : currentMap){
-            res+= c.second;
+            curDifference += c.second;
         } 
-        std::cout << "res: " << res << '\n';
-        
-
-        if(1 > 2){ //fill the condition
+         
+        std::cout << "curDifference: " <<  curDifference << "\n";
+        std::cout << "Difference: " <<  difference << "\n";
+        if(difference - curDifference < 0.0001 ){ //fill the condition
+            std::cout << "iteration is: " << counter << '\n';
+            for(auto e : currentMap){
+                std::cout << "link is: " << e.first << ".  grade is: " << e.second<< '\n';
+            }
             return currentMap;
         }
 
+        difference = curDifference;
         preMap = currentMap;
         //comper between currentMAp and preMap if not equal or aproxmition then updete that preMap = CurrentMap
         // and itarete again   
@@ -181,8 +192,8 @@ FloatelMap PageRank::calculate()
 
 // void PageRank::DampingFactor_calculate(size_t totalLinks)
 // {
-//     float outChance = 0.85;
-//     float stayChanc = 0.15;
+//     double outChance = 0.85;
+//     double stayChanc = 0.15;
 
 //     for(auto page : m_curMap){
 //         page.second *= outChance;
@@ -198,12 +209,12 @@ FloatelMap PageRank::calculate()
 //     }
 // }
 
-// void PageRank::calculator( std::unordered_map<std::string, float>& links)
+// void PageRank::calculator( std::unordered_map<std::string, double>& links)
 // {   
 //     size_t sizeMap = links.size();
 
 //     for(auto link : links){
-//         float degreePage = m_curMap[link.first] / sizeMap;
+//         double degreePage = m_curMap[link.first] / sizeMap;
 //         for(auto l : link.second){
 //             m_curMap[l.first] += degreePage;
 //         }
