@@ -58,7 +58,7 @@ src/mysql_graph_data.o : src/mysql_graph_data.cpp includes/mysql_graph_data.hpp 
 src/mysql_word_data.0 : src/mysql_word_data.cpp includes/mysql_word_data.hpp includes/word_data.hpp
 src/mysql_word_links.o : src/mysql_word_links.cpp includes/mysql_word_links.hpp includes/word_links.hpp
 src/mysql_searcher.o : src/mysql_searcher.cpp includes/mysql_searcher.hpp includes/searcher.hpp
-src/mysql_links_rank_manager.o : src/mysql_links_rank_manager.cpp includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp
-
+src/mysql_links_rank_manager.o : src/mysql_links_rank_manager.cpp includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp includes/safe_scores_map.hpp includes/mysql_graph_data.hpp
+src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/links_rank_manager.hpp
 clean:
 	$(RM) *.o ./main src/*.o
