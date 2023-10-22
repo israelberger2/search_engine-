@@ -1,20 +1,11 @@
 #include "publisher.hpp"
  
- 
-// se::Publisher::Publisher(PageRank& pagerank)
-// : m_pagerank(pagerank)   
-// {}
 
-// void se::Publisher::notify()
-// {
-//     m_pagerank.update();
-// }
-
-se::Publisher::Publisher(PagerankScheduler& scheduler)
-: m_scheduler(scheduler)
+se::Publisher::Publisher(db::LinkRankManager& linkRankManager)
+: m_coordinator(linkRankManager)
 {}
 
 void se::Publisher::notify()
 {
-    m_scheduler.update();
+    m_coordinator.update();
 }

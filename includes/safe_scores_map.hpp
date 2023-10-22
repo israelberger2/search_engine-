@@ -10,7 +10,7 @@
  
 namespace se{
 
-using ScorsMap = std::unordered_map<std::string, float>;
+using ScorsMap = std::unordered_map<std::string, double>;
 
 class SafeScoresPointer
 {

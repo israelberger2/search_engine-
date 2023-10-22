@@ -91,6 +91,8 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 
 #include "search_engine.hpp"
@@ -106,7 +108,7 @@
 #include "pageRank.hpp"
 #include "pr_sorter.hpp"
 #include "safe_scores_map.hpp"
-#include "pagerank_scheduler.hpp"
+#include "links_rank_manager.hpp"
 #include "regular_sorter.hpp"
 #include "link.hpp"
 #include "mysql_links_data.hpp"
@@ -125,8 +127,15 @@ using namespace se;
  
 int main(int argc, char* argv[]) 
 {
-  PageRank p{};
-  p.calculate(1);
+  std::unordered_map<std::string, std::vector<std::string>> g = {{"a", std::vector<std::string>{"b"}},{"b",std::vector<std::string>{"c"}},{"c", std::vector<std::string>{"d"}},{"d", std::vector<std::string>{"b"}}};
+  PageRank p{g};
+  auto map = p.getScores();
+  std::cout << map.size() << '\n';
+  
+  for(auto m : map){
+    std::cout << m.first << " " << m.second << '\n';
+    
+  }
   
 
    

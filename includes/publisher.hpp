@@ -2,7 +2,7 @@
 #define publisher_HPP
 
 #include "pageRank.hpp"
-#include "pagerank_scheduler.hpp"
+#include "links_rank_manager.hpp"
 
 
 namespace se{
@@ -10,8 +10,7 @@ namespace se{
 class Publisher
 {
 public:
-    //explicit Publisher(PageRank& pagerank);
-    explicit Publisher(PagerankScheduler& scheduler);
+    explicit Publisher(db::LinkRankManager& linkRankManager);
     ~Publisher() = default;
     Publisher(const Publisher&) = default;
     Publisher& operator= (const Publisher&) = default;
@@ -19,7 +18,7 @@ public:
     void notify();
 
 private:
-    PagerankScheduler& m_scheduler;
+    db::LinkRankManager& m_coordinator;
 };
 
 } // namespace se

@@ -7,7 +7,7 @@ namespace db{
 class LinkRankManager
 {
 public:
-    virtual ~LinkRankManager() = 0;
+    virtual ~LinkRankManager() = default;
     virtual void update() = 0;
 
 };
