@@ -4,64 +4,6 @@
 
 namespace se {
 
-
-// PageRank::PageRank()
-// : m_curMap()
-// , m_preMap()
-// {}
-
-// DoubleMap PageRank::calculate(Graph& graph)
-// {  
-//     std::unordered_map<std::string, double> preMap;
-//     preMap.reserve(graph.size());
-    
-//     for(auto& g : graph){
-//         preMap.insert({g.first, 1});
-//     }
-    
-//     double gradesSum = std::numeric_limits<double>::max();  
-//     int counter = 0;
-    
-//     while(counter++ <= 50){
-         
-//         std::unordered_map<std::string, double> currentMap;
-//         currentMap.reserve(preMap.size());
-        
-//         for(auto p : preMap){
-//             currentMap.insert({p.first, 0});
-//         }
-
-//         for(auto& src : graph){
-//             double degreePage = preMap[src.first] / src.second.size();
-//             for(auto& destination : src.second){
-//                 currentMap[destination] += degreePage;
-//             }
-//         }
-        
-//         double outChance = 0.85;
-//         double stayChanc = 0.15;
-//         int totalLinks = preMap.size();
-
-//         for(auto& page : currentMap){
-//             page.second *= outChance;
-//             page.second += (stayChanc / totalLinks);  
-//         }
-
-//         double curGradesSum = 0;
-//         for(auto c : currentMap){
-//             curGradesSum += c.second;
-//         } 
-         
-//         if(gradesSum - curGradesSum < 0.0001 ){
-//             return currentMap;
-//         }
-
-//         gradesSum = curGradesSum;
-//         preMap = currentMap;
-//     }
-
-//     return preMap;
-// }
 PageRank::PageRank(const Graph& graph)
 : m_graph(graph)
 , m_preMap()

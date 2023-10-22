@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include "proxy_searcher.hpp"
-#include "se_excaptions.hpp"
+#include "se_exceptions.hpp"
  
 
 namespace se{
