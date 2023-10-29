@@ -6,14 +6,13 @@
 #include <vector>
 #include  <utility>
 
-#include "searcher.hpp"
 #include "communicator.hpp"
 
 
 namespace se{
 
  
-class ProxySearcher : public Searcher
+class ProxySearcher 
 {
 public:
     ProxySearcher();
@@ -21,7 +20,7 @@ public:
     ProxySearcher(const ProxySearcher&) = default;
     ProxySearcher& operator= (const ProxySearcher&) = default;
 
-    std::vector<std::pair<std::string, size_t>> get_links(const std::vector<std::string>& querie)const override;
+    std::vector<std::pair<std::string, int>> get_links(const std::vector<std::string>& querie)const;
     int connect_to_server()const;
     
 private:

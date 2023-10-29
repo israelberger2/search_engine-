@@ -14,7 +14,6 @@ using DoubleMap = std::unordered_map<std::string, double>;
 class PageRank
 {
 public:
-    
     explicit PageRank(const Graph& graph);
     ~PageRank() = default;
     PageRank(const PageRank&) = default;

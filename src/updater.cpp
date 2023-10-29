@@ -1,11 +1,10 @@
 #include "updater.hpp"
-#include "mysql_graph_data.hpp" 
-#include "mysql_word_links.hpp"
+#include "configuration.hpp"
  
-
-se::Updater::Updater(size_t mount, Publisher& publisher, db::GraphData& graph, db::WordLinks& words)
+ 
+se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& words)
 : m_buffer()
-, m_mount(mount)
+, m_mount(Config::getLinksMountForPagerank())
 , m_publisher(publisher)
 , m_mtx()
 , m_notMtx()

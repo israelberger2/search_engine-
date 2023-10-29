@@ -3,9 +3,10 @@
   "sql_username": "sammy",
   "sql_schema": "DBsearchEngine",
   "sql_connectionString": "tcp://127.0.0.1:3306",
-  "scans":30,
-  "threads":4,
+  "scans":300,
+  "threads":10,
   "lengthResult":5,
+  "linksMountForPagerank": 3,
   "isBounded": true,
   "addresses": [
     "https://harrypotter.fandom.com/wiki/Main_Page"

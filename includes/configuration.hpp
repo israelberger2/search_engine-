@@ -23,6 +23,7 @@ public:
     static bool getBounded();
     static std::vector<std::string> getAddresses();
     static size_t getLengthResult();
+    static size_t getLinksMountForPagerank();
  
 private:
     static const Config& getInstance(); 
@@ -41,6 +42,7 @@ private:
     bool m_bounded;
     std::vector<std::string> m_address;
     size_t m_lengthResult;
+    size_t m_linksMountForPagerank;
 };
 
 } // namespace se

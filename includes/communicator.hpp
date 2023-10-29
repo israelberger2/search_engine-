@@ -12,16 +12,17 @@ namespace se{
 class Communicator
 {
 public:
-    explicit Communicator(int fileDiscriptoronst);
+    Communicator(int fileDiscriptor);
     ~Communicator();
     Communicator(const Communicator&) = delete;
     Communicator& operator= (const Communicator&) = delete;
 
-    void write(const char* buffer, size_t length)const;
-    std::string read()const;
+    void send_data(const char* buffer, size_t length)const;
+    std::string receive_data()const;
+    void closeConnection();
 
 private:
-    int m_fileDiscriptoronst;
+    int m_fileDiscriptor;
 };
 
 } // namespace se

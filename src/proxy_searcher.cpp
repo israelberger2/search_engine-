@@ -13,21 +13,33 @@ using json = nlohmann::json;
 
 ProxySearcher::ProxySearcher()
 : m_communicator(connect_to_server())
-{}
+{
+    std::cout << "proxy constructore" << '\n';
+    
+}
 
-std::vector<std::pair<std::string, size_t>> ProxySearcher::get_links(const std::vector<std::string>& query)const
+// ProxySearcher::~ProxySearcher()
+// {
+//     m_communicator.closeConnection();
+// }
+
+std::vector<std::pair<std::string, int>> ProxySearcher::get_links(const std::vector<std::string>& query)const
 {
     json j = query;
     std::string data = j.dump();
     const char* buffer = data.c_str();
-
-    m_communicator.write(buffer, data.length());
-    std::string result = m_communicator.read();
-
-    std::vector<std::pair<std::string, size_t>> links;
+    std::cout << "befor send to server" << '\n';
+    
+    m_communicator.send_data(buffer, data.length());
+    std::cout << "........................." << '\n';
+    
+    std::string result = m_communicator.receive_data();
+    std::cout << "result: " << result << '\n';
+    
+    std::vector<std::pair<std::string, int>> links;
     try {
         json js = json::parse(result);
-        links = js.get<std::vector<std::pair<std::string, size_t>>>();
+        links = js.get<std::vector<std::pair<std::string, int>>>();
     } catch (const json::parse_error& error) { 
         throw DataError("ERROR: json::runtime_error: " + std::string(error.what()));  
     }  
@@ -37,6 +49,8 @@ std::vector<std::pair<std::string, size_t>> ProxySearcher::get_links(const std::
  
 int ProxySearcher::connect_to_server()const
 {
+    std::cout << "connect_to_server" << '\n';
+    
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(8080);
@@ -44,14 +58,18 @@ int ProxySearcher::connect_to_server()const
 
     int client_soket = socket(AF_INET, SOCK_STREAM, 0);
     if(client_soket < 0){
+        std::cout << "client socket error" << '\n';
+        
         throw(NetworkError("ERROR: DISCONNECTED"));
     }
     
     int connect_sigen =  connect(client_soket, (struct sockaddr*)&server_addr, sizeof(server_addr));
     if(connect_sigen < 0){
+        std::cout << "connect_sigen   error" << '\n';
         throw(NetworkError("ERROR: DISCONNECTED"));
     }
-
+    
+    std::cout << "end connect_to_server" << '\n';
     return client_soket;
 }
 

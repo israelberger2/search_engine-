@@ -45,7 +45,7 @@ void Crawler::close()
 void Crawler::process_link()
 {
   std::string current_url;
-  while(true){    
+  while(true){        
     if(! m_borderManager.check_limit()){ 
       m_unvisited_links.setStatus();
       m_unvisited_links.notify();

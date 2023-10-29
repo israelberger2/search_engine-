@@ -1,7 +1,6 @@
 #ifndef publisher_HPP
 #define publisher_HPP
 
-#include "pageRank.hpp"
 #include "links_rank_manager.hpp"
 
 

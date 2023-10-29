@@ -7,6 +7,7 @@
 
 #include "client.hpp"
 #include "communicator.hpp"
+#include "socket.hpp"
 
 
 namespace se{
@@ -23,6 +24,7 @@ public:
     void send_data(const std::vector<std::pair<std::string, int>>& links)const override;
 
 private:
+    Socket m_socket;
     std::shared_ptr<Communicator> m_communicator;
 };
 

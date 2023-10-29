@@ -37,12 +37,12 @@ void SearchEngine::handle(size_t length)const
              
             m_client.send_data(links);             
         } catch (const ServerSocketError& error){
-            std::cout << error.what();
+            std::cout <<"a" << error.what();
             throw ServerSocketError(error.what());
         } catch (const DataError& error){
-            std::cout << error.what() << "\n";
+            std::cout << "b" << error.what() << "\n";
         } catch (const NetworkError& error){
-            std::cout << error.what() << "\n";
+            std::cout << "c" << error.what() << "\n";
         } 
     }
 }
