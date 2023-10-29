@@ -158,11 +158,11 @@ int main(int argc, char* argv[])
     search.handle(Config::getLengthResult());
     cr.close();
  
-  }catch (const ServerSocketError& error){
+  }catch (const SocketError& error){
     std::clog << error.what() << "\n";
     return 1;
   } catch (...){
-    std::clog << "ERROR:: the Program failed\n";
+    std::clog << "ERROR:: the Program failed" << "\n";
     return 1;
   }
   

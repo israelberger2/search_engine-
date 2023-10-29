@@ -17,6 +17,8 @@ void SearchEngine::handle(size_t length)const
 {
     while (true){
         try{
+            std::cout << "handle" << '\n';
+            
             std::vector<std::string> keywords = m_client.load_query();
             if(keywords.empty()){
                 break;
@@ -36,11 +38,10 @@ void SearchEngine::handle(size_t length)const
             }
              
             m_client.send_data(links);             
-        } catch (const ServerSocketError& error){
-            std::cout <<"a" << error.what();
+        } catch (const SocketError& error){
             throw ServerSocketError(error.what());
         } catch (const DataError& error){
-            std::cout << "b" << error.what() << "\n";
+            std::clog << "b" << error.what() << "\n";
         } catch (const NetworkError& error){
             std::cout << "c" << error.what() << "\n";
         } 
