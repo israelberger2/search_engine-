@@ -1,15 +1,12 @@
 #include "client_site.hpp"
 #include "text_client.hpp"
-#include "proxy_searcher.hpp"
-#include <memory>
-#include <iostream>
+#include "network_handler.hpp"
 
 
 using namespace se;
- 
+
 int main()
 {
-    // ProxySearcher proxy{};
     TextClient textClient{};
 
     ClientSite client(textClient);

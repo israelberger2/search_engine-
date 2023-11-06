@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
     std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
 
     SearchEngine search(mysqlSearcher, *client, sorter);
-    search.handle(Config::getLengthResult());
+    search.run(Config::getLengthResult());
     cr.close();
  
   }catch (const SocketError& error){

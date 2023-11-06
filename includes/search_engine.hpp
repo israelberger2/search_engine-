@@ -20,7 +20,7 @@ public:
     SearchEngine(const SearchEngine&) = delete;
     SearchEngine& operator= (const SearchEngine&) = delete;
     
-    void handle(size_t length)const;
+    void run(size_t length)const;
     bool createQueriesVectors(std::vector<std::string>& positive, std::vector<std::string>& negative, const std::vector<std::string>& input)const;
 
 private:

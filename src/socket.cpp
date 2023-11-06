@@ -1,5 +1,6 @@
 #include "socket.hpp"
 #include "se_exceptions.hpp"
+#include "configuration.hpp"
 
 
 namespace se{
@@ -17,7 +18,7 @@ Socket::Socket()
 void Socket::init()
 {
     m_server_addr.sin_family = AF_INET;
-    m_server_addr.sin_port = htons(8080);
+    m_server_addr.sin_port = htons(Config::getPort());
     m_server_addr.sin_addr.s_addr = INADDR_ANY;
 }
 
@@ -38,7 +39,7 @@ void Socket::create_socket()
     }
 }
 
-std::shared_ptr<Communicator> Socket::creat_communicator()
+std::shared_ptr<Communicator> Socket::creat_communicator()const
 {
     struct sockaddr_in client_addr;
     socklen_t client_addr_size = sizeof(client_addr);

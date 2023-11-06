@@ -32,7 +32,8 @@ void Config::fill_dataMembers(std::ifstream& stream)
     m_bounded = js["isBounded"];
     m_address = js["addresses"];
     m_lengthResult = js["lengthResult"];
-    m_linksMountForPagerank = js["linksMountForPagerank"];
+    m_linksMountForPagerank = js["linksMountForPagerank"];    
+    m_port = js["port"];    
 }
 
 const Config& Config::getInstance()
@@ -90,4 +91,10 @@ size_t Config::getLinksMountForPagerank()
 {
     return Config::getInstance().m_linksMountForPagerank;
 }
- } // namespace se
+
+uint16_t Config::getPort()
+{
+    return Config::getInstance().m_port;
+}
+
+} // namespace se

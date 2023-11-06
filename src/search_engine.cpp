@@ -1,5 +1,5 @@
-#include <iostream>
 #include  <utility>
+#include <iostream>
 
 #include "search_engine.hpp"
 #include "se_exceptions.hpp"
@@ -13,16 +13,11 @@ SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& clien
 , m_arranger(sorter)
 {}
 
-void SearchEngine::handle(size_t length)const
+void SearchEngine::run(size_t length)const
 {
     while (true){
-        try{
-            std::cout << "handle" << '\n';
-            
+        try{            
             std::vector<std::string> keywords = m_client.load_query();
-            if(keywords.empty()){
-                break;
-            }
 
             std::vector<std::string> positive;
             std::vector<std::string> negative;
@@ -39,11 +34,11 @@ void SearchEngine::handle(size_t length)const
              
             m_client.send_data(links);             
         } catch (const SocketError& error){
-            throw ServerSocketError(error.what());
+            throw SocketError(error.what());
         } catch (const DataError& error){
-            std::clog << "b" << error.what() << "\n";
+            std::clog << error.what() << "\n";
         } catch (const NetworkError& error){
-            std::cout << "c" << error.what() << "\n";
+            std::cout << error.what() << "\n";
         } 
     }
 }

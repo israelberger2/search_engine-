@@ -7,6 +7,8 @@
   "threads":10,
   "lengthResult":5,
   "linksMountForPagerank": 3,
+  "ip": "127.0.0.1",
+  "port": 8080,
   "isBounded": true,
   "addresses": [
     "https://harrypotter.fandom.com/wiki/Main_Page"
