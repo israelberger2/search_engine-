@@ -22,7 +22,7 @@ src/link.o src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o s
  
 main.o : main.cpp  includes/crawler.hpp includes/indexer.hpp includes/links_map.hpp includes/database.hpp \
 includes/search_engine.hpp includes/text_client.hpp includes/net_client.hpp includes/updater.hpp includes/pageRank.hpp \
-includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp
+includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp includes/pr_sorter.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/links_maintenance.hpp includes/string_split.hpp
 src/links_map.o : src/links_map.cpp includes/links_map.hpp includes/links_map_insertion.hpp includes/links_map_get.hpp
