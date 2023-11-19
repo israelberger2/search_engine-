@@ -29,6 +29,7 @@ bool se::BorderManager::check_limit()
     }
 
     ++m_numScan;
+    
     return true;  
 }
  
