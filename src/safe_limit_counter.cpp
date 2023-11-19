@@ -17,9 +17,7 @@ void se::SafeLimitCounter::jumpToLimit()
 }
 
 bool se::SafeLimitCounter::CheckLimitAndIncrement()
-{ 
-    ++ m_count;
-    
-    return m_count <= m_limit ? true : false;  
+{
+    return m_count.fetch_add(1) < m_limit;
 }
  
