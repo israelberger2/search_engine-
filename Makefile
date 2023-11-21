@@ -28,7 +28,7 @@ src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/links_
 src/links_map.o : src/links_map.cpp includes/links_map.hpp includes/links_map_insertion.hpp includes/links_map_get.hpp
 src/indexer.o : src/indexer.cpp includes/indexer.hpp includes/indexer_insertion.hpp includes/indexer_get.hpp
 src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp  \
-includes/reg_algo_links_maintenance.hpp includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp
+includes/reg_algo_links_maintenance.hpp includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp includes/safe_limit_counter.hpp
 
 src/database.o : src/database.cpp includes/database.hpp includes/indexer_get.hpp includes/links_map_get.hpp
 src/extract_html.o : src/extract_html.cpp includes/extract_html.hpp includes/se_exceptions.hpp
@@ -56,7 +56,7 @@ src/mysql_searcher.o : src/mysql_searcher.cpp includes/mysql_searcher.hpp includ
 src/mysql_links_rank_manager.o : src/mysql_links_rank_manager.cpp includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp includes/safe_scores_map.hpp includes/mysql_graph_data.hpp
 src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/links_rank_manager.hpp 
 src/threads.o : src/threads.cpp includes/threads.hpp src/configuration.cpp
-
+src/safe_limit_counter.o : includes/safe_limit_counter.hpp src/safe_limit_counter.cpp 
 
 clean:
 	$(RM) *.o ./main src/*.o

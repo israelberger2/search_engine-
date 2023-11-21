@@ -107,7 +107,7 @@
 
 // } //namespace se
  
- #include <utility>
+#include <utility>
 #include <unordered_map>
 #include <iostream>
 
@@ -127,6 +127,7 @@ Crawler::Crawler(Updater& updater)
 , m_unique_links()
 , m_threads()
 , m_borderManager()
+, m_countForFlash(Config::getNumThreads())
 {}
 
 void Crawler::insert_src_url()
@@ -154,7 +155,9 @@ void Crawler::close()
 void Crawler::process_link()
 {
   std::string current_url;
-  while(true){        
+  while(true){    
+    std::cout << "iteration" << '\n';
+        
     if(! m_borderManager.check_limit()){ 
       m_unvisited_links.setStatus();
       m_unvisited_links.notify();
@@ -168,7 +171,8 @@ void Crawler::process_link()
     if(!status){
       break;
     }
-
+  std::cout << "url: " << current_url << '\n';
+  
     std::string html;
     try{
       html = extract_html(current_url);
@@ -188,6 +192,11 @@ void Crawler::process_link()
     fill_queue(linksList);
     m_inserter.fill(result, current_url);
   }  
+  std::cout << "break" << '\n';
+  
+  if (! m_countForFlash.CheckLimitAndIncrement()){
+        m_inserter.bufferFlush();
+      }
   //m_inserter.bufferFlush();
 }
 

@@ -62,7 +62,7 @@ std::string Config::getSqlConnectionString()
     return Config::getInstance().m_sql_connectionString;
 }
 
-size_t Config::getNumScans()
+int Config::getNumScans()
 {
     return Config::getInstance().m_numScans;
 }

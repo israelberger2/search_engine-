@@ -1,6 +1,7 @@
 #include "updater.hpp"
 #include "configuration.hpp"
- 
+#include <iostream>
+
  
 se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& words)
 : m_buffer()
@@ -36,4 +37,21 @@ void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
             m_wordsData.insert(tempBuffer[key].second, key);
         }
     }
+}
+
+void se::Updater::bufferFlush()
+{
+    if(m_buffer.size() > 0){        
+        std::vector<std::string> keys = m_buffer.getKeys();
+
+        for(auto key : keys){
+            m_graphData.insert(m_buffer[key].first, key);
+        }
+        
+        m_publisher.notify();
+         
+        for(auto key : keys){            
+            m_wordsData.insert(m_buffer[key].second, key);
+        }
+    }  
 }

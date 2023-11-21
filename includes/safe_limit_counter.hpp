@@ -18,7 +18,7 @@ public:
   void jumpToLimit();
 
 private:
-  std::atomic_int m_limit;
+  int m_limit;
   std::atomic_int m_count;
 }; 
  

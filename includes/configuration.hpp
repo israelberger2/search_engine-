@@ -18,7 +18,7 @@ public:
     static std::string getSqlPassword();
     static std::string getSqlSchema();
     static std::string getSqlConnectionString();
-    static size_t getNumScans();
+    static int getNumScans();
     static size_t getNumThreads();
     static bool getBounded();
     static std::vector<std::string> getAddresses();
@@ -37,7 +37,7 @@ private:
     std::string m_sql_password;
     std::string m_sql_schema;
     std::string m_sql_connectionString;
-    size_t m_numScans;
+    int m_numScans;
     size_t m_numThreads;
     bool m_bounded;
     std::vector<std::string> m_address;

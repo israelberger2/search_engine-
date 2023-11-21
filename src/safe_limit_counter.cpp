@@ -1,4 +1,6 @@
 #include "safe_limit_counter.hpp"
+#include <iostream>
+
 
 
 se::SafeLimitCounter::SafeLimitCounter(int limit)
@@ -13,11 +15,11 @@ void se::SafeLimitCounter::decrement()
 
 void se::SafeLimitCounter::jumpToLimit()
 {
-    m_count.store(m_limit.load()); 
+    m_count.store(m_limit); 
 }
 
 bool se::SafeLimitCounter::CheckLimitAndIncrement()
 {
-    return m_count.fetch_add(1) < m_limit;
+    return  m_count.fetch_add(1) + 1 < m_limit;
 }
  

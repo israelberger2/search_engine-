@@ -218,64 +218,46 @@ using namespace se;
 
  
 int main(int argc, char* argv[]) 
-{
-  SafeLimitCounter s(5);
-  auto threadFunction = [&s]() {
-      for (int i = 0; i < 5; ++i) {
-          bool b = s.CheckLimitAndIncrement();
-          std::cout << "Thread " << std::this_thread::get_id() << ": bool is " << b << '\n';
-        }
-    };
+{ 
+  LinksMap links{}; 
+  Indexer indexer{};
+  SafeScoresPointer scores{};
+  db::MysqlLinksRankManager rankManager(scores);
 
-    // Create two threads and run them concurrently
-    std::thread thread1(threadFunction);
-    std::thread thread2(threadFunction);
+  Publisher publisher(rankManager);
+  db::MysqlGraphData graph{};
+  db::MysqlWordLinks wordsLinks{};
 
-    // Join threads to the main thread
-    thread1.join();
-    thread2.join();
-  
-   
-  
-  // LinksMap links{}; 
-  // Indexer indexer{};
-  // SafeScoresPointer scores{};
-  // db::MysqlLinksRankManager rankManager(scores);
+  Updater inserter(publisher, graph, wordsLinks);
 
-  // Publisher publisher(rankManager);
-  // db::MysqlGraphData graph{};
-  // db::MysqlWordLinks wordsLinks{};
+  Crawler cr(inserter);
+  try{
+    cr.crawl();
 
-  // Updater inserter(publisher, graph, wordsLinks);
+    std::unique_ptr<Client> client;
+    if(argc >= 2 &&  !std::strcmp(argv[1], "net")){
+        client = std::make_unique<NetClient>();
+      } else {
+        client = std::make_unique<TextClient>();
+      }
 
-  // Crawler cr(inserter);
-  // try{
-  //   cr.crawl();
+    // RegularSorter sorter{};
+    PrSorted sorter(scores);
+    std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
 
-  //   std::unique_ptr<Client> client;
-  //   if(argc >= 2 &&  !std::strcmp(argv[1], "net")){
-  //       client = std::make_unique<NetClient>();
-  //     } else {
-  //       client = std::make_unique<TextClient>();
-  //     }
-
-  //   // RegularSorter sorter{};
-  //   PrSorted sorter(scores);
-  //   std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
-
-  //   SearchEngine search(mysqlSearcher, *client, sorter);
-  //   search.run(Config::getLengthResult());
-  //   cr.close();
+    SearchEngine search(mysqlSearcher, *client, sorter);
+    search.run(Config::getLengthResult());
+    cr.close();
  
-  // }catch (const SocketError& error){
-  //   std::clog << error.what() << "\n";
-  //   return 1;
-  // }catch (const std::out_of_range& error){
-  //   std::cout << error.what() << '\n'; 
-  // } catch (...){
-  //   std::clog << "ERROR:: the Program failed" << "\n";
-  //   return 1;
-  // }
+  }catch (const SocketError& error){
+    std::clog << error.what() << "\n";
+    return 1;
+  }catch (const std::out_of_range& error){
+    std::cout << error.what() << '\n'; 
+  } catch (...){
+    std::clog << "ERROR:: the Program failed" << "\n";
+    return 1;
+  }
   
   return 0; 
 }
