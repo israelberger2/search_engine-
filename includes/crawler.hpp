@@ -1,3 +1,4 @@
+ 
 // #ifndef CRAWLER_HPP
 // #define CRAWLER_hpp
 
@@ -10,7 +11,8 @@
 // #include "safe_unordered_set.hpp"
 // #include "border_manager.hpp"
 // #include "updater.hpp"
- 
+// #include "safe_limit_counter.hpp"
+
 
 // namespace se{
 
@@ -39,10 +41,12 @@
 //     SafeUnorderedSet<std::string> m_unique_links;
 //     Threads m_threads;
 //     BorderManager m_borderManager;
+//     SafeLimitCounter m_countForFlash;
 // };
 
 // } // namespace se
 // #endif
+
 
 
 #ifndef CRAWLER_HPP
@@ -55,7 +59,6 @@
 #include "threads.hpp"
 #include "safe_queue.hpp"
 #include "safe_unordered_set.hpp"
-#include "border_manager.hpp"
 #include "updater.hpp"
 #include "safe_limit_counter.hpp"
 
@@ -74,7 +77,6 @@ public:
     void close();
 
 private:
-    //void fill_queue(const std::vector<std::string>& result_links); 
     void fill_queue(const std::unordered_map<std::string, int>& result_links);
     void process_link();
     bool queueIsEmpty()const;
@@ -86,7 +88,7 @@ private:
     SafeQueue<std::string> m_unvisited_links;
     SafeUnorderedSet<std::string> m_unique_links;
     Threads m_threads;
-    BorderManager m_borderManager;
+    SafeLimitCounter m_limitScans;
     SafeLimitCounter m_countForFlash;
 };
 

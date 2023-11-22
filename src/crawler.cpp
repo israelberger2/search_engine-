@@ -18,6 +18,7 @@
 // , m_unique_links()
 // , m_threads()
 // , m_borderManager()
+// , m_countForFlash(Config::getNumThreads())
 // {}
 
 // void Crawler::insert_src_url()
@@ -45,7 +46,9 @@
 // void Crawler::process_link()
 // {
 //   std::string current_url;
-//   while(true){        
+//   while(true){    
+//     std::cout << "iteration" << '\n';
+        
 //     if(! m_borderManager.check_limit()){ 
 //       m_unvisited_links.setStatus();
 //       m_unvisited_links.notify();
@@ -59,7 +62,8 @@
 //     if(!status){
 //       break;
 //     }
-
+//   std::cout << "url: " << current_url << '\n';
+  
 //     std::string html;
 //     try{
 //       html = extract_html(current_url);
@@ -79,7 +83,11 @@
 //     fill_queue(linksList);
 //     m_inserter.fill(result, current_url);
 //   }  
-//   //m_inserter.bufferFlush();
+//   std::cout << "break" << '\n';
+  
+//   if(! m_countForFlash.CheckLimitAndIncrement()){
+//     m_inserter.bufferFlush();
+//   }
 // }
 
 // bool Crawler::queueIsEmpty()const
@@ -96,17 +104,10 @@
 //   }
 // }
 
-// // void Crawler::fill_queue(const std::vector<std::string>& result_links) 
-// // {
-// //   for(auto& link : result_links){
-// //     if(m_unique_links.insert(link) && !link.empty()){
-// //       m_unvisited_links.enqueue(link);
-// //     }
-// //   }
-// // }
-
 // } //namespace se
  
+
+
 #include <utility>
 #include <unordered_map>
 #include <iostream>
@@ -126,7 +127,7 @@ Crawler::Crawler(Updater& updater)
 , m_unvisited_links()
 , m_unique_links()
 , m_threads()
-, m_borderManager()
+, m_limitScans(Config::getNumScans())
 , m_countForFlash(Config::getNumThreads())
 {}
 
@@ -148,17 +149,15 @@ void Crawler::crawl()
 
 void Crawler::close()
 {
-  m_borderManager.comeToLimit();
+  m_limitScans.jumpToLimit();
   m_threads.makeJoin();
 }
 
 void Crawler::process_link()
 {
   std::string current_url;
-  while(true){    
-    std::cout << "iteration" << '\n';
-        
-    if(! m_borderManager.check_limit()){ 
+  while(true){            
+    if(! m_limitScans.CheckLimitAndIncrement()){ 
       m_unvisited_links.setStatus();
       m_unvisited_links.notify();
       break;
@@ -171,13 +170,12 @@ void Crawler::process_link()
     if(!status){
       break;
     }
-  std::cout << "url: " << current_url << '\n';
-  
+
     std::string html;
     try{
       html = extract_html(current_url);
     } catch (const HtmlExcaption& error){
-      m_borderManager.decreaseNumScan();
+      m_limitScans.decrement();
       continue;
     }
     
@@ -192,12 +190,10 @@ void Crawler::process_link()
     fill_queue(linksList);
     m_inserter.fill(result, current_url);
   }  
-  std::cout << "break" << '\n';
-  
-  if (! m_countForFlash.CheckLimitAndIncrement()){
-        m_inserter.bufferFlush();
-      }
-  //m_inserter.bufferFlush();
+   
+  if(! m_countForFlash.CheckLimitAndIncrement()){
+    m_inserter.bufferFlush();
+  }
 }
 
 bool Crawler::queueIsEmpty()const

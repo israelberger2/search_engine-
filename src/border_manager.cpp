@@ -2,7 +2,8 @@
 
 #include "border_manager.hpp"
 #include "configuration.hpp"
- 
+#include <iostream>
+
  
 se::BorderManager::BorderManager()
 : m_mtx()
@@ -23,7 +24,8 @@ void se::BorderManager::comeToLimit()
 bool se::BorderManager::check_limit()
 {
     std::unique_lock<std::shared_mutex> lock(m_mtx);
-
+    std::cout << "m_numScan: " << m_numScan << '\n';
+    
     if(m_numScan >= m_limit){
         return false;
     }
