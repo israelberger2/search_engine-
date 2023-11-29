@@ -26,6 +26,8 @@ void SearchEngine::run(size_t length)const
             }
             
             std::vector<std::pair<std::string,int>> links =  m_searcher->search(positive, negative);
+            std::cout << "size: " << links.size() << '\n';
+            
             m_arranger.sort_links(links , length);            
             
             if(links.size() > length){

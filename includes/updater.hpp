@@ -23,6 +23,7 @@ public:
     Updater(const Updater&) = default;
     Updater& operator= (const Updater&) = default;
     
+
     void fill(std::pair<Map, Map>& resCrewl ,const std::string& url);
     void bufferFlush();
  

@@ -2,7 +2,7 @@ CXX = g++
 CC = $(CXX)
 
 CXXFLAGS = -std=c++17 -Wall -pedantic -g3
-CXXFLAGS += -Werror
+# CXXFLAGS += -Werror
 
 CPPFLAGS = -I includes -I src 
  

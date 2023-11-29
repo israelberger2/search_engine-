@@ -4,6 +4,7 @@
 
 #include "mysql_searcher.hpp"
 #include "connector.hpp"
+#include <iostream>
 
 
 db::MysqlSearcher::MysqlSearcher()
@@ -13,33 +14,38 @@ db::MysqlSearcher::MysqlSearcher()
 
 std::vector<db::WordsInstance> db::MysqlSearcher::search(const Links& positiveWords, const Links& negativeWords)const
 {
-  if(positiveWords.empty()){
-    return std::vector<WordsInstance>{};
+  try{
+    if(positiveWords.empty()){
+      return std::vector<WordsInstance>{};
+    }
+
+    Links links = m_wordLinks.getLinksForWord(positiveWords[0]);
+
+    std::vector<int> wordsID = m_wordData.getWordsID(positiveWords);
+
+    if(links.empty() || wordsID.size() < positiveWords.size()){
+      return std::vector<WordsInstance>{};
+    }
+
+    std::vector<WordsInstance> IntermediateResult;
+
+    for(auto& link : links){
+      checkPositiveWords(wordsID, link, IntermediateResult);
+    }
+    
+    if(IntermediateResult.empty()){
+      return std::vector<WordsInstance>{};
+    }
+
+    std::vector<int> negativewordsID = m_wordData.getWordsID(negativeWords);
+
+    std::vector<std::pair<std::string, int>> result = checkNegativeWords(negativewordsID, IntermediateResult);
+
+    return result;
+  } catch(const sql::SQLException& e){
+    std::cout << "searcher: " << e.what() << '\n';
   }
-
-  Links links = m_wordLinks.getLinksForWord(positiveWords[0]);
-
-  std::vector<int> wordsID = m_wordData.getWordsID(positiveWords);
-
-  if(links.empty() || wordsID.size() < positiveWords.size()){
-    return std::vector<WordsInstance>{};
-  }
-
-  std::vector<WordsInstance> IntermediateResult;
-
-  for(auto& link : links){
-    checkPositiveWords(wordsID, link, IntermediateResult);
-  }
-  
-  if(IntermediateResult.empty()){
-    return std::vector<WordsInstance>{};
-  }
-
-  std::vector<int> negativewordsID = m_wordData.getWordsID(negativeWords);
-
-  std::vector<std::pair<std::string, int>> result = checkNegativeWords(negativewordsID, IntermediateResult);
-
-  return result;
+  return std::vector<WordsInstance>{};
 }
 
 std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<int>& wordsID, const std::string& url)const

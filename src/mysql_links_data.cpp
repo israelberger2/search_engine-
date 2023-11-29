@@ -43,19 +43,23 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
 
 std::string db::MysqlLinksData::getLink(int id)const
 {
-  std::string query = " SELECT Address FROM Link WHERE ID = ? ";
-
-  Connector connector{};
-  std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
-  
-  stmt->setInt(1, id);
-
   std::string link;
 
-  std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
-  
-  if(resQuery->next()){    
-    link = resQuery->getString(1);
+  try{
+    std::string query = " SELECT Address FROM Link WHERE ID = ? ";
+
+    Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+    
+    stmt->setInt(1, id);
+
+    std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
+    
+    if(resQuery->next()){    
+      link = resQuery->getString(1);
+    }
+  } catch(const sql::SQLException& e){
+    std::cout << "MysqlLinksData::getLink: " << e.what() << '\n';   
   }
 
   return link;
@@ -63,27 +67,31 @@ std::string db::MysqlLinksData::getLink(int id)const
 
 std::vector<std::string> db::MysqlLinksData::getLink(std::vector<int> linksID)const
 {
-  std::string query = " SELECT Address FROM Link WHERE ID = ? ";
-
-  size_t size = linksID.size() -1;
-  for(size_t i = 0; i< size; ++i){
-    query.append("OR ID = ? ");
-  }
-
-  Connector connector{};
-  std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
-  
-  for(size_t i = 0; i < linksID.size(); ++i){
-    stmt->setInt(i+1, linksID[i]);
-  }
-
   std::vector<std::string> links;
 
-  std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
-  
-  while(resQuery->next()){ 
-    links.push_back(resQuery->getString("Address"));
+  try{
+    std::string query = " SELECT Address FROM Link WHERE ID = ? ";
+
+    size_t size = linksID.size() -1;
+    for(size_t i = 0; i< size; ++i){
+      query.append("OR ID = ? ");
+    }
+
+    Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+    
+    for(size_t i = 0; i < linksID.size(); ++i){
+      stmt->setInt(i+1, linksID[i]);
+    }
+
+    std::unique_ptr<sql::ResultSet> resQuery(stmt->executeQuery());
+    
+    while(resQuery->next()){ 
+      links.push_back(resQuery->getString("Address"));
+    }
+  } catch(const sql::SQLException& e){
+    std::cout << "MysqlLinksData::getLink: " << e.what() << '\n';   
   }
-     
+
   return links;
 }

@@ -1,7 +1,7 @@
 #include "gumbo.h"
 #include <ostream>
 #include <regex>
-
+ 
 #include "parser_html.hpp"
 #include "configuration.hpp"
 #include "string_split.hpp"
@@ -14,25 +14,6 @@ ParserHtml::ParserHtml(const std::string& html , LinksMaintenance& algorithem)
 , m_linksMaintenance_algorithem(algorithem)
 {}
 
-// std::pair<std::vector<std::string>, WordsMap> ParserHtml::result_parser(const std::string& url)
-// {
-//     std::vector<std::string> links = get_links();
-//     links_handling(url,links ,Config::getBounded());
-//     std::string words = get_text();
-    
-//     StringSplit spliter(words);
-//     WordsMap textMap = spliter.parser();
-
-//     std::pair<std::vector<std::string>, WordsMap> result = {links, textMap};
-
-//     return result;
-// }
-
-// ParserHtml::ParserHtml(const std::string& html , LinksMaintenance& algorithem)
-// : m_html(html)
-// , m_linksMaintenance_algorithem(algorithem)
-// {}
-
 std::pair<std::unordered_map<std::string, int>, WordsMap> ParserHtml::result_parser(const std::string& url)
 {
     std::vector<std::string> links = get_links();
@@ -41,13 +22,14 @@ std::pair<std::unordered_map<std::string, int>, WordsMap> ParserHtml::result_par
     
     StringSplit spliter(words);
     WordsMap textMap = spliter.parser();
-
+     
     std::unordered_map<std::string, int> linksMap = convertToMap(links);
 
     std::pair<WordsMap, WordsMap> result = {linksMap, textMap};
 
     return result;
 }
+
 std::string ParserHtml::cleantext(GumboNode* node)const
 {
     if (node->type == GUMBO_NODE_TEXT){

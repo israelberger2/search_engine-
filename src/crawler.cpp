@@ -170,7 +170,7 @@ void Crawler::process_link()
     if(!status){
       break;
     }
-
+    
     std::string html;
     try{
       html = extract_html(current_url);
