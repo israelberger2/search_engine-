@@ -9,33 +9,36 @@
 db::MysqlLinksData::MysqlLinksData()
 {}
 
-int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
-{  
-  std::string query = "INSERT INTO Link (Address) SELECT ? WHERE NOT EXISTS (SELECT * FROM Link WHERE Address = ?)";
+int db::MysqlLinksData::insertAndGetLinkID(const std::string &link)const
+{ 
+  int idLink;
 
-  Connector connector{};
-  std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+  try{ 
+    std::string query = "INSERT INTO Link (Address) SELECT ? WHERE NOT EXISTS (SELECT * FROM Link WHERE Address = ?)";
 
-  stmt->setString(1, link);
-  stmt->setString(2, link);
-  
-  try{
+    Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+
+    stmt->setString(1, link);
+    stmt->setString(2, link);
     stmt->execute();
+    
+    std::string idQuery = "SELECT ID FROM Link WHERE Address = ? ";
+
+    Connector resConnector{};
+    std::unique_ptr<sql::PreparedStatement> resQuery = resConnector.get_conector(idQuery);
+    resQuery->setString(1, link);
+  
+    std::unique_ptr<sql::ResultSet> linkResultes(resQuery->executeQuery());
+    
+    if(linkResultes->next()){
+      idLink = linkResultes->getInt(1);
+    }
+
+  // } catch(const sql::SQLException& e){
+  //   std::clog << "error from the MysqlLinksData::insertAndGetLinkID: " << e.what() << "\n";
   } catch(const sql::SQLException& error){
     throw se::InValidLink("SQLerror::invalidLink");
-  }
-
-  std::string idQuery = "SELECT ID FROM Link WHERE Address = ? ";
-
-  Connector resConnector{};
-  std::unique_ptr<sql::PreparedStatement> resQuery = resConnector.get_conector(idQuery);
-  resQuery->setString(1, link);
- 
-  std::unique_ptr<sql::ResultSet> linkResultes(resQuery->executeQuery());
-  int idLink;
-  
-  if(linkResultes->next()){
-    idLink = linkResultes->getInt(1);
   }
 
   return idLink;
@@ -59,7 +62,7 @@ std::string db::MysqlLinksData::getLink(int id)const
       link = resQuery->getString(1);
     }
   } catch(const sql::SQLException& e){
-    std::cout << "MysqlLinksData::getLink: " << e.what() << '\n';   
+    std::cout << "error from the MysqlLinksData::getLink: " << e.what() << '\n';   
   }
 
   return link;
@@ -90,7 +93,7 @@ std::vector<std::string> db::MysqlLinksData::getLink(std::vector<int> linksID)co
       links.push_back(resQuery->getString("Address"));
     }
   } catch(const sql::SQLException& e){
-    std::cout << "MysqlLinksData::getLink: " << e.what() << '\n';   
+    std::cout << "error from MysqlLinksData::getLink: " << e.what() << '\n';   
   }
 
   return links;

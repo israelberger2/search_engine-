@@ -43,7 +43,7 @@ std::vector<db::WordsInstance> db::MysqlSearcher::search(const Links& positiveWo
 
     return result;
   } catch(const sql::SQLException& e){
-    std::cout << "searcher: " << e.what() << '\n';
+    std::clog << "searcher: " << e.what() << '\n';
   }
   return std::vector<WordsInstance>{};
 }

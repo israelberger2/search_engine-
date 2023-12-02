@@ -3,8 +3,7 @@
 
 #include <unordered_map>
 #include <utility>
-#include <mutex>
-
+ 
 #include "graph_data.hpp"
  
 
@@ -24,7 +23,6 @@ public:
     Graph linkRelationships()const override; 
     
 private:
-    mutable std::mutex m_mtx;
     std::vector<int> linkRelated(int linkID)const; 
     std::pair<std::string, std::vector<std::string>> relatedLinksfromOneLink(int linkID)const;
 };

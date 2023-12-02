@@ -42,7 +42,7 @@ int db::MysqlWordData::insertAndGetID(const std::string &word)const
       wordId = res->getInt(1);
     }
   } catch(const sql::SQLException& e){
-    std::cout << "word_data: " << e.what() << '\n';
+    throw se::MysqlWordDataException("error from the MysqlWordData::insertAndGetID: " + std::string(e.what()) );
   }
 
   return wordId;
@@ -51,7 +51,7 @@ int db::MysqlWordData::insertAndGetID(const std::string &word)const
 std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& queries)const
 {
   std::vector<int> result;
-
+  
   try{
     if(queries.empty()){    
       return std::vector<int>{};
@@ -73,12 +73,13 @@ std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& q
     }
     
     std::unique_ptr<sql::ResultSet> linkResultes(stmt->executeQuery());
+    
 
     while(linkResultes->next()){
       result.push_back(linkResultes->getInt("id"));
     }
   } catch(const sql::SQLException& e){
-    std::cout << "word_data: " << e.what() << '\n';
+    throw se::MysqlWordDataException("error from the MysqlWordData::getWordsID: " + std::string(e.what()) );
   }
 
   return result;

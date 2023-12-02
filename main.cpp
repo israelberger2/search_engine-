@@ -1,11 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <memory>
-#include <map>
-#include <vector>
-#include <unordered_map>
-#include <string>
-
 
 #include "search_engine.hpp"
 #include "indexer.hpp"
@@ -14,35 +9,25 @@
 #include "net_client.hpp"
 #include "se_exceptions.hpp"
 #include "text_client.hpp"
-#include "links_map.hpp"
-#include "configuration.hpp"
 #include "publisher.hpp"
 #include "pageRank.hpp"
 #include "pr_sorter.hpp"
-#include "safe_scores_map.hpp"
 #include "links_rank_manager.hpp"
 #include "regular_sorter.hpp"
-#include "link.hpp"
 #include "mysql_links_data.hpp"
 #include "mysql_graph_data.hpp"
-#include "mysql_word_data.hpp"
-#include "mysql_word_links.hpp"
  
-#include "mysql_searcher.hpp"
-#include "mysql_word_data.hpp"
-#include "mysql_searcher.hpp"
 #include "mysql_searcher.hpp"
 #include "mysql_links_rank_manager.hpp"
 #include "pr_sorter.hpp"
 #include "safe_limit_counter.hpp"
 #include <thread>
+#include "configuration.hpp"
 
-// ...........................
 using namespace se;
   
 int main(int argc, char* argv[]) 
 { 
-  LinksMap links{}; 
   Indexer indexer{};
   SafeScoresPointer scores{};
   db::MysqlLinksRankManager rankManager(scores);
@@ -64,7 +49,6 @@ int main(int argc, char* argv[])
         client = std::make_unique<TextClient>();
       }
 
-    // RegularSorter sorter{};
     PrSorted sorter(scores);
     std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
 
