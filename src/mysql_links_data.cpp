@@ -9,7 +9,7 @@
 db::MysqlLinksData::MysqlLinksData()
 {}
 
-int db::MysqlLinksData::insertAndGetLinkID(const std::string &link)const
+int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
 { 
   int idLink;
 
@@ -21,8 +21,13 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link)const
 
     stmt->setString(1, link);
     stmt->setString(2, link);
-    stmt->execute();
     
+    try{
+      stmt->execute();
+    } catch(const sql::SQLException& error){
+      throw se::InValidLink("SQLerror::invalidLink");
+    }
+
     std::string idQuery = "SELECT ID FROM Link WHERE Address = ? ";
 
     Connector resConnector{};
@@ -35,12 +40,9 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link)const
       idLink = linkResultes->getInt(1);
     }
 
-  // } catch(const sql::SQLException& e){
-  //   std::clog << "error from the MysqlLinksData::insertAndGetLinkID: " << e.what() << "\n";
-  } catch(const sql::SQLException& error){
-    throw se::InValidLink("SQLerror::invalidLink");
+  } catch(const sql::SQLException& e){
+    throw(se::MysqlLinksDataExeption("error from the MysqlLinksData::insertAndGetLinkID: " + std::string(e.what())));
   }
-
   return idLink;
 }
 
@@ -62,7 +64,7 @@ std::string db::MysqlLinksData::getLink(int id)const
       link = resQuery->getString(1);
     }
   } catch(const sql::SQLException& e){
-    std::cout << "error from the MysqlLinksData::getLink: " << e.what() << '\n';   
+    throw(se::MysqlLinksDataExeption("error from the MysqlLinksData::getLink: " + std::string(e.what())));
   }
 
   return link;
@@ -93,7 +95,7 @@ std::vector<std::string> db::MysqlLinksData::getLink(std::vector<int> linksID)co
       links.push_back(resQuery->getString("Address"));
     }
   } catch(const sql::SQLException& e){
-    std::cout << "error from MysqlLinksData::getLink: " << e.what() << '\n';   
+    throw(se::MysqlLinksDataExeption("error from the MysqlLinksData::getLink: " + std::string(e.what())));
   }
 
   return links;

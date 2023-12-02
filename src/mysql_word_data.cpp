@@ -1,8 +1,7 @@
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <memory>
-#include <iostream>
-
+ 
 #include "mysql_word_data.hpp"
 #include "connector.hpp"
 #include "se_exceptions.hpp"

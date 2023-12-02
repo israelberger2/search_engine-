@@ -29,5 +29,6 @@ class InValidWord : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
 class MysqlWordDataException : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
+class MysqlLinksDataExeption : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 }
 #endif
