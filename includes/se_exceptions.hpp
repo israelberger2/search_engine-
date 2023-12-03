@@ -23,12 +23,14 @@ class DataError : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
 class OpenFileError : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
-class InValidLink : public BaseExcaption {using BaseExcaption::BaseExcaption;};
-
-class InValidWord : public BaseExcaption {using BaseExcaption::BaseExcaption;};
-
 class MysqlWordDataException : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
+class InValidWord : public MysqlWordDataException {using MysqlWordDataException::MysqlWordDataException;};
+
 class MysqlLinksDataExeption : public BaseExcaption {using BaseExcaption::BaseExcaption;};
+
+class InValidLink : public MysqlLinksDataExeption {using MysqlLinksDataExeption::MysqlLinksDataExeption;};
+
+class NoGraph : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 }
 #endif

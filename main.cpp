@@ -23,6 +23,8 @@
 #include "safe_limit_counter.hpp"
 #include <thread>
 #include "configuration.hpp"
+#include "se_exceptions.hpp"
+
 
 using namespace se;
   

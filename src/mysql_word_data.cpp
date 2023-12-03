@@ -1,7 +1,8 @@
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <memory>
- 
+#include <iostream>
+
 #include "mysql_word_data.hpp"
 #include "connector.hpp"
 #include "se_exceptions.hpp"
@@ -41,7 +42,7 @@ int db::MysqlWordData::insertAndGetID(const std::string &word)const
       wordId = res->getInt(1);
     }
   } catch(const sql::SQLException& e){
-    throw se::MysqlWordDataException("error from the MysqlWordData::insertAndGetID: " + std::string(e.what()) );
+    throw se::MysqlWordDataException("error from the MysqlWordData::getWordsID: " + std::string(e.what()) );
   }
 
   return wordId;

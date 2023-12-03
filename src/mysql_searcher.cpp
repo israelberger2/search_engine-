@@ -14,15 +14,16 @@ db::MysqlSearcher::MysqlSearcher()
 
 std::vector<db::WordsInstance> db::MysqlSearcher::search(const Links& positiveWords, const Links& negativeWords)const
 {
+  std::vector<std::pair<std::string, int>> result;
+
   try{
     if(positiveWords.empty()){
       return std::vector<WordsInstance>{};
     }
 
     Links links = m_wordLinks.getLinksForWord(positiveWords[0]);
-
     std::vector<int> wordsID = m_wordData.getWordsID(positiveWords);
-
+    
     if(links.empty() || wordsID.size() < positiveWords.size()){
       return std::vector<WordsInstance>{};
     }
@@ -39,13 +40,12 @@ std::vector<db::WordsInstance> db::MysqlSearcher::search(const Links& positiveWo
 
     std::vector<int> negativewordsID = m_wordData.getWordsID(negativeWords);
 
-    std::vector<std::pair<std::string, int>> result = checkNegativeWords(negativewordsID, IntermediateResult);
-
-    return result;
+    result = checkNegativeWords(negativewordsID, IntermediateResult); 
   } catch(const sql::SQLException& e){
     std::clog << "searcher: " << e.what() << '\n';
   }
-  return std::vector<WordsInstance>{};
+
+  return result;
 }
 
 std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<int>& wordsID, const std::string& url)const
@@ -53,7 +53,6 @@ std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<
   std::string query  = "SELECT COUNT(WordLink.LinkID), SUM(WordLink.Count) FROM Link JOIN WordLink ON"
   " Link.ID = WordLink.LinkID WHERE Link.Address = ? and (WordLink.WordID = ? ";
   
-  std::string appendString;
   for(size_t i = 1; i < wordsID.size(); ++i){        
     std::string appendString = " OR WordLink.WordID = ?";
     query.append(appendString);
@@ -67,14 +66,19 @@ std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<
   for(size_t i = 0; i < wordsID.size(); ++i){
     stmt->setInt(i+2, wordsID[i]);
   }
-   
-  std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
 
   int count = 0;
-  int sum;
-  while(result->next()){        
-    count = result->getInt(1);
-    sum = result->getInt(2);
+  int sum = 0;
+
+  try{
+    std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
+  
+    while(result->next()){        
+      count = result->getInt(1);
+      sum = result->getInt(2);
+    }
+  }catch(const sql::SQLException& e){
+    std::clog << "error from MysqlSearcher::sumAndCountOfwordInLink: " << e.what() << '\n';
   }
 
   return std::pair<int,int>{count,sum};

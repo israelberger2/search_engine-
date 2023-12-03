@@ -1,6 +1,7 @@
 #include "updater.hpp"
 #include "configuration.hpp"
- 
+#include <iostream>
+
   
 se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& words)
 : m_buffer()
@@ -26,6 +27,7 @@ void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
         for(auto key : keys){    
             m_graphData.insert(tempBuffer[key].first, key);
         }        
+        std::cout << "graph" << '\n';
         
         std::unique_lock<std::shared_mutex> notLocker(m_notMtx);
 
@@ -34,7 +36,9 @@ void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
          
         for(auto key : keys){  
             m_wordsData.insert(tempBuffer[key].second, key);
-        }        
+        }  
+        std::cout << "word" << '\n';
+              
     }    
 }
 

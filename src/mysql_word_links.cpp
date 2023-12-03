@@ -1,3 +1,4 @@
+
 #include <cppconn/prepared_statement.h>
 #include <memory>
 #include <iostream>
@@ -18,7 +19,8 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
 
     try{
         linkID = linksData.insertAndGetLinkID(link);
-    } catch(const se::InValidLink& error){
+    } catch(const se::MysqlLinksDataExeption& e){
+        std::clog << "error from the MysqlWordLinks::insert: " << e.what() << "\n";
         return;
     }  
 
@@ -27,22 +29,22 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
         int wordID;
         try{
             wordID = wordData.insertAndGetID(word.first);
-        } catch(const se::InValidWord& error){
-            std::clog << "MysqlWordLinks::insert: " << error.what() << '\n';
+        } catch(const se::MysqlWordDataException& e){
+            std::clog << "error from the MysqlWordLinks::insert: " << e.what() << '\n';
             continue;
         }  
 
-        while(true){
-            try{
-                std::string query = "INSERT IGNORE INTO WordLink (WordID, LinkID, Count) VALUES (?, ?, ?)";
+        std::string query = "INSERT IGNORE INTO WordLink (WordID, LinkID, Count) VALUES (?, ?, ?)";
 
-                Connector connector{};
-                std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
-        
-                stmt->setInt(1, wordID);
-                stmt->setInt(2, linkID);
-                stmt->setInt(3, word.second);
-                
+        Connector connector{};
+        std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+
+        stmt->setInt(1, wordID);
+        stmt->setInt(2, linkID);
+        stmt->setInt(3, word.second);
+
+        while(true){           
+            try{    
                 stmt->execute();
                 break;
             } catch(const sql::SQLException& e){
@@ -55,8 +57,6 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
 
 std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& word)const
 {
-    std::vector<std::string> links;
-
     std::string query = "SELECT Link.Address FROM Link \
         JOIN WordLink ON Link.ID = WordLink.LinkID \
         JOIN Word ON WordLink.WordID = Word.ID \
@@ -66,11 +66,16 @@ std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& 
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query); 
 
     stmt->setString(1, word);
-    
-    std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+        
+    std::vector<std::string> links;
 
-    while(res->next()){
-        links.push_back(res->getString(1));
+    try{
+        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+        while(res->next()){
+            links.push_back(res->getString(1));
+        }
+    } catch(const sql::SQLException& e){
+        std::clog << "error from the MysqlWordLinks::getLinksForWord: " << e.what() << '\n';
     }
 
     return links;
@@ -78,8 +83,6 @@ std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& 
 
 std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)const
 {
-    std::vector<int> linksID;
-
     std::string query = " SELECT Link.ID FROM Link \
         JOIN WordLink ON Link.ID = WordLink.LinkID \
         JOIN Word ON WordLink.WordID = Word.ID \
@@ -90,12 +93,18 @@ std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)c
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
     stmt->setString(1, word);
-    
-    std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
 
-    while(res->next()){
-        linksID.push_back(res->getInt("id"));
+    std::vector<int> linksID;
+
+    try{
+        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+
+        while(res->next()){
+            linksID.push_back(res->getInt("id"));
+        }
+    } catch(const sql::SQLException& e){
+        std::clog << "error from the MysqlWordLinks::getIDLinksForWord: " << e.what() << '\n';
     }
-    
+
     return linksID;
 }
