@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "search_engine.hpp"
-#include "indexer.hpp"
 #include "crawler.hpp"
 #include "updater.hpp"
 #include "net_client.hpp"
@@ -30,7 +29,7 @@ using namespace se;
   
 int main(int argc, char* argv[]) 
 { 
-  Indexer indexer{};
+  // Indexer indexer{};
   SafeScoresPointer scores{};
   db::MysqlLinksRankManager rankManager(scores);
 
