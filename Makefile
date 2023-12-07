@@ -9,7 +9,7 @@ CPPFLAGS = -I includes -I src
 LDLIBS = -lgumbo -lcurl -lcurlpp -lmysqlcppconn
 
 
-main : main.o src/parser_html.o src/links_map.o src/crawler.o src/extract_html.o \
+main : main.o src/parser_html.o src/crawler.o src/extract_html.o \
 src/reg_algo_links_maintenance.o src/search_engine.o src/text_client.o  src/communicator.o \
 src/regular_sorter.o src/socket.o src/net_client.o src/publisher.o \
 src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_links_rank_manager.o \
@@ -20,12 +20,11 @@ src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_wo
 
 
  
-main.o : main.cpp includes/crawler.hpp   includes/links_map.hpp\
+main.o : main.cpp includes/crawler.hpp\
 includes/search_engine.hpp includes/text_client.hpp includes/net_client.hpp includes/updater.hpp includes/pageRank.hpp \
 includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp includes/pr_sorter.hpp includes/safe_limit_counter.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/links_maintenance.hpp includes/string_split.hpp
-src/links_map.o : src/links_map.cpp includes/links_map.hpp includes/links_map_insertion.hpp includes/links_map_get.hpp
 src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp  \
 includes/reg_algo_links_maintenance.hpp includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp includes/safe_limit_counter.hpp
 
