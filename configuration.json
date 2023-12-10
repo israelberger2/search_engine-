@@ -6,10 +6,10 @@
   "scans":200,
   "threads":40,
   "lengthResult":5,
-  "linksMountForPagerank": 25,
+  "linksMountForPagerank": 12,
   "ip": "127.0.0.1",
   "port": 8080,
-  "isBounded": true,
+  "StartOfLink": "https://harrypotter.fandom.com",
   "addresses": [
   "https://harrypotter.fandom.com/wiki/Main_Page"
 

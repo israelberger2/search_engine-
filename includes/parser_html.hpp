@@ -8,7 +8,7 @@
 #include <utility>
 #include <unordered_map>
 
-#include "links_maintenance.hpp"
+#include "link_maintenance_manager.hpp"
 
 
 namespace se{
@@ -18,14 +18,13 @@ using WordsMap = std::unordered_map<std::string, int>;
 class ParserHtml
 {
 public:
-    explicit ParserHtml(const std::string& html ,LinksMaintenance& algorithem);
+    explicit ParserHtml(const std::string& html);
     ~ParserHtml() = default;
     ParserHtml(const ParserHtml&) = default;
     ParserHtml& operator= (const ParserHtml&) = default;
 
     std::pair<std::unordered_map<std::string, int>, WordsMap> result_parser(const std::string& url);
-    void links_handling(const std::string& url,std::vector<std::string>& linksList ,bool bounded);
-
+ 
 private:
     std::string cleantext(GumboNode* node)const;
     std::string get_text()const;
@@ -35,7 +34,6 @@ private:
 
 private:
     std::string m_html;
-    LinksMaintenance& m_linksMaintenance_algorithem;
 };
 
 } // namespace se

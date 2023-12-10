@@ -10,7 +10,7 @@ LDLIBS = -lgumbo -lcurl -lcurlpp -lmysqlcppconn
 
 
 main : main.o src/parser_html.o src/crawler.o src/extract_html.o \
-src/reg_algo_links_maintenance.o src/search_engine.o src/text_client.o  src/communicator.o \
+src/link_maintenance_manager.o src/search_engine.o src/text_client.o  src/communicator.o \
 src/regular_sorter.o src/socket.o src/net_client.o src/publisher.o \
 src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_links_rank_manager.o \
 src/pageRank.o src/pr_sorter.o src/string_split.o  src/safe_scores_map.o src/connector.o \
@@ -24,13 +24,12 @@ main.o : main.cpp includes/crawler.hpp\
 includes/search_engine.hpp includes/text_client.hpp includes/net_client.hpp includes/updater.hpp includes/pageRank.hpp \
 includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp includes/pr_sorter.hpp includes/safe_limit_counter.hpp
 
-src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/links_maintenance.hpp includes/string_split.hpp
+src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/string_split.hpp
 src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp  \
-includes/reg_algo_links_maintenance.hpp includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp includes/safe_limit_counter.hpp
+includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp includes/safe_limit_counter.hpp
 
 src/extract_html.o : src/extract_html.cpp includes/extract_html.hpp includes/se_exceptions.hpp
-src/reg_algo_links_maintenance.o : src/reg_algo_links_maintenance.cpp includes/reg_algo_links_maintenance.hpp \
-includes/links_maintenance.hpp
+src/link_maintenance_manager.o : src/link_maintenance_manager.cpp includes/link_maintenance_manager.hpp 
 
 src/search_engine.o : src/search_engine.cpp includes/search_engine.hpp includes/searcher.hpp 
 src/net_client.o : src/net_client.cpp includes/net_client.hpp includes/client.hpp includes/socket.hpp includes/communicator.hpp includes/se_exceptions.hpp 

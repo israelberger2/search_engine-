@@ -6,7 +6,6 @@
 #include "extract_html.hpp"
 #include "se_exceptions.hpp"
 #include "configuration.hpp"
-#include "reg_algo_links_maintenance.hpp"
 
 
 namespace se{
@@ -68,8 +67,7 @@ void Crawler::process_link()
       continue;
     }
     
-    RegularAlgo_LinksMaintenance algorithm{};
-    ParserHtml parser(html,algorithm);
+    ParserHtml parser(html);
  
     std::pair<std::unordered_map<std::string, int>, Map> result = 
     parser.result_parser(current_url);

@@ -20,11 +20,11 @@ public:
     static std::string getSqlConnectionString();
     static int getNumScans();
     static size_t getNumThreads();
-    static bool getBounded();
     static std::vector<std::string> getAddresses();
     static size_t getLengthResult();
     static size_t getLinksMountForPagerank();
     static uint16_t getPort();
+    static std::string getStartOfLink();
  
 private:
     static const Config& getInstance(); 
@@ -39,8 +39,8 @@ private:
     std::string m_sql_connectionString;
     int m_numScans;
     size_t m_numThreads;
-    bool m_bounded;
     std::vector<std::string> m_address;
+    std::string m_startOfLink;
     size_t m_lengthResult;
     size_t m_linksMountForPagerank;
     uint16_t m_port;

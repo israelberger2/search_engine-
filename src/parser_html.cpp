@@ -1,5 +1,4 @@
 #include "gumbo.h"
-#include <ostream>
 #include <regex>
  
 #include "parser_html.hpp"
@@ -9,15 +8,17 @@
 
 namespace se{
 
-ParserHtml::ParserHtml(const std::string& html , LinksMaintenance& algorithem)
+ParserHtml::ParserHtml(const std::string& html)
 : m_html(html)
-, m_linksMaintenance_algorithem(algorithem)
 {}
 
 std::pair<std::unordered_map<std::string, int>, WordsMap> ParserHtml::result_parser(const std::string& url)
 {
     std::vector<std::string> links = get_links();
-    links_handling(url,links ,Config::getBounded());
+
+    LinkMaintenanceManager linksManager(links);
+    linksManager.handle(url);
+
     std::string words = get_text();
     
     StringSplit spliter(words);
@@ -79,16 +80,6 @@ std::vector<std::string> ParserHtml::get_links()
     }
 
     return links;
-}
-
-void ParserHtml::links_handling(const std::string& url,std::vector<std::string>& linksList ,bool bounded)
-{
-  m_linksMaintenance_algorithem.setListLinks(linksList);
-  m_linksMaintenance_algorithem.fixLinks(url);
-  if(bounded){
-    std::string website_adrress = url.substr(0,36);
-    m_linksMaintenance_algorithem.remove_Unbounded_links(website_adrress);
-  }
 }
 
 std::unordered_map<std::string, int> ParserHtml::convertToMap(const std::vector<std::string>& links)const

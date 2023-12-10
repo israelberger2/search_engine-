@@ -29,7 +29,7 @@ void Config::fill_dataMembers(std::ifstream& stream)
     m_sql_connectionString = js["sql_connectionString"];
     m_numScans = js["scans"];
     m_numThreads = js["threads"];
-    m_bounded = js["isBounded"];
+    m_startOfLink = js["StartOfLink"];
     m_address = js["addresses"];
     m_lengthResult = js["lengthResult"];
     m_linksMountForPagerank = js["linksMountForPagerank"];    
@@ -76,12 +76,7 @@ size_t Config::getNumThreads()
 {
     return Config::getInstance().m_numThreads;
 }
-
-bool Config::getBounded()
-{
-    return Config::getInstance().m_bounded;
-}
-
+ 
 std::vector<std::string> Config::getAddresses()
 {
     return Config::getInstance().m_address;
@@ -95,6 +90,11 @@ size_t Config::getLinksMountForPagerank()
 uint16_t Config::getPort()
 {
     return Config::getInstance().m_port;
+}
+
+std::string Config::getStartOfLink()
+{
+    return Config::getInstance().m_startOfLink;
 }
 
 } // namespace se
