@@ -23,6 +23,8 @@
 #include <thread>
 #include "configuration.hpp"
 #include "se_exceptions.hpp"
+#include "safe_scan.hpp"
+#include "dfs.hpp"
 
 
 using namespace se;

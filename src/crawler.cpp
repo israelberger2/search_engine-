@@ -6,6 +6,7 @@
 #include "extract_html.hpp"
 #include "se_exceptions.hpp"
 #include "configuration.hpp"
+#include <iostream>
 
 
 namespace se{
@@ -24,7 +25,7 @@ void Crawler::insert_src_url()
   std::vector<std::string> urls = Config::getAddresses();
 
   for(const auto& url : urls){
-    m_unvisited_links.enqueue(url);
+    m_unvisited_links.add(url);
     m_unique_links.insert(url);
   }
 }
@@ -44,14 +45,16 @@ void Crawler::close()
 void Crawler::process_link()
 {
   std::string current_url;
-  while(true){            
+  int x = 0;
+  while(true){  
+    std::clog << ++x << '\n';
+              
     if(! m_limitScans.CheckLimitAndIncrement()){ 
-      m_unvisited_links.setStatus();
-      m_unvisited_links.notify();
+      m_unvisited_links.stop();
       break;
     }
     
-    bool status = m_unvisited_links.dequeue(current_url, [](size_t sleepingThreads){
+    bool status = m_unvisited_links.get(current_url, [](size_t sleepingThreads){
       return Config::getNumThreads() < sleepingThreads;
     });
 
@@ -92,7 +95,7 @@ void Crawler::fill_queue(const std::unordered_map<std::string, int>& result_link
 {
   for(auto& link : result_links){
     if(m_unique_links.insert(link.first) && !link.first.empty()){
-      m_unvisited_links.enqueue(link.first);
+      m_unvisited_links.add(link.first);
     }
   }
 }

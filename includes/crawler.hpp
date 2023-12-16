@@ -6,7 +6,7 @@
 #include <functional>
 
 #include "threads.hpp"
-#include "safe_queue.hpp"
+#include "bfs.hpp"
 #include "safe_unordered_set.hpp"
 #include "updater.hpp"
 #include "safe_limit_counter.hpp"
@@ -34,7 +34,7 @@ private:
   
 private:
     Updater& m_inserter;
-    SafeQueue<std::string> m_unvisited_links;
+    Bfs<std::string> m_unvisited_links;
     SafeUnorderedSet<std::string> m_unique_links;
     Threads m_threads;
     SafeLimitCounter m_limitScans;
