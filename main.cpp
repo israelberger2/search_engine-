@@ -29,7 +29,6 @@ using namespace se;
   
 int main(int argc, char* argv[]) 
 { 
-  // Indexer indexer{};
   SafeScoresPointer scores{};
   db::MysqlLinksRankManager rankManager(scores);
 
