@@ -4,12 +4,14 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <memory>
 
 #include "threads.hpp"
 #include "bfs.hpp"
 #include "safe_unordered_set.hpp"
 #include "updater.hpp"
 #include "safe_limit_counter.hpp"
+#include "safe_scan.hpp"
 
 
 namespace se{
@@ -17,7 +19,7 @@ namespace se{
 class Crawler
 {
 public:
-    explicit Crawler(Updater& updater);
+    explicit Crawler(Updater& updater, std::shared_ptr<SafeScan<std::string>> scaner);
     ~Crawler() = default;
     Crawler(const Crawler&) = delete;
     Crawler& operator= (const Crawler&) = delete;
@@ -34,7 +36,7 @@ private:
   
 private:
     Updater& m_inserter;
-    Bfs<std::string> m_unvisited_links;
+    std::shared_ptr<SafeScan<std::string>> m_unvisited_links;
     SafeUnorderedSet<std::string> m_unique_links;
     Threads m_threads;
     SafeLimitCounter m_limitScans;

@@ -4,6 +4,7 @@
   "sql_schema": "DBsearchEngine",
   "sql_connectionString": "tcp://127.0.0.1:3306",
   "scans":11,
+  "scanType": "dfs",
   "threads":4,
   "lengthResult":5,
   "linksMountForPagerank": 5,

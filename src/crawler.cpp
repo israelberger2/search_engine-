@@ -11,9 +11,9 @@
 
 namespace se{
 
-Crawler::Crawler(Updater& updater)
+Crawler::Crawler(Updater& updater, std::shared_ptr<SafeScan<std::string>> scaner)
 : m_inserter(updater)
-, m_unvisited_links()
+, m_unvisited_links(scaner)
 , m_unique_links()
 , m_threads()
 , m_limitScans(Config::getNumScans())
@@ -25,7 +25,7 @@ void Crawler::insert_src_url()
   std::vector<std::string> urls = Config::getAddresses();
 
   for(const auto& url : urls){
-    m_unvisited_links.add(url);
+    m_unvisited_links->add(url);
     m_unique_links.insert(url);
   }
 }
@@ -50,11 +50,11 @@ void Crawler::process_link()
     std::clog << ++x << '\n';
               
     if(! m_limitScans.CheckLimitAndIncrement()){ 
-      m_unvisited_links.stop();
+      m_unvisited_links->stop();
       break;
     }
     
-    bool status = m_unvisited_links.get(current_url, [](size_t sleepingThreads){
+    bool status = m_unvisited_links->get(current_url, [](size_t sleepingThreads){
       return Config::getNumThreads() < sleepingThreads;
     });
 
@@ -88,14 +88,14 @@ void Crawler::process_link()
 
 bool Crawler::queueIsEmpty()const
 {
-  return m_unvisited_links.empty();
+  return m_unvisited_links->empty();
 }
 
 void Crawler::fill_queue(const std::unordered_map<std::string, int>& result_links) 
 {
   for(auto& link : result_links){
     if(m_unique_links.insert(link.first) && !link.first.empty()){
-      m_unvisited_links.add(link.first);
+      m_unvisited_links->add(link.first);
     }
   }
 }

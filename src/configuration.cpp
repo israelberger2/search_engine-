@@ -28,6 +28,7 @@ void Config::fill_dataMembers(std::ifstream& stream)
     m_sql_schema = js["sql_schema"];
     m_sql_connectionString = js["sql_connectionString"];
     m_numScans = js["scans"];
+    m_scanType = js["scanType"];
     m_numThreads = js["threads"];
     m_startOfLink = js["StartOfLink"];
     m_address = js["addresses"];
@@ -65,6 +66,11 @@ std::string Config::getSqlConnectionString()
 int Config::getNumScans()
 {
     return Config::getInstance().m_numScans;
+}
+
+std::string Config::getScanType()
+{
+    return Config::getInstance().m_scanType;
 }
 
 size_t Config::getLengthResult()
