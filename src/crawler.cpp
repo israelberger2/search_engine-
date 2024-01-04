@@ -6,7 +6,6 @@
 #include "extract_html.hpp"
 #include "se_exceptions.hpp"
 #include "configuration.hpp"
-#include <iostream>
 
 
 namespace se{
@@ -16,7 +15,7 @@ Crawler::Crawler(Updater& updater, std::shared_ptr<SafeScan<std::string>> scaner
 , m_unvisited_links(scaner)
 , m_unique_links()
 , m_threads()
-, m_limitScans(Config::getNumScans())
+, m_limitScans(Config::getNumScans() + 1)
 , m_countForFlash(Config::getNumThreads())
 {}
 
@@ -37,7 +36,7 @@ void Crawler::crawl()
 }
 
 void Crawler::close()
-{
+{  
   m_limitScans.jumpToLimit();
   m_threads.makeJoin();
 }
@@ -45,17 +44,14 @@ void Crawler::close()
 void Crawler::process_link()
 {
   std::string current_url;
-  int x = 0;
-  while(true){  
-    std::clog << ++x << '\n';
-              
-    if(! m_limitScans.CheckLimitAndIncrement()){ 
+  while(true){                 
+    if(! m_limitScans.CheckLimitAndIncrement()){       
       m_unvisited_links->stop();
       break;
     }
     
     bool status = m_unvisited_links->get(current_url, [](size_t sleepingThreads){
-      return Config::getNumThreads() < sleepingThreads;
+      return Config::getNumThreads() > sleepingThreads;
     });
 
     if(!status){
@@ -66,7 +62,7 @@ void Crawler::process_link()
     try{
       html = extract_html(current_url);
     } catch (const HtmlExcaption& error){
-      m_limitScans.decrement();
+      m_limitScans.decrement();      
       continue;
     }
     
@@ -76,14 +72,16 @@ void Crawler::process_link()
     parser.result_parser(current_url);
 
     std::unordered_map<std::string, int>& linksList = result.first;
-
+    
     fill_queue(linksList);
     m_inserter.fill(result, current_url);
+    
   }  
    
-  if(! m_countForFlash.CheckLimitAndIncrement()){
+  if(! m_countForFlash.CheckLimitAndIncrement()){    
     m_inserter.bufferFlush();
   }
+  
 }
 
 bool Crawler::queueIsEmpty()const

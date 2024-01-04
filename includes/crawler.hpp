@@ -7,9 +7,8 @@
 #include <memory>
 
 #include "threads.hpp"
-#include "bfs.hpp"
-#include "safe_unordered_set.hpp"
 #include "updater.hpp"
+#include "safe_unordered_set.hpp"
 #include "safe_limit_counter.hpp"
 #include "safe_scan.hpp"
 

@@ -1,56 +1,50 @@
-#include "socket.hpp"
+#include  "json.hpp" 
+
+#include "net_client.hpp"
 #include "se_exceptions.hpp"
-#include "configuration.hpp"
 
 
 namespace se{
 
-Socket::Socket()
-{
-    init();
-    create_socket();
-    int listenStatus = listen(m_fileDiscriptor, 10);
-    if(listenStatus < 0){        
-        throw SocketError("ERROR: the listen function failed");
+using json = nlohmann::json;
+
+NetClient::NetClient()
+: m_socket()
+, m_communicator(nullptr)
+{}
+
+std::vector<std::string> NetClient::load_query()
+{           
+    try{
+        m_communicator =  m_socket.creat_communicator();                
+    } catch (const SocketError& error){        
+        throw SocketError(error.what());
     }
-}
 
-void Socket::init()
-{
-    m_server_addr.sin_family = AF_INET;
-    m_server_addr.sin_port = htons(Config::getPort());
-    m_server_addr.sin_addr.s_addr = INADDR_ANY;
-}
-
-void Socket::create_socket()
-{
-    m_fileDiscriptor = socket(AF_INET, SOCK_STREAM, 0);
+    std::vector<std::string> res;
     
-    if(m_fileDiscriptor < 0){        
-        throw SocketError("ERROR: unsuccessful to create socket and the socket failed");
-    }
-  
-    int bindStatus = bind(m_fileDiscriptor, (struct sockaddr*)&m_server_addr, sizeof(m_server_addr));
-    if (bindStatus < 0){
-        int yes = 1;
-        if (setsockopt(m_fileDiscriptor, SOL_SOCKET, SO_REUSEADDR, (void*)&yes, sizeof(yes)) < 0){
-            throw SocketError("unsuccessful to create socket and the setsockopt function failed");
-        }
+    try{
+        std::string query = m_communicator->receive_data();
+         
+        json js = json::parse(query);
+        res = js.get<std::vector<std::string>>();        
+        return res;   
+    } catch (const json::parse_error& error) {
+        throw DataError(std::string("ERROR: json::runtime_error: " + std::string(error.what())));  
     }
 }
 
-std::shared_ptr<Communicator> Socket::creat_communicator()const
-{
-    struct sockaddr_in client_addr;
-    socklen_t client_addr_size = sizeof(client_addr);
+void NetClient::send_data(const std::vector<std::pair<std::string, int>>& links)const
+{    
+    json j = links;
+    std::string data = j.dump();
+    const char* buffer = data.c_str();
 
-    int client_socket = accept(m_fileDiscriptor, (struct sockaddr*)&client_addr, &client_addr_size);
-    if(client_socket < 0){
-        throw SocketError("ERROR: the accept function is failed");
-    }
-
-    std::shared_ptr<Communicator> communicator = std::make_shared<Communicator>(client_socket);
-    return communicator;
+    try{
+        m_communicator->send_data(buffer, data.length());
+    } catch (const NetworkError& error){
+        throw NetworkError(error.what());
+    }   
 }
 
 } // namespace se

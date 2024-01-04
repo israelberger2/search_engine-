@@ -29,6 +29,7 @@ void Threads::makeJoin()
 void Threads::run_threads(std::function<void()> func)
 {
     size_t numThreads = Config::getNumThreads();
+     
     for(size_t i = 0; i < numThreads; ++i){
         m_threads.emplace_back(func);
     }

@@ -25,19 +25,18 @@ void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
         std::vector<std::string> keys = tempBuffer.getKeys();
 
         for(auto key : keys){    
-            m_graphData.insert(tempBuffer[key].first, key);
+            m_graphData.insert(tempBuffer[key].first, key);            
         }        
         std::cout << "graph" << '\n';
         
         std::unique_lock<std::shared_mutex> notLocker(m_notMtx);
 
         m_publisher.notify();
-        notLocker.unlock();
          
-        for(auto key : keys){  
+        for(auto key : keys){              
             m_wordsData.insert(tempBuffer[key].second, key);
         }  
-        std::cout << "word" << '\n';
+        notLocker.unlock();
               
     }    
 }

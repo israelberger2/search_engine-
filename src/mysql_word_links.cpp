@@ -28,7 +28,11 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
         MysqlWordData wordData{};
         int wordID;
         try{
+            // std::cout << "before get id from word" << '\n';
+            
             wordID = wordData.insertAndGetID(word.first);
+            // std::cout << "after get id from word" << '\n';
+            
         } catch(const se::MysqlWordDataException& e){
             std::clog << "error from the MysqlWordLinks::insert: " << e.what() << '\n';
             continue;
@@ -42,7 +46,8 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
         stmt->setInt(1, wordID);
         stmt->setInt(2, linkID);
         stmt->setInt(3, word.second);
-
+        // std::cout << "before insert to" << '\n';
+        
         while(true){           
             try{    
                 stmt->execute();
@@ -52,6 +57,7 @@ void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)c
                 continue;      
             }
         }
+        // std::cout << "after insert to" << '\n';
     }       
 }
 

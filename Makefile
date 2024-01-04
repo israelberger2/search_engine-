@@ -16,7 +16,7 @@ src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_l
 src/pageRank.o src/pr_sorter.o src/string_split.o src/safe_scores_map.o src/connector.o \
 src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o
 
-	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
+# $(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 
 
  
@@ -50,7 +50,8 @@ src/mysql_searcher.o : src/mysql_searcher.cpp includes/mysql_searcher.hpp includ
 src/mysql_links_rank_manager.o : src/mysql_links_rank_manager.cpp includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp includes/safe_scores_map.hpp includes/mysql_graph_data.hpp
 src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/links_rank_manager.hpp 
 src/threads.o : src/threads.cpp includes/threads.hpp src/configuration.cpp
-src/safe_limit_counter.o : includes/safe_limit_counter.hpp src/safe_limit_counter.cpp 
-
+src/safe_limit_counter.o : src/safe_limit_counter.cpp  includes/safe_limit_counter.hpp
+ 
+ 
 clean:
 	$(RM) *.o ./main src/*.o
