@@ -23,12 +23,17 @@
 #include <thread>
 #include "configuration.hpp"
 #include "se_exceptions.hpp"
-
+#include "safe_scan.hpp"
+#include "dfs.hpp"
+#include "bfs.hpp"
+#include "safe_scan.hpp"
+ 
 
 using namespace se;
   
 int main(int argc, char* argv[]) 
 { 
+ 
   SafeScoresPointer scores{};
   db::MysqlLinksRankManager rankManager(scores);
 
@@ -38,7 +43,11 @@ int main(int argc, char* argv[])
 
   Updater inserter(publisher, graph, wordsLinks);
 
-  Crawler cr(inserter);
+  std::shared_ptr<SafeScan<std::string>> scaner = (Config::getScanType() == "bfs") ?
+    std::shared_ptr<SafeScan<std::string>>(std::make_shared<Bfs<std::string>>()) :
+    std::shared_ptr<SafeScan<std::string>>(std::make_shared<Dfs<std::string>>());
+
+  Crawler cr(inserter, scaner);
   try{
     cr.crawl();
 

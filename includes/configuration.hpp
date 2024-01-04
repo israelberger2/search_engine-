@@ -19,6 +19,7 @@ public:
     static std::string getSqlSchema();
     static std::string getSqlConnectionString();
     static int getNumScans();
+    static std::string getScanType();
     static size_t getNumThreads();
     static std::vector<std::string> getAddresses();
     static size_t getLengthResult();
@@ -38,6 +39,7 @@ private:
     std::string m_sql_schema;
     std::string m_sql_connectionString;
     int m_numScans;
+    std::string m_scanType;
     size_t m_numThreads;
     std::vector<std::string> m_address;
     std::string m_startOfLink;
