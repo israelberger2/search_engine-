@@ -7,6 +7,8 @@
 #include "se_exceptions.hpp"
 #include "configuration.hpp"
 
+#include <iostream>
+#include <thread>
 
 namespace se{
 
@@ -42,9 +44,11 @@ void Crawler::close()
 }
 
 void Crawler::process_link()
-{
+{  
   std::string current_url;
-  while(true){                 
+  while(true){ 
+    // std::cout << "tread id...................: " << std::this_thread::get_id() << '\n';
+                    
     if(! m_limitScans.CheckLimitAndIncrement()){       
       m_unvisited_links->stop();
       break;

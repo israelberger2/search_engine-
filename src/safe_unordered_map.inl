@@ -13,7 +13,7 @@ template <typename Key, typename Value>
 SafeUnorderedMap<Key, Value>::SafeUnorderedMap(SafeUnorderedMap&& other)
 {
     m_map = std::move(other.m_map);
-    // preash....
+    other.m_map.clear();
 }
 
 template <typename Key, typename Value>

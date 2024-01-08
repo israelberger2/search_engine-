@@ -27,43 +27,45 @@
 #include "dfs.hpp"
 #include "bfs.hpp"
 #include "safe_scan.hpp"
- 
+#include "crawler_injector.hpp"
 
 using namespace se;
   
-int main(int argc, char* argv[]) 
-{ 
+int main() 
+{   
+ 
+  Crawler_Injector cr{};
+  auto c = cr.create();
+   
  
   SafeScoresPointer scores{};
-  db::MysqlLinksRankManager rankManager(scores);
+  // db::MysqlLinksRankManager rankManager(scores);
 
-  Publisher publisher(rankManager);
-  db::MysqlGraphData graph{};
-  db::MysqlWordLinks wordsLinks{};
+  // Publisher publisher(rankManager);
+  // db::MysqlGraphData graph{};
+  // db::MysqlWordLinks wordsLinks{};
 
-  Updater inserter(publisher, graph, wordsLinks);
+  // Updater inserter(publisher, graph, wordsLinks);
 
-  std::shared_ptr<SafeScan<std::string>> scaner = (Config::getScanType() == "bfs") ?
-    std::shared_ptr<SafeScan<std::string>>(std::make_shared<Bfs<std::string>>()) :
-    std::shared_ptr<SafeScan<std::string>>(std::make_shared<Dfs<std::string>>());
+  // auto scaner = (Config::getScanType() == "bfs") ?
+  //   std::shared_ptr<SafeScan<std::string>>(std::make_shared<Bfs<std::string>>()) :
+  //   std::shared_ptr<SafeScan<std::string>>(std::make_shared<Dfs<std::string>>());
 
-  Crawler cr(inserter, scaner);
+  // Crawler c(inserter, scaner);
   try{
-    cr.crawl();
+    c->crawl();
 
-    std::unique_ptr<Client> client;
-    if(argc >= 2 &&  !std::strcmp(argv[1], "net")){
-        client = std::make_unique<NetClient>();
-      } else {
-        client = std::make_unique<TextClient>();
-      }
+    auto client = (Config::getClientType() == "net") ? 
+      std::unique_ptr<Client>(std::make_unique<NetClient>()) : 
+      std::unique_ptr<Client>(std::make_unique<TextClient>());
+      
 
-    PrSorted sorter(scores);
-    std::shared_ptr<db::Searcher> mysqlSearcher = std::make_shared<db::MysqlSearcher>();
+    PrSorter sorter(scores);
+    auto mysqlSearcher = std::make_shared<db::MysqlSearcher>();
 
     SearchEngine search(mysqlSearcher, *client, sorter);
     search.run(Config::getLengthResult());
-    cr.close();
+    c->close();
  
   }catch (const SocketError& error){
     std::clog << error.what() << "\n";

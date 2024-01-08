@@ -1,5 +1,5 @@
 #ifndef CRAWLER_HPP
-#define CRAWLER_hpp
+#define CRAWLER_HPP
 
 #include <string>
 #include <vector>

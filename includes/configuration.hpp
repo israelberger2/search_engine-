@@ -22,6 +22,7 @@ public:
     static std::string getScanType();
     static size_t getNumThreads();
     static std::vector<std::string> getAddresses();
+    static std::string getClientType();
     static size_t getLengthResult();
     static size_t getLinksMountForPagerank();
     static uint16_t getPort();
@@ -41,6 +42,7 @@ private:
     int m_numScans;
     std::string m_scanType;
     size_t m_numThreads;
+    std::string m_clientType;
     std::vector<std::string> m_address;
     std::string m_startOfLink;
     size_t m_lengthResult;

@@ -14,7 +14,7 @@ src/link_maintenance_manager.o src/search_engine.o src/text_client.o  src/commun
 src/regular_sorter.o src/socket.o src/net_client.o src/publisher.o \
 src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_links_rank_manager.o \
 src/pageRank.o src/pr_sorter.o src/string_split.o src/safe_scores_map.o src/connector.o \
-src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o
+src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o
 
 # $(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 

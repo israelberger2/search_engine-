@@ -11,13 +11,13 @@
 
 namespace se{
 
-class PrSorted : public Isorter
+class PrSorter : public Isorter
 {
 public:
-    explicit PrSorted(const SafeScoresPointer& score);
-    ~PrSorted() = default;
-    PrSorted(const PrSorted&) = default;
-    PrSorted& operator= (const PrSorted&) = default;
+    explicit PrSorter(const SafeScoresPointer& score);
+    ~PrSorter() = default;
+    PrSorter(const PrSorter&) = default;
+    PrSorter& operator= (const PrSorter&) = default;
 
     void sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const override;
 

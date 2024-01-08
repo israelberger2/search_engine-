@@ -5,11 +5,11 @@
  
 namespace se{
 
-PrSorted::PrSorted(const SafeScoresPointer& score)
+PrSorter::PrSorter(const SafeScoresPointer& score)
 : m_score(score)
 {}
 
-void PrSorted::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
+void PrSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
 {        
     if(linksVector.empty()){
         return;

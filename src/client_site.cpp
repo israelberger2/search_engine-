@@ -22,9 +22,14 @@ void ClientSite::run()const
     std::vector<std::pair<std::string, int>> links;
 
     // try{
+      std::cout << "befor NetworkHandler " << '\n';
+      
       NetworkHandler m_searcher{};
+       std::cout << "befor get links" << '\n';
        
       links = m_searcher.get_links(keywords);
+      std::cout << "after get links" << '\n';
+      
     // } catch(const NetworkError& net){
     //   std::cout << "NetworkErrortttttttttt" << '\n';
       
@@ -32,6 +37,7 @@ void ClientSite::run()const
     // }
     
     try{ 
+
       m_tui.send_data(links);
     } catch(const DataError& jError) {
       continue;
