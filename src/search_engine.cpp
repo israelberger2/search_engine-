@@ -7,7 +7,7 @@
 
 namespace se{
 
-SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& client, std::shared_ptr<Isorter> sorter)
+SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, std::shared_ptr<Client> client, std::shared_ptr<Isorter> sorter)
 : m_searcher(searcher)
 , m_client(client)
 , m_arranger(sorter)
@@ -15,13 +15,10 @@ SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& clien
 
 void SearchEngine::run(size_t length)const
 {
-    std::cout << "run" << '\n';
-
     while (true){
         try{            
-            std::vector<std::string> keywords = m_client.load_query();
-            std::cout << "loop" << '\n';
-            
+            std::vector<std::string> keywords = m_client->load_query();
+             
             std::vector<std::string> positive;
             std::vector<std::string> negative;
             if(! createQueriesVectors(positive, negative, keywords)){                
@@ -37,7 +34,7 @@ void SearchEngine::run(size_t length)const
                 links.resize(length);
             }
              
-            m_client.send_data(links);             
+            m_client->send_data(links);             
         } catch (const SocketError& error){
             throw SocketError(error.what());
         } catch (const DataError& error){

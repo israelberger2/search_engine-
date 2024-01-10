@@ -16,13 +16,16 @@ src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_l
 src/pageRank.o src/pr_sorter.o src/string_split.o src/safe_scores_map.o src/connector.o \
 src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o src/search_engine_injector.o
 
-# $(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
+main.o : main.cpp includes/crawler.hpp includes/se_exceptions.hpp includes/crawler_injector.hpp \
+includes/safe_scores_map.hpp includes/configuration.hpp includes/search_engine.hpp includes/search_engine_injector.hpp
 
 
+src/search_engine_injector.o : src/search_engine_injector.cpp includes/search_engine_injector.hpp includes/safe_scores_map.hpp \
+includes/pr_sorter.hpp includes/regular_sorter.hpp includes/mysql_searcher.hpp includes/configuration.hpp includes/net_client.hpp includes/text_client.hpp
  
-main.o : main.cpp includes/crawler.hpp\
-includes/search_engine.hpp includes/text_client.hpp includes/net_client.hpp includes/updater.hpp includes/pageRank.hpp \
-includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp includes/pr_sorter.hpp includes/safe_limit_counter.hpp includes/search_engine_injector.hpp
+src/crawler_injector.o : src/crawler_injector.cpp includes/crawler_injector.hpp includes/safe_scores_map.hpp includes/crawler.hpp \
+includes/mysql_links_rank_manager.hpp includes/updater.hpp includes/mysql_graph_data.hpp includes/mysql_word_links.hpp \
+includes/configuration.hpp includes/dfs.hpp includes/bfs.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/string_split.hpp
 src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp  \

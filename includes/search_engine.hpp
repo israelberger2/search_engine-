@@ -15,7 +15,7 @@ namespace se{
 class SearchEngine
 {
 public:
-    explicit SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& client, std::shared_ptr<Isorter> sorter);
+    explicit SearchEngine(std::shared_ptr<db::Searcher> searcher, std::shared_ptr<Client> client, std::shared_ptr<Isorter> sorter);
     ~SearchEngine() = default;
     SearchEngine(const SearchEngine&) = delete;
     SearchEngine& operator= (const SearchEngine&) = delete;
@@ -25,7 +25,7 @@ public:
 
 private:
     std::shared_ptr<db::Searcher> m_searcher;
-    Client& m_client;
+    std::shared_ptr<Client> m_client;
     std::shared_ptr<Isorter> m_arranger;
 };
 

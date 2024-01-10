@@ -11,10 +11,10 @@
   "ip": "127.0.0.1",
   "port": 8080,
   "clientType": "local",
+  "sortType": "regularSort",
   "StartOfLink": "https://harrypotter.fandom.com",
   "addresses": [
   "https://harrypotter.fandom.com/wiki/Main_Page"
-
   ]
   
 }

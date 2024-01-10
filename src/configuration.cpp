@@ -32,7 +32,8 @@ void Config::fill_dataMembers(std::ifstream& stream)
     m_numThreads = js["threads"];
     m_startOfLink = js["StartOfLink"];
     m_address = js["addresses"];
-    m_clientType = js["clientType"]; 
+    m_clientType = js["clientType"];
+    m_sortType = js["sortType"]; 
     m_lengthResult = js["lengthResult"];
     m_linksMountForPagerank = js["linksMountForPagerank"];    
     m_port = js["port"];   
@@ -92,6 +93,11 @@ std::vector<std::string> Config::getAddresses()
 std::string Config::getClientType()
 {
     return Config::getInstance().m_clientType;
+}
+
+std::string Config::getSortType()
+{
+    return Config::getInstance().m_sortType;
 }
 
 size_t Config::getLinksMountForPagerank()

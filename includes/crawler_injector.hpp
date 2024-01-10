@@ -20,6 +20,7 @@ public:
     Crawler_Injector& operator= (const Crawler_Injector&) = default;
 
     Crawler create();
+
 private:
     db::MysqlLinksRankManager m_rankManager;
     Publisher m_publisher;
