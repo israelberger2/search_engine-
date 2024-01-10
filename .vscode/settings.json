@@ -74,6 +74,15 @@
         "complex": "cpp",
         "set": "cpp",
         "typeindex": "cpp",
-        "variant": "cpp"
-    }
+        "variant": "cpp",
+        "buffer": "cpp",
+        "executor": "cpp",
+        "internet": "cpp",
+        "io_context": "cpp",
+        "netfwd": "cpp",
+        "socket": "cpp",
+        "timer": "cpp",
+        "future": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

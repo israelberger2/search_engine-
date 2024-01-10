@@ -14,7 +14,7 @@ src/link_maintenance_manager.o src/search_engine.o src/text_client.o  src/commun
 src/regular_sorter.o src/socket.o src/net_client.o src/publisher.o \
 src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_links_rank_manager.o \
 src/pageRank.o src/pr_sorter.o src/string_split.o src/safe_scores_map.o src/connector.o \
-src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o
+src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o src/search_engine_injector.o
 
 # $(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 
@@ -22,7 +22,7 @@ src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_wo
  
 main.o : main.cpp includes/crawler.hpp\
 includes/search_engine.hpp includes/text_client.hpp includes/net_client.hpp includes/updater.hpp includes/pageRank.hpp \
-includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp includes/pr_sorter.hpp includes/safe_limit_counter.hpp
+includes/mysql_links_data.hpp includes/connector.hpp includes/mysql_graph_data.hpp includes/searcher.hpp includes/mysql_links_rank_manager.hpp includes/pr_sorter.hpp includes/safe_limit_counter.hpp includes/search_engine_injector.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/string_split.hpp
 src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp  \

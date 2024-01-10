@@ -5,7 +5,7 @@
   "sql_connectionString": "tcp://127.0.0.1:3306",
   "scans":1000,
   "scanType": "dfs",
-  "threads":20,
+  "threads":3,
   "lengthResult":2,
   "linksMountForPagerank": 4,
   "ip": "127.0.0.1",

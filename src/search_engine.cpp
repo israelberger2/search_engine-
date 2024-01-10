@@ -7,7 +7,7 @@
 
 namespace se{
 
-SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& client, Isorter& sorter)
+SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& client, std::shared_ptr<Isorter> sorter)
 : m_searcher(searcher)
 , m_client(client)
 , m_arranger(sorter)
@@ -15,10 +15,13 @@ SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, Client& clien
 
 void SearchEngine::run(size_t length)const
 {
+    std::cout << "run" << '\n';
+
     while (true){
         try{            
             std::vector<std::string> keywords = m_client.load_query();
-
+            std::cout << "loop" << '\n';
+            
             std::vector<std::string> positive;
             std::vector<std::string> negative;
             if(! createQueriesVectors(positive, negative, keywords)){                
@@ -26,9 +29,9 @@ void SearchEngine::run(size_t length)const
             }
             
             std::vector<std::pair<std::string,int>> links =  m_searcher->search(positive, negative);
-            std::cout << "size: " << links.size() << '\n';
+            std::cout << "sizeee: " << links.size() << '\n';
             
-            m_arranger.sort_links(links , length);            
+            m_arranger->sort_links(links , length);            
             
             if(links.size() > length){
                 links.resize(length);
@@ -41,7 +44,7 @@ void SearchEngine::run(size_t length)const
             std::clog << error.what() << "\n";
         } catch (const NetworkError& error){
             std::cout << error.what() << "\n";
-        } 
+        }
     }
 }
 

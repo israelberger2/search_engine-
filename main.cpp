@@ -28,50 +28,34 @@
 #include "bfs.hpp"
 #include "safe_scan.hpp"
 #include "crawler_injector.hpp"
+#include "search_engine_injector.hpp"
 
 using namespace se;
   
+
 int main() 
-{   
- 
-  Crawler_Injector cr{};
-  auto c = cr.create();
-   
- 
-  SafeScoresPointer scores{};
-  // db::MysqlLinksRankManager rankManager(scores);
-
-  // Publisher publisher(rankManager);
-  // db::MysqlGraphData graph{};
-  // db::MysqlWordLinks wordsLinks{};
-
-  // Updater inserter(publisher, graph, wordsLinks);
-
-  // auto scaner = (Config::getScanType() == "bfs") ?
-  //   std::shared_ptr<SafeScan<std::string>>(std::make_shared<Bfs<std::string>>()) :
-  //   std::shared_ptr<SafeScan<std::string>>(std::make_shared<Dfs<std::string>>());
-
-  // Crawler c(inserter, scaner);
+{    
   try{
-    c->crawl();
-
-    auto client = (Config::getClientType() == "net") ? 
-      std::unique_ptr<Client>(std::make_unique<NetClient>()) : 
-      std::unique_ptr<Client>(std::make_unique<TextClient>());
-      
-
-    PrSorter sorter(scores);
-    auto mysqlSearcher = std::make_shared<db::MysqlSearcher>();
-
-    SearchEngine search(mysqlSearcher, *client, sorter);
-    search.run(Config::getLengthResult());
-    c->close();
+    SafeScoresPointer scores{};
+    Crawler_Injector cr(scores);
+    auto c = cr.create();
+   
+    c.crawl();
+ 
+    SearchEngine_injector searchEngine_injector;
+    auto search = searchEngine_injector.create(scores);
+   std::cout << "befor run" << '\n';
+   
+    search->run(Config::getLengthResult());    
+    c.close();
  
   }catch (const SocketError& error){
     std::clog << error.what() << "\n";
     return 1;
   }catch (const std::out_of_range& error){
     std::cout << error.what() << '\n'; 
+  }catch (const std::exception& ex) {
+    std::cerr << "Exception: " << ex.what() << '\n';
   } catch (...){
     std::clog << "ERROR:: the Program failed" << "\n";
     return 1;
@@ -79,3 +63,57 @@ int main()
   
   return 0; 
 }
+
+
+
+
+
+
+
+// int main() 
+// {    
+//   SafeScoresPointer scores{};
+//   db::MysqlLinksRankManager rankManager(scores);
+//   Publisher publisher(rankManager);
+
+//   db::MysqlGraphData graph{};
+//   db::MysqlWordLinks wordsLinks{};
+
+//   Updater inserter(publisher, graph, wordsLinks);
+
+//   auto scaner = (Config::getScanType() == "bfs") ?
+//     std::shared_ptr<SafeScan<std::string>>(std::make_shared<Bfs<std::string>>()) :
+//     std::shared_ptr<SafeScan<std::string>>(std::make_shared<Dfs<std::string>>());
+
+//   Crawler c(inserter, scaner);
+//   try{
+//     c.crawl();
+
+//     auto client = (Config::getClientType() == "net") ? 
+//       std::unique_ptr<Client>(std::make_unique<NetClient>()) : 
+//       std::unique_ptr<Client>(std::make_unique<TextClient>());
+      
+
+//     auto sorter = std::make_shared<PrSorter>(scores);
+//     auto mysqlSearcher = std::make_shared<db::MysqlSearcher>();
+
+//     SearchEngine search(mysqlSearcher, *client, sorter);
+    
+  
+//     search.run(Config::getLengthResult());
+//     std::cout << "after run" << '\n';
+    
+//     c.close();
+ 
+//   }catch (const SocketError& error){
+//     std::clog << error.what() << "\n";
+//     return 1;
+//   }catch (const std::out_of_range& error){
+//     std::cout << error.what() << '\n'; 
+//   } catch (...){
+//     std::clog << "ERROR:: the Program failed" << "\n";
+//     return 1;
+//   }
+  
+//   return 0; 
+// }

@@ -14,7 +14,7 @@ se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& 
 {}
 
 void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
-{          
+{              
     std::unique_lock<std::shared_mutex> locker(m_mtx);
      
     m_buffer.insert(url, resCrewl);
