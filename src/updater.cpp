@@ -2,6 +2,11 @@
 #include "configuration.hpp"
 #include <iostream>
 #include <thread>
+#include "connector.hpp"
+#include <chrono>
+#include  "json.hpp" 
+
+using json = nlohmann::json;
   
 se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& words)
 : m_buffer()
@@ -14,31 +19,18 @@ se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& 
 {}
 
 void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
-{              
+{  
     std::unique_lock<std::shared_mutex> locker(m_mtx);
      
     m_buffer.insert(url, resCrewl);
     if(m_buffer.size() >= m_mount){        
         SafeUnorderedMap<std::string, std::pair<Map, Map>> tempBuffer(std::move(m_buffer));
         locker.unlock();
-
-        std::vector<std::string> keys = tempBuffer.getKeys();
-
-        for(auto key : keys){    
-            m_graphData.insert(tempBuffer[key].first, key);            
-        }        
-        std::cout << "graph" << '\n';
-        
-        // std::unique_lock<std::shared_mutex> notLocker(m_notMtx);
-
+        insert(tempBuffer);
         m_publisher.notify();
-        // notLocker.unlock();
-         
-        for(auto key : keys){              
-            m_wordsData.insert(tempBuffer[key].second, key);
-        }  
-        std::cout << "wordliks" << '\n';
-            
+        wordinsert(tempBuffer);
+    
+        std::cout << "insert........................." << '\n';
     }    
 }
 
@@ -57,4 +49,68 @@ void se::Updater::bufferFlush()
             m_wordsData.insert(m_buffer[key].second, key);
         }
     }  
+}
+
+
+void se::Updater::insert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)
+{
+    std::vector<std::string> keys = buffer.getKeys();        
+
+    for(auto key : keys){
+        json links_array;
+        for(auto& pair : buffer[key].first){
+            json entry = {
+                {"address", pair.first},
+                {"count", pair.second}
+            };
+            links_array.push_back(entry);
+        }
+
+        std::string json_links = links_array.dump();
+    
+        std::string query = "CALL search_engine.insertLinks(?, ?)";
+
+        db::Connector connector{};
+        auto stmt = connector.get_conector(query);
+
+        stmt->setString(1, key);
+        stmt->setString(2, json_links);
+        try{
+            stmt->execute();
+        } catch(const sql::SQLException& error){
+            std::cout << "SQL Error Code: " << error.getErrorCode() <<  "SQL State: " << error.getSQLState() <<  "Error Message: " << error.what() << std::endl;
+        }
+        
+    } 
+}
+
+void se::Updater::wordinsert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)
+{
+    std::vector<std::string> keys = buffer.getKeys();        
+
+    for(auto key : keys){  
+        json words_array;
+        for(auto& pair : buffer[key].second){
+                
+                json entry = {
+                {"word", pair.first},
+                {"count", pair.second}
+            };
+            words_array.push_back(entry);
+        }
+        
+        std::string json_data = words_array.dump(); 
+        std::string query = "CALL search_engine.wordLinkInsert(?, ?)";
+        db::Connector connector{};
+        std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+
+        stmt->setString(1, key);
+        stmt->setString(2, json_data);
+
+        try {
+            stmt->execute();
+        } catch (const sql::SQLException& error) {
+            std::cout << "error::" << error.what() << '\n';           
+        }
+    }                         
 }

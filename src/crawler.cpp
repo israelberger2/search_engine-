@@ -46,9 +46,7 @@ void Crawler::close()
 void Crawler::process_link()
 {  
   std::string current_url;
-  while(true){ 
-    // std::cout << "tread id...................: " << std::this_thread::get_id() << '\n';
-                    
+  while(true){                     
     if(! m_limitScans.CheckLimitAndIncrement()){       
       m_unvisited_links->stop();
       break;
@@ -72,9 +70,11 @@ void Crawler::process_link()
     
     ParserHtml parser(html);
  
-    std::pair<std::unordered_map<std::string, int>, Map> result = 
+    std::pair<Map, Map> result = 
     parser.result_parser(current_url);
-
+    if(result.first.empty() && result.second.empty()){
+      continue;
+    }
     std::unordered_map<std::string, int>& linksList = result.first;
     
     fill_queue(linksList);

@@ -13,7 +13,7 @@
 
 namespace se{
 
-using WordsMap = std::unordered_map<std::string, int>;
+using Map = std::unordered_map<std::string, int>;
 
 class ParserHtml
 {
@@ -23,7 +23,7 @@ public:
     ParserHtml(const ParserHtml&) = default;
     ParserHtml& operator= (const ParserHtml&) = default;
 
-    std::pair<std::unordered_map<std::string, int>, WordsMap> result_parser(const std::string& url);
+    std::pair<Map, Map> result_parser(const std::string& url);
  
 private:
     std::string cleantext(GumboNode* node)const;

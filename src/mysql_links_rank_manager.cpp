@@ -20,11 +20,9 @@ void db::MysqlLinksRankManager::update()
 
         se::PageRank pagerank{graph};
         auto scoreMam = pagerank.getScores();
-        std::cout << "befor pagerank" << '\n';
-        
+            
         m_scoresMap.updateScores(scoreMam);
-        std::cout << "after pagerank" << '\n';
-        
+         
     }catch(const se::NoGraph& e){
         std::clog << e.what() << '\n';
     }

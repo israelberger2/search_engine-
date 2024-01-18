@@ -77,7 +77,7 @@ std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& 
 
     try{
         std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
-        while(res->next()){
+        while(res->next()){         
             links.push_back(res->getString(1));
         }
     } catch(const sql::SQLException& e){

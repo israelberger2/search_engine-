@@ -1,54 +1,54 @@
+#include <map>
 #include <iostream>
+ 
+#include "connector.hpp"
+#include  "json.hpp" 
+  
+using json = nlohmann::json;
 
-class A {
-public:
-    A(int value) : data(value) {
-        // Additional initialization for class A, if needed
-    }
-
-    void print() const {
-        std::cout << "A's data: " << data << std::endl;
-    }
-
-private:
-    int data;
-};
-
-class B {
-public:
-    B(A& aValue) : a(aValue) {
-        // Additional initialization for class B, if needed
-    }
-
-    void print() {
-        std::cout << "B contains:" ;
-        a.print();
-    }
-
-private:
-    A a;
-};
-
-class C {
-public:
-    C(int aValue) : a(aValue) {
-        // Additional initialization for class B, if needed
-    }
-
-    void print() const {
-        std::cout << "c contains:" << std::endl;
-        a.print();
-    }
-
-private:
-    A a;
-};
-
+ 
 int main() {
-    A a(2);
-    B b(a);
-    b.print();
-    C c(4);
-    c.print();
+     std::map<std::string, int> myMap = {
+        {"dddpo", 10},
+        {"rrrrrr", 48}
+        // Add more entries as needed
+    };
+
+    json j_array;
+
+    for (const auto& pair : myMap) {
+        json entry = {
+            {"word", pair.first},
+            {"count", pair.second}
+        };
+        j_array.push_back(entry);
+    }
+ 
+    std::string json_data = j_array.dump();
+    std::cout << json_data << '\n';
+    std::string source_link = "sourse_linksssssss";
+ 
+    std::string query = "CALL search_engine.wordLinkInsert(?, ?)";
+
+    db::Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+
+    stmt->setString(1, source_link);
+    stmt->setString(2, json_data);
+
+    try {
+        stmt->execute();
+        std::cout << "Procedure executed successfully." << std::endl;
+    } catch (const sql::SQLException& error) {
+        std::cout << "Error: " << error.what() << std::endl;
+    }
+    // The rest of your code remains the same...
+
     return 0;
 }
+
+
+
+
+
+ 

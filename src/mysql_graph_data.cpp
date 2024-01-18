@@ -10,7 +10,7 @@ db::MysqlGraphData::MysqlGraphData()
 {}
 
 void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)const
-{
+{    
     MysqlLinksData sqlLinks{};
     int srcID;
 

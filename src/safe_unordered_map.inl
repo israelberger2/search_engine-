@@ -26,7 +26,7 @@ bool SafeUnorderedMap<Key, Value>::is_here(const Key &key) const
 }
 
 template <typename Key, typename Value>
-Value SafeUnorderedMap<Key, Value>::get_dada(const Key& key)const
+Value SafeUnorderedMap<Key, Value>::get_element(const Key& key)const
 {
     std::shared_lock<std::shared_mutex> lock(m_mutex);
     
@@ -44,6 +44,7 @@ size_t SafeUnorderedMap<Key, Value>::size()const
 template <typename Key, typename Value>
 Value SafeUnorderedMap<Key, Value>::operator[](const Key& key)
 {
+    std::shared_lock<std::shared_mutex> locker(m_mutex);
     return m_map[key];
 }
 
@@ -70,6 +71,7 @@ void SafeUnorderedMap<Key, Value>::update(std::function<void(Value& v)>& updateK
 template <typename Key, typename Value>
 std::unordered_map<Key, Value> SafeUnorderedMap<Key, Value>::getMap()const
 {
+    std::shared_lock<std::shared_mutex> locker(m_mutex);
     return m_map;
 }
 

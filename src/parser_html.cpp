@@ -12,7 +12,7 @@ ParserHtml::ParserHtml(const std::string& html)
 : m_html(html)
 {}
 
-std::pair<std::unordered_map<std::string, int>, WordsMap> ParserHtml::result_parser(const std::string& url)
+std::pair<Map, Map> ParserHtml::result_parser(const std::string& url)
 {
     std::vector<std::string> links = get_links();
 
@@ -24,9 +24,9 @@ std::pair<std::unordered_map<std::string, int>, WordsMap> ParserHtml::result_par
     StringSplit spliter(words);
     WordsMap textMap = spliter.parser();
      
-    std::unordered_map<std::string, int> linksMap = convertToMap(links);
+    Map linksMap = convertToMap(links);
 
-    std::pair<WordsMap, WordsMap> result = {linksMap, textMap};
+    std::pair<Map, Map> result = {linksMap, textMap};
 
     return result;
 }
