@@ -1,5 +1,5 @@
-#ifndef C_INSERTIONER_HPP
-#define C_INSERTIONER_HPP
+#ifndef UPDATER_HPP
+#define UPDATER_HPP
 
 #include <string>
 #include <unordered_map>

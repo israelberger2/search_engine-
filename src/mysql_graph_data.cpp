@@ -12,7 +12,7 @@ using json = nlohmann::json;
 db::MysqlGraphData::MysqlGraphData()
 {}
 
-void db::MysqlGraphData::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+std::string db::MysqlGraphData::createJsonPages(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
 {
     std::vector<std::string> keys = buffer.getKeys();        
     json alllinksPages;
@@ -34,8 +34,13 @@ void db::MysqlGraphData::insert(se::SafeUnorderedMap<std::string, std::pair<Map,
         };
         alllinksPages.push_back(linksPage);
     }
-    std::string json_pages = alllinksPages.dump();
 
+    return alllinksPages.dump();
+}
+
+void db::MysqlGraphData::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+{
+    std::string json_pages = createJsonPages(buffer);
     std::string query = "CALL search_engine.inserLinksPages(?)";
 
     db::Connector connector{};

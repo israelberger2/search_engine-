@@ -32,12 +32,11 @@ CREATE TABLE search_engine.Graph(
 	FOREIGN KEY (Destination) REFERENCES Link (ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT G_Count CHECK(Count > 0)
-    );
+);
 
  
 
 DELIMITER //
-
 CREATE PROCEDURE search_engine.graphInsert(IN src VARCHAR(5000), IN json_data LONGTEXT)
     BEGIN
         DECLARE src_id INT;
@@ -66,9 +65,7 @@ CREATE PROCEDURE search_engine.graphInsert(IN src VARCHAR(5000), IN json_data LO
 DELIMITER ;
 
 
-
 DELIMITER //
-
 CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(5000), IN json_data LONGTEXT)
     BEGIN
         DECLARE src_id INT;
@@ -92,10 +89,7 @@ CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(5000), IN json_data
             SET i = i + 1;
         END WHILE;
     END //
-
 DELIMITER ;
-
-
 
 
 DELIMITER //
@@ -110,6 +104,25 @@ BEGIN
 		SET json_pages = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].page')));
 			
         CALL search_engine.wordLinkInsert(new_link, json_pages);
+      
+		SET i = i + 1;
+	END WHILE;   
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE search_engine.inserLinksPages(IN json_data LONGTEXT)
+BEGIN
+	DECLARE json_pages LONGTEXT;
+	DECLARE new_link VARCHAR(5000);
+	DECLARE i INT DEFAULT 0;
+     
+	WHILE i < JSON_LENGTH(json_data) DO
+		SET new_link = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].src')));
+		SET json_pages = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].links')));
+			
+        CALL search_engine.graphInsert(new_link, json_pages);
       
 		SET i = i + 1;
 	END WHILE;   

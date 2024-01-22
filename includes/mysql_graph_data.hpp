@@ -27,6 +27,7 @@ public:
 private:
     std::vector<int> linkRelated(int linkID)const; 
     std::pair<std::string, std::vector<std::string>> relatedLinksfromOneLink(int linkID)const;
+    std::string createJsonPages(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const;
 };
  
 } //db

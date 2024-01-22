@@ -14,15 +14,15 @@ using json = nlohmann::json;
 
 db::MysqlWordLinks::MysqlWordLinks()
 {}
- 
-void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+
+std::string db::MysqlWordLinks::createJsonPages(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
 {
     std::vector<std::string> keys = buffer.getKeys();        
     json all_pages;
     for(auto key : keys){  
         json words_array;
         for(auto& pair : buffer[key].second){               
-                json entry = {
+            json entry = {
                 {"word", pair.first},
                 {"count", pair.second}
             };
@@ -33,12 +33,18 @@ void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map,
             {"link", key},
             {"page", words_array}
         };
+
         all_pages.push_back(page);
     }
     
-    std::string json_data = all_pages.dump(); 
+    return all_pages.dump();
+}
 
+void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+{
+    std::string json_data = createJsonPages(buffer);
     std::string query = "CALL search_engine.inserWordsPages(?)";
+
     db::Connector connector{};
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
@@ -47,9 +53,8 @@ void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map,
     try {
         stmt->execute();
     } catch (const sql::SQLException& error) {
-        std::cout << "error::" << error.what() << '\n';           
-    }
-                       
+        std::cerr << "error::" << error.what() << '\n';           
+    }                      
 }
 
 void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
@@ -67,12 +72,8 @@ void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
     for(auto& word : words){
         MysqlWordData wordData{};
         int wordID;
-        try{
-            // std::cout << "before get id from word" << '\n';
-            
-            wordID = wordData.insertAndGetID(word.first);
-            // std::cout << "after get id from word" << '\n';
-            
+        try{            
+            wordID = wordData.insertAndGetID(word.first);            
         } catch(const se::MysqlWordDataException& e){
             std::clog << "error from the MysqlWordLinks::insert: " << e.what() << '\n';
             continue;
@@ -86,8 +87,7 @@ void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
         stmt->setInt(1, wordID);
         stmt->setInt(2, linkID);
         stmt->setInt(3, word.second);
-        // std::cout << "before insert to" << '\n';
-        
+         
         while(true){           
             try{    
                 stmt->execute();
@@ -97,7 +97,6 @@ void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
                 continue;      
             }
         }
-        // std::cout << "after insert to" << '\n';
     }       
 }
 

@@ -1,7 +1,5 @@
 #include "updater.hpp"
 #include "configuration.hpp"
-
-#include <iostream>
     
   
 se::Updater::Updater(Publisher& publisher, db::GraphData& graph, db::WordLinks& words)
