@@ -20,9 +20,7 @@ Threads::~Threads()
 void Threads::makeJoin()
 {
     for(auto& t : m_threads){
-        if(t.joinable()){
-            t.join();
-        }
+        t.join();
     }         
 }
 
