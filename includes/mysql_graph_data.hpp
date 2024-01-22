@@ -5,7 +5,8 @@
 #include <utility>
  
 #include "graph_data.hpp"
- 
+#include "safe_unordered_map.hpp"
+
 
 namespace db{
 
@@ -19,6 +20,7 @@ public:
     MysqlGraphData(const MysqlGraphData&) = delete;
     MysqlGraphData& operator= (const MysqlGraphData&) = delete;
 
+    void insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const;
     void insert(const Map& destinations, const std::string& src)const override;
     Graph linkRelationships()const override; 
     

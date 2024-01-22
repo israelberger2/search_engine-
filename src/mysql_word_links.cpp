@@ -2,17 +2,57 @@
 #include <cppconn/prepared_statement.h>
 #include <memory>
 #include <iostream>
+#include  "json.hpp" 
 
 #include "mysql_word_links.hpp"
 #include "mysql_links_data.hpp"
 #include "mysql_word_data.hpp"
 #include "se_exceptions.hpp"
 
+using json = nlohmann::json;
+  
 
 db::MysqlWordLinks::MysqlWordLinks()
 {}
  
-void db::MysqlWordLinks::insert(const WordsMap& words, const std::string& link)const
+void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+{
+    std::vector<std::string> keys = buffer.getKeys();        
+    json all_pages;
+    for(auto key : keys){  
+        json words_array;
+        for(auto& pair : buffer[key].second){               
+                json entry = {
+                {"word", pair.first},
+                {"count", pair.second}
+            };
+            words_array.push_back(entry);
+        }
+        
+        json page = {
+            {"link", key},
+            {"page", words_array}
+        };
+        all_pages.push_back(page);
+    }
+    
+    std::string json_data = all_pages.dump(); 
+
+    std::string query = "CALL search_engine.inserWordsPages(?)";
+    db::Connector connector{};
+    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
+
+    stmt->setString(1, json_data);
+
+    try {
+        stmt->execute();
+    } catch (const sql::SQLException& error) {
+        std::cout << "error::" << error.what() << '\n';           
+    }
+                       
+}
+
+void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
 {   
     MysqlLinksData linksData{};
     int linkID;

@@ -1,4 +1,5 @@
 #include <cppconn/prepared_statement.h>
+#include  "json.hpp" 
 
 #include "mysql_graph_data.hpp"
 #include "mysql_links_data.hpp"
@@ -6,8 +7,48 @@
 #include "se_exceptions.hpp"
 
 
+using json = nlohmann::json;
+
 db::MysqlGraphData::MysqlGraphData()
 {}
+
+void db::MysqlGraphData::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+{
+    std::vector<std::string> keys = buffer.getKeys();        
+    json alllinksPages;
+
+    for(auto key : keys){
+        json links_array;
+        for(auto& pair : buffer[key].first){
+            json entry = {
+                {"address", pair.first},
+                {"count", pair.second}
+            };
+        
+            links_array.push_back(entry);
+        }
+
+        json linksPage = {
+            {"src", key},
+            {"links", links_array}
+        };
+        alllinksPages.push_back(linksPage);
+    }
+    std::string json_pages = alllinksPages.dump();
+
+    std::string query = "CALL search_engine.inserLinksPages(?)";
+
+    db::Connector connector{};
+    auto stmt = connector.get_conector(query);
+
+    stmt->setString(1, json_pages);
+
+    try{
+        stmt->execute();
+    } catch(const sql::SQLException& error){
+        std::cerr << "SQL Error Code: " << error.getErrorCode() <<  "SQL State: " << error.getSQLState() <<  "Error Message: " << error.what() << '\n';
+    } 
+}
 
 void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)const
 {    

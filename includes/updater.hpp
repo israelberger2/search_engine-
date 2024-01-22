@@ -22,20 +22,15 @@ public:
     ~Updater() = default;
     Updater(const Updater&) = default;
     Updater& operator= (const Updater&) = default;
-    
 
     void fill(std::pair<Map, Map>& resCrewl ,const std::string& url);
     void bufferFlush();
-    void insert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer);
-    // void wordinsert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer);
-
  
 private:
     SafeUnorderedMap<std::string, std::pair<Map, Map>> m_buffer;
     size_t m_mount;
     Publisher& m_publisher;
     std::shared_mutex m_mtx;
-    std::shared_mutex m_notMtx;
     db::GraphData& m_graphData;
     db::WordLinks& m_wordsData;
 };

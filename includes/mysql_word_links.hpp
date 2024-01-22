@@ -7,12 +7,13 @@
 
 #include "word_links.hpp"
 #include "connector.hpp"
+#include "safe_unordered_map.hpp"
 
 
 namespace db
 {
 
-using WordsMap = std::unordered_map<std::string, int>;
+using Map = std::unordered_map<std::string, int>;
 
 class MysqlWordLinks : public WordLinks
 {
@@ -22,7 +23,8 @@ public:
     MysqlWordLinks(const MysqlWordLinks&) = delete;
     MysqlWordLinks& operator= (const MysqlWordLinks&) = delete;
 
-    void insert(const WordsMap& words, const std::string& link)const override;
+    void insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const;
+    void insert(const Map& words, const std::string& link)const override;
     std::vector<std::string> getLinksForWord(const std::string& word)const override;
     std::vector<int> getIDLinksForWord(const std::string& word)const override;
 };
