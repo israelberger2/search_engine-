@@ -6,10 +6,21 @@
   
 using json = nlohmann::json;
 
- 
+ void tes()
+{
+    json j = {
+        {'p' , "okoko"},
+        {2 , 3}
+    };
+
+    std::cout << "1:" << j[2] << "2:" << j[1] << '\n';
+    
+}
+
 int main() {
+    tes();
      std::map<std::string, int> myMap = {
-        {"dddpo", 10},
+        {"dddpo11111111111111111111", 10},
         {"rrrrrr", 48}
         // Add more entries as needed
     };
@@ -24,17 +35,16 @@ int main() {
         j_array.push_back(entry);
     }
  
-    std::string json_data = j_array.dump();
-    std::cout << json_data << '\n';
-    std::string source_link = "sourse_linksssssss";
+    std::string json_data = "....j_array.dump()";
+    // std::cout << json_data << '\n';
+    // std::string source_link = "sourse_linksssssss";
  
-    std::string query = "CALL search_engine.wordLinkInsert(?, ?)";
+    std::string query = "CALL search_engine.prc(?)";
 
     db::Connector connector{};
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
-    stmt->setString(1, source_link);
-    stmt->setString(2, json_data);
+    stmt->setString(1, json_data);
 
     try {
         stmt->execute();

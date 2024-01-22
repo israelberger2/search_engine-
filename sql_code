@@ -8,7 +8,7 @@ CREATE TABLE search_engine.Word(
 
 CREATE TABLE search_engine.Link(
     ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    Address NVARCHAR(1024) UNIQUE NOT NULL,
+    Address NVARCHAR(5000) UNIQUE NOT NULL,
     CONSTRAINT C_Path CHECK(Address <> '')
 );
 
@@ -34,96 +34,60 @@ CREATE TABLE search_engine.Graph(
 	CONSTRAINT G_Count CHECK(Count > 0)
     );
 
--- DELIMITER //
-
--- CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(255), IN json_data LONGTEXT)
---     BEGIN
---         DECLARE src_id INT;
---         DECLARE newWord_id INT;
---         DECLARE newWord VARCHAR(255);
---         DECLARE count_val INT;
---         DECLARE i INT DEFAULT 0;
-
---         SELECT id INTO src_id FROM Link WHERE Address = src;
---         IF src_id IS NULL THEN
---             INSERT INTO Link (Address) VALUES (src);
---             SELECT id INTO src_id FROM Link WHERE Address = src;
---         END IF;
-
---         WHILE i < JSON_LENGTH(json_data) DO
---             SET newWord = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].word')));
---             SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
-
---             SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
---             IF newWord_id IS NULL THEN
---                 INSERT INTO Word (Token) VALUES (newWord);
---                 SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
---             END IF;
-
---             INSERT INTO WordLink (WordID, LinkID, Count) VALUES (newWord_id, src_id, count_val);
-
---             SET i = i + 1;
---         END WHILE;
---     END //
-
--- DELIMITER ;
-
-
--- DELIMITER //
-
--- CREATE PROCEDURE search_engine.insertLinks(IN src VARCHAR(255), IN json_data LONGTEXT)
---     BEGIN
---         DECLARE src_id INT;
---         DECLARE dis_id INT;
---         DECLARE dis_address VARCHAR(255);
---         DECLARE count_val INT;
---         DECLARE i INT DEFAULT 0;
-
---         SELECT ID INTO src_id FROM Link WHERE Address = src;
---         IF src_id IS NULL THEN
---             INSERT INTO Link (Address) VALUES (src);
---             SELECT ID INTO src_id FROM Link WHERE Address = src;
---         END IF;
-
---         WHILE i < JSON_LENGTH(json_data) DO
---             SET dis_address = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].address')));
---             SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
-
---             SELECT ID INTO dis_id FROM Link WHERE Address = dis_address;
---             IF dis_id IS NULL THEN
---                 INSERT INTO Link (Address) VALUES (dis_address);
---                 SELECT ID INTO dis_id FROM Link WHERE Address = dis_address;
---             END IF;
-
---             INSERT INTO Graph (Src, Destination, Count) VALUES (src_id, dis_id, count_val);
-
---             SET i = i + 1;
---         END WHILE;
---     END //
-
--- DELIMITER ;
+ 
 
 DELIMITER //
 
-CREATE PROCEDURE search_engine.insertLinks(IN src VARCHAR(255), IN json_data LONGTEXT)
+CREATE PROCEDURE search_engine.graphInsert(IN src VARCHAR(5000), IN json_data LONGTEXT)
     BEGIN
         DECLARE src_id INT;
         DECLARE dis_id INT;
-        DECLARE dis_address VARCHAR(255);
+        DECLARE dis_address VARCHAR(5000);
         DECLARE count_val INT;
         DECLARE i INT DEFAULT 0;
-        
+    
+    
         INSERT IGNORE INTO Link (Address) VALUES (src);
         SELECT ID INTO src_id FROM Link WHERE Address = src;
- 
+       
         WHILE i < JSON_LENGTH(json_data) DO
             SET dis_address = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].address')));
             SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
-            
+        
             INSERT IGNORE INTO Link (Address) VALUES (dis_address);
             SELECT ID INTO dis_id FROM Link WHERE Address = dis_address;
  
-            INSERT INTO Graph (Src, Destination, Count) VALUES (src_id, dis_id, count_val);
+            INSERT IGNORE INTO Graph (Src, Destination, Count) VALUES (src_id, dis_id, count_val);
+
+            SET i = i + 1;
+        END WHILE; 
+    END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(5000), IN json_data LONGTEXT)
+    BEGIN
+        DECLARE src_id INT;
+        DECLARE newWord_id INT;
+        DECLARE newWord VARCHAR(5000);
+        DECLARE count_val INT;
+        DECLARE i INT DEFAULT 0;
+       
+        INSERT IGNORE INTO Link (Address) VALUES (src);
+        SELECT id INTO src_id FROM Link WHERE Address = src;
+    
+        WHILE i < JSON_LENGTH(json_data) DO
+            SET newWord = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].word')));
+            SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
+
+            INSERT IGNORE INTO Word (Token) VALUES (newWord);
+            SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
+ 
+            INSERT IGNORE INTO WordLink (WordID, LinkID, Count) VALUES (newWord_id, src_id, count_val);
 
             SET i = i + 1;
         END WHILE;
@@ -133,31 +97,17 @@ DELIMITER ;
 
 
 
+
 DELIMITER //
 
-CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(255), IN json_data LONGTEXT)
+CREATE PROCEDURE search_engine.prc(IN json_file LONGTEXT)
+BEGIN
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
     BEGIN
-        DECLARE src_id INT;
-        DECLARE newWord_id INT;
-        DECLARE newWord VARCHAR(255);
-        DECLARE count_val INT;
-        DECLARE i INT DEFAULT 0;
+	END;
 
-        INSERT IGNORE INTO Link (Address) VALUES (src);
-        SELECT id INTO src_id FROM Link WHERE Address = src;
- 
-        WHILE i < JSON_LENGTH(json_data) DO
-            SET newWord = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].word')));
-            SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
+	CALL search_engine.wordLinkInsert('your_src_value', json_file);
 
-            
-            INSERT IGNORE INTO Word (Token) VALUES (newWord);
-            SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
- 
-            INSERT INTO WordLink (WordID, LinkID, Count) VALUES (newWord_id, src_id, count_val);
-
-            SET i = i + 1;
-        END WHILE;
-    END //
+END //
 
 DELIMITER ;
