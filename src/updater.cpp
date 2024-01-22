@@ -126,10 +126,44 @@ void se::Updater::bufferFlush()
 }
 
 
+// void se::Updater::insert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)
+// {
+//     std::vector<std::string> keys = buffer.getKeys();        
+
+//     for(auto key : keys){
+//         json links_array;
+//         for(auto& pair : buffer[key].first){
+//             json entry = {
+//                 {"address", pair.first},
+//                 {"count", pair.second}
+//             };
+//             links_array.push_back(entry);
+//         }
+
+//         std::string json_links = links_array.dump();
+    
+//         std::string query = "CALL search_engine.graphInsert(?, ?)";
+
+//         db::Connector connector{};
+//         auto stmt = connector.get_conector(query);
+
+//         stmt->setString(1, key);
+//         stmt->setString(2, json_links);
+//         try{
+//             stmt->execute();
+//         } catch(const sql::SQLException& error){
+//             std::cout << "SQL Error Code: " << error.getErrorCode() <<  "SQL State: " << error.getSQLState() <<  "Error Message: " << error.what() << std::endl;
+//         }
+        
+//     } 
+// }
+
+
 void se::Updater::insert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)
 {
     std::vector<std::string> keys = buffer.getKeys();        
-
+    json alllinksPages;
+    
     for(auto key : keys){
         json links_array;
         for(auto& pair : buffer[key].first){
@@ -137,23 +171,28 @@ void se::Updater::insert(SafeUnorderedMap<std::string, std::pair<Map, Map>>& buf
                 {"address", pair.first},
                 {"count", pair.second}
             };
+        
             links_array.push_back(entry);
         }
 
-        std::string json_links = links_array.dump();
-    
-        std::string query = "CALL search_engine.graphInsert(?, ?)";
+        json linksPage = {
+            {"src", key},
+            {"links", links_array}
+        };
+        alllinksPages.push_back(linksPage);
+    }
+    std::string json_pages = alllinksPages.dump();
 
-        db::Connector connector{};
-        auto stmt = connector.get_conector(query);
+    std::string query = "CALL search_engine.inserLinksPages(?)";
 
-        stmt->setString(1, key);
-        stmt->setString(2, json_links);
-        try{
-            stmt->execute();
-        } catch(const sql::SQLException& error){
-            std::cout << "SQL Error Code: " << error.getErrorCode() <<  "SQL State: " << error.getSQLState() <<  "Error Message: " << error.what() << std::endl;
-        }
-        
+    db::Connector connector{};
+    auto stmt = connector.get_conector(query);
+
+    stmt->setString(1, json_pages);
+
+    try{
+        stmt->execute();
+    } catch(const sql::SQLException& error){
+        std::cout << "SQL Error Code: " << error.getErrorCode() <<  "SQL State: " << error.getSQLState() <<  "Error Message: " << error.what() << std::endl;
     } 
 }

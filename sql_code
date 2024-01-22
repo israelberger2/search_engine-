@@ -99,15 +99,19 @@ DELIMITER ;
 
 
 DELIMITER //
-
-CREATE PROCEDURE search_engine.prc(IN json_file LONGTEXT)
+CREATE PROCEDURE search_engine.inserWordsPages(IN json_data LONGTEXT)
 BEGIN
-	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-    BEGIN
-	END;
-
-	CALL search_engine.wordLinkInsert('your_src_value', json_file);
-
+	DECLARE json_pages LONGTEXT;
+	DECLARE new_link VARCHAR(5000);
+	DECLARE i INT DEFAULT 0;
+     
+	WHILE i < JSON_LENGTH(json_data) DO
+		SET new_link = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].link')));
+		SET json_pages = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].page')));
+			
+        CALL search_engine.wordLinkInsert(new_link, json_pages);
+      
+		SET i = i + 1;
+	END WHILE;   
 END //
-
 DELIMITER ;
