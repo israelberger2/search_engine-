@@ -1,7 +1,7 @@
-#include  "threads.hpp"
+#include "threads.hpp"
 #include "configuration.hpp"
- 
- 
+  
+
 namespace se{
 
 Threads::Threads()
@@ -13,17 +13,10 @@ Threads::~Threads()
     for(auto& t : m_threads){
         if(t.joinable()){
             t.join();
-        };
-    }         
+        }
+    }
 }
-
-void Threads::makeJoin()
-{
-    for(auto& t : m_threads){
-        t.join();
-    }         
-}
-
+         
 void Threads::run_threads(std::function<void()> func)
 {
     size_t numThreads = Config::getNumThreads();

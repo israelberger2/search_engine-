@@ -32,5 +32,8 @@ class MysqlLinksDataExeption : public BaseExcaption {using BaseExcaption::BaseEx
 class InValidLink : public MysqlLinksDataExeption {using MysqlLinksDataExeption::MysqlLinksDataExeption;};
 
 class NoGraph : public BaseExcaption {using BaseExcaption::BaseExcaption;};
+
+class Exit : public BaseExcaption {using BaseExcaption::BaseExcaption;};
+
 }
 #endif

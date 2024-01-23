@@ -28,7 +28,7 @@ includes/mysql_links_rank_manager.hpp includes/updater.hpp includes/mysql_graph_
 includes/configuration.hpp includes/dfs.hpp includes/bfs.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/string_split.hpp
-src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp  \
+src/crawler.o : src/crawler.cpp includes/crawler.hpp includes/parser_html.hpp includes/extract_html.hpp includes/threads.hpp \
 includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp includes/safe_limit_counter.hpp includes/safe_scan.hpp
 
 src/extract_html.o : src/extract_html.cpp includes/extract_html.hpp includes/se_exceptions.hpp

@@ -24,22 +24,21 @@ public:
     Crawler& operator= (const Crawler&) = delete;
 
     void crawl();
-    void close();
-
+ 
 private:
     void fill_queue(const std::unordered_map<std::string, int>& result_links);
     void process_link();
     bool queueIsEmpty()const;
 
     void insert_src_url();
-  
+ 
 private:
     Updater& m_inserter;
     std::shared_ptr<SafeScan<std::string>> m_unvisited_links;
     SafeUnorderedSet<std::string> m_unique_links;
-    Threads m_threads;
     SafeLimitCounter m_limitScans;
     SafeLimitCounter m_countForFlash;
+    Threads m_threads;
 };
 
 } // namespace se

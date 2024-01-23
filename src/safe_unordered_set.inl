@@ -1,4 +1,4 @@
-
+#include <iostream>
 
 namespace se{
 
@@ -7,6 +7,13 @@ SafeUnorderedSet<T>::SafeUnorderedSet()
 : m_set()
 , m_mutx()
 {}
+
+template <typename T> 
+SafeUnorderedSet<T>::~SafeUnorderedSet()
+{
+    std::cout << "SafeUnorderedSet" << '\n';
+    
+}
 
 template <typename T> 
 bool SafeUnorderedSet<T>::insert(T element)

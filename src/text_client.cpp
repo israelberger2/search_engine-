@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "text_client.hpp"
+#include "se_exceptions.hpp"
 
 
 namespace se{
@@ -18,7 +19,7 @@ std::vector<std::string> TextClient::load_query()
         iss >> query;
  
        if(query == "exit"){
-            exit(-1);
+            throw Exit("");
         }
 
         if(is_valide_input(input)){

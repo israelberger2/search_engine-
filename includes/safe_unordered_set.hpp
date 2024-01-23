@@ -13,7 +13,7 @@ class SafeUnorderedSet
 {
 public:
     SafeUnorderedSet();
-    ~SafeUnorderedSet() = default;
+    ~SafeUnorderedSet();
     SafeUnorderedSet(const SafeUnorderedSet&) = default;
     SafeUnorderedSet& operator= (const SafeUnorderedSet&) = default;
 

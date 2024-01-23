@@ -12,7 +12,7 @@ using namespace se;
   
 
 int main() 
-{    
+{      
   try{
     SafeScoresPointer scores{};
 
@@ -21,17 +21,13 @@ int main()
     crawler.crawl();
 
     auto search_engine = searchEngine_injector(scores);  
-    search_engine.run(Config::getLengthResult());    
-    crawler.close();
-  
+    search_engine.run(Config::getLengthResult());       
     return 0; 
   }catch (const SocketError& error){
     std::clog << error.what() << "\n";
     return 1;
-  }catch (const std::out_of_range& error){
-    std::cout << error.what() << '\n'; 
   } catch (...){
-    std::clog << "ERROR:: the Program failed" << "\n";
+    std::cout << "ERROR:: the Program failed" << std::endl;
     return 1;
   }
 }

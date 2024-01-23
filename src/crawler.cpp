@@ -16,9 +16,9 @@ Crawler::Crawler(Updater& updater, std::shared_ptr<SafeScan<std::string>> scaner
 : m_inserter(updater)
 , m_unvisited_links(scaner)
 , m_unique_links()
-, m_threads()
 , m_limitScans(Config::getNumScans() + 1)
 , m_countForFlash(Config::getNumThreads())
+, m_threads()
 {}
 
 void Crawler::insert_src_url()
@@ -35,12 +35,6 @@ void Crawler::crawl()
 {
   insert_src_url();
   m_threads.run_threads([this](){process_link();});
-}
-
-void Crawler::close()
-{  
-  m_limitScans.jumpToLimit();
-  m_threads.makeJoin();
 }
 
 void Crawler::process_link()

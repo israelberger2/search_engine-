@@ -17,8 +17,7 @@ public:
     Threads& operator= (const Threads&) = delete;
 
     void run_threads(std::function<void()> func);
-    void makeJoin();
-
+ 
 private:
     std::vector<std::thread> m_threads;
 };
