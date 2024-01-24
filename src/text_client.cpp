@@ -7,7 +7,7 @@
 
 namespace se{
 
-std::vector<std::string> TextClient::load_query()
+std::vector<std::string> TextClient::load_query() 
 {
     std::cout << "enter a keyword. to exit the program write exit\n";
 

@@ -12,6 +12,4 @@ SearchEngine searchEngine_injector(SafeScoresPointer& scores);
 
 } // namespace se
 
- 
- 
 #endif

@@ -35,7 +35,8 @@ void SearchEngine::run(size_t length)const
              
             m_client->send_data(links);             
         } catch (const SocketError& error){
-            throw SocketError(error.what());
+            std::clog  << error.what() << "\n";
+            break;
         } catch (const DataError& error){
             std::clog << error.what() << "\n";
         } catch (const NetworkError& error){

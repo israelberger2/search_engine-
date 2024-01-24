@@ -1,10 +1,12 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
- 
+#include <fstream>
+
+#include "json.hpp" 
 #include "network_handler.hpp"
 #include "se_exceptions.hpp"
- 
+
 
 namespace se{
 
@@ -38,10 +40,19 @@ std::vector<std::pair<std::string, int>> NetworkHandler::get_links(const std::ve
  
 int NetworkHandler::createSocketClient()const
 {    
+    std::ifstream input_file("client_configuration.json");
+
+    if (!input_file.is_open()){
+        throw SocketError("ERROR:: The file did not open");
+    }
+    
+    json js; 
+    input_file >> js;  
+
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(8080);
-    std::string ip = "127.0.0.1";
+    server_addr.sin_port = htons(js["port"]);
+    std::string ip = js["ip"];
     server_addr.sin_addr.s_addr = inet_addr(ip.c_str());
 
     int client_soket = socket(AF_INET, SOCK_STREAM, 0);
@@ -51,7 +62,7 @@ int NetworkHandler::createSocketClient()const
     
     int connect_sigen =  connect(client_soket, (struct sockaddr*)&server_addr, sizeof(server_addr));
     if(connect_sigen < 0){
-        throw(NetworkError("ERROR: DISCONNECTED the connect function failed"));
+        throw(SocketError("ERROR: DISCONNECTED the connect function failed"));
     }
     
     return client_soket;

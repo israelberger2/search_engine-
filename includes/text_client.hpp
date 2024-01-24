@@ -17,7 +17,7 @@ public:
     TextClient(const TextClient&) = default;
     TextClient& operator= (const TextClient&) = default;
 
-    std::vector<std::string> load_query() override;
+    std::vector<std::string> load_query()override;
     void send_data(const std::vector<std::pair<std::string, int>>& links)const;
 
 private:

@@ -1,5 +1,4 @@
 #include "client_site.hpp"
-#include "text_client.hpp"
 #include "network_handler.hpp"
 
 
@@ -7,9 +6,7 @@ using namespace se;
 
 int main()
 {
-    TextClient textClient{};
-
-    ClientSite client(textClient);
+    ClientSite client;
     client.run();
 
     return 0;

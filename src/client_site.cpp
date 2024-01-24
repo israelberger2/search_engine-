@@ -1,6 +1,5 @@
 #include <vector>
 #include <string>
-#include  <utility>
 #include <iostream>
    
 #include "client_site.hpp"
@@ -10,40 +9,30 @@
 
 namespace se{
   
-ClientSite::ClientSite(TextClient& tui)
-: m_tui(tui)
+ClientSite::ClientSite()
+: m_tui()
 {}
  
-void ClientSite::run()const
+void ClientSite::run() 
 {
-   
   while(true){     
-    std::vector<std::string> keywords = m_tui.load_query();     
-    std::vector<std::pair<std::string, int>> links;
-
-    // try{
-      std::cout << "befor NetworkHandler " << '\n';
-      
-      NetworkHandler m_searcher{};
-       std::cout << "befor get links" << '\n';
-       
-      links = m_searcher.get_links(keywords);
-      std::cout << "after get links" << '\n';
-      
-    // } catch(const NetworkError& net){
-    //   std::cout << "NetworkErrortttttttttt" << '\n';
-      
-    //   std::cout << net.what() << "\n";
-    // }
-    
-    try{ 
-
+    try{
+      std::vector<std::string> keywords = m_tui.load_query();     
+ 
+      NetworkHandler m_searcher{};       
+      auto links = m_searcher.get_links(keywords);
       m_tui.send_data(links);
-    } catch(const DataError& jError) {
-      continue;
-    } catch (const NetworkError& error){
-      std::cout << "in run function error " << error.what();
-    }    
+    }catch(const DataError& e) {
+      std::clog << "ClientSite::run " << e.what() << '\n';
+    }catch (const NetworkError& e){
+      std::clog << "ERROR::404 page not found " << '\n';
+      break;
+    }catch(const Exit& e){
+      break;
+    }catch(const SocketError& e){
+      std::clog << "ClientSite::run " << e.what() << '\n';
+      break;
+    }
   }
 }
 
