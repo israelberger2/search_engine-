@@ -7,14 +7,12 @@
 #include "search_engine_injector.hpp"
 #include "safe_scores_map.hpp"
 #include "configuration.hpp"
-#include "x.hpp"
-
+ 
 using namespace se;
   
 
 int main() 
 {      
-  f();
   try{
     SafeScoresPointer scores{};
 

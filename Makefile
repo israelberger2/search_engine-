@@ -9,22 +9,22 @@ CPPFLAGS = -I includes -I src -I db/includes -I db/src
 LDLIBS = -lgumbo -lcurl -lcurlpp -lmysqlcppconn
 
 
-main : main.o src/parser_html.o src/crawler.o src/extract_html.o db/src/x.o\
+main : main.o src/parser_html.o src/crawler.o src/extract_html.o \
 src/link_maintenance_manager.o src/search_engine.o src/text_client.o  src/communicator.o \
 src/regular_sorter.o src/socket.o src/net_client.o src/publisher.o \
-src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_links_rank_manager.o \
+src/updater.o src/threads.o src/configuration.o db/src/mysql_searcher.o db/src/mysql_links_rank_manager.o \
 src/pageRank.o src/pr_sorter.o src/string_split.o src/safe_scores_map.o src/connector.o \
-src/mysql_links_data.o src/mysql_graph_data.o src/mysql_word_data.o src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o src/search_engine_injector.o
+db/src/mysql_links_data.o db/src/mysql_graph_data.o db/src/mysql_word_data.o db/src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o src/search_engine_injector.o
 
 main.o : main.cpp includes/crawler.hpp includes/se_exceptions.hpp includes/crawler_injector.hpp \
 includes/safe_scores_map.hpp includes/configuration.hpp includes/search_engine.hpp includes/search_engine_injector.hpp
 
 
 src/search_engine_injector.o : src/search_engine_injector.cpp includes/search_engine_injector.hpp includes/safe_scores_map.hpp \
-includes/pr_sorter.hpp includes/regular_sorter.hpp includes/mysql_searcher.hpp includes/configuration.hpp includes/net_client.hpp includes/text_client.hpp
+includes/pr_sorter.hpp includes/regular_sorter.hpp db/includes/mysql_searcher.hpp includes/configuration.hpp includes/net_client.hpp includes/text_client.hpp
  
 src/crawler_injector.o : src/crawler_injector.cpp includes/crawler_injector.hpp includes/safe_scores_map.hpp includes/crawler.hpp \
-includes/mysql_links_rank_manager.hpp includes/updater.hpp includes/mysql_graph_data.hpp includes/mysql_word_links.hpp \
+db/includes/mysql_links_rank_manager.hpp includes/updater.hpp db/includes/mysql_graph_data.hpp db/includes/mysql_word_links.hpp \
 includes/configuration.hpp includes/dfs.hpp includes/bfs.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/string_split.hpp
@@ -45,12 +45,12 @@ src/pageRank.o : src/pageRank.cpp includes/pageRank.hpp
 src/pr_sorter.o : src/pr_sorter.cpp includes/pr_sorter.hpp includes/pageRank.hpp
 src/configuration.o : src/configuration.cpp includes/configuration.hpp
 src/connector.o : src/connector.cpp includes/connector.hpp
-src/mysql_links_data.o : src/mysql_links_data.cpp includes/mysql_links_data.hpp includes/links_data.hpp
-src/mysql_graph_data.o : src/mysql_graph_data.cpp includes/mysql_graph_data.hpp includes/graph_data.hpp
-src/mysql_word_data.0 : src/mysql_word_data.cpp includes/mysql_word_data.hpp includes/word_data.hpp
-src/mysql_word_links.o : src/mysql_word_links.cpp includes/mysql_word_links.hpp includes/word_links.hpp
-src/mysql_searcher.o : src/mysql_searcher.cpp includes/mysql_searcher.hpp includes/searcher.hpp
-src/mysql_links_rank_manager.o : src/mysql_links_rank_manager.cpp includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp includes/safe_scores_map.hpp includes/mysql_graph_data.hpp
+db/src/mysql_links_data.o : db/src/mysql_links_data.cpp db/includes/mysql_links_data.hpp includes/links_data.hpp
+db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_data.hpp includes/graph_data.hpp
+db/src/mysql_word_data.0 : db/src/mysql_word_data.cpp db/includes/mysql_word_data.hpp includes/word_data.hpp
+db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp includes/word_links.hpp
+db/src/mysql_searcher.o : db/src/mysql_searcher.cpp db/includes/mysql_searcher.hpp includes/searcher.hpp
+db/src/mysql_links_rank_manager.o : db/src/mysql_links_rank_manager.cpp db/includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp includes/safe_scores_map.hpp db/includes/mysql_graph_data.hpp
 src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/links_rank_manager.hpp 
 src/threads.o : src/threads.cpp includes/threads.hpp src/configuration.cpp
 src/safe_limit_counter.o : src/safe_limit_counter.cpp  includes/safe_limit_counter.hpp
