@@ -4,12 +4,12 @@ CC = $(CXX)
 CXXFLAGS = -std=c++17 -Wall -pedantic -g3
 CXXFLAGS += -Werror
 
-CPPFLAGS = -I includes -I src 
+CPPFLAGS = -I includes -I src -I db/includes -I db/src
  
 LDLIBS = -lgumbo -lcurl -lcurlpp -lmysqlcppconn
 
 
-main : main.o src/parser_html.o src/crawler.o src/extract_html.o \
+main : main.o src/parser_html.o src/crawler.o src/extract_html.o db/src/x.o\
 src/link_maintenance_manager.o src/search_engine.o src/text_client.o  src/communicator.o \
 src/regular_sorter.o src/socket.o src/net_client.o src/publisher.o \
 src/updater.o src/threads.o src/configuration.o src/mysql_searcher.o src/mysql_links_rank_manager.o \
