@@ -12,7 +12,7 @@ using namespace se;
   
 
 int main() 
-{      fffff
+{      
   try{
     SafeScoresPointer scores{};
 

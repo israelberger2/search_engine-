@@ -72,7 +72,7 @@ void TextClient::send_data(const std::vector<std::pair<std::string, int>>& links
         std::cout << "The keyword wes not found" << "\n";
     } else {        
         for(auto& link : links){
-            std::cout << link.first << "..........." << link.second << "\n";
+            std::cout << link.first << "\n";
         }
     }
 }
