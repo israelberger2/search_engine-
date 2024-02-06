@@ -21,9 +21,6 @@ public:
     WordsMap parser();
 
 private:
-    void fillMap(WordsMap& allWords, const std::string& word)const;
-
-private:
     std::string m_text;
 };
 

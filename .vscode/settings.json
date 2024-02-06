@@ -82,7 +82,18 @@
         "netfwd": "cpp",
         "socket": "cpp",
         "timer": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "csetjmp": "cpp",
+        "barrier": "cpp",
+        "cfenv": "cpp",
+        "charconv": "cpp",
+        "coroutine": "cpp",
+        "cuchar": "cpp",
+        "source_location": "cpp",
+        "latch": "cpp",
+        "scoped_allocator": "cpp",
+        "span": "cpp",
+        "syncstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

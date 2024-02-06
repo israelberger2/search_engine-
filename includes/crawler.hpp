@@ -33,7 +33,7 @@ private:
     void insert_src_url();
  
 private:
-    Updater& m_inserter;
+    Updater& m_updater;
     std::shared_ptr<SafeScan<std::string>> m_unvisited_links;
     SafeUnorderedSet<std::string> m_unique_links;
     SafeLimitCounter m_limitScans;

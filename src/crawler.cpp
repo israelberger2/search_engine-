@@ -13,7 +13,7 @@
 namespace se{
 
 Crawler::Crawler(Updater& updater, std::shared_ptr<SafeScan<std::string>> scaner)
-: m_inserter(updater)
+: m_updater(updater)
 , m_unvisited_links(scaner)
 , m_unique_links()
 , m_limitScans(Config::getNumScans() + 1)
@@ -72,12 +72,12 @@ void Crawler::process_link()
     std::unordered_map<std::string, int>& linksList = result.first;
     
     fill_queue(linksList);
-    m_inserter.fill(result, current_url);
+    m_updater.fill(result, current_url);
     
   }  
    
   if(! m_countForFlash.CheckLimitAndIncrement()){    
-    m_inserter.bufferFlush();
+    m_updater.bufferFlush();
   }
   
 }
