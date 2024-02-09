@@ -5,7 +5,7 @@ se::SafeScoresPointer::SafeScoresPointer()
 : m_scoresPointer(nullptr)
 {}
 
-std::shared_ptr<se::ScorsMap> se::SafeScoresPointer::getMap()const
+std::shared_ptr<se::ScorsMap> se::SafeScoresPointer::getScores()const
 {
     auto map = atomic_load(&m_scoresPointer);
     return map;

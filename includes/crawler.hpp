@@ -18,23 +18,21 @@ namespace se{
 class Crawler
 {
 public:
-    explicit Crawler(Updater& updater, std::shared_ptr<SafeScan<std::string>> scaner);
+    explicit Crawler(Updater& updater, std::shared_ptr<SafeScaner<std::string>> scaner);
     ~Crawler() = default;
     Crawler(const Crawler&) = delete;
     Crawler& operator= (const Crawler&) = delete;
 
-    void crawl();
+    void executeCrawling();
  
 private:
-    void fill_queue(const std::unordered_map<std::string, int>& result_links);
+    void insertLinks(const std::unordered_map<std::string, int>& result_links);
     void process_link();
-    bool queueIsEmpty()const;
-
     void insert_src_url();
  
 private:
     Updater& m_updater;
-    std::shared_ptr<SafeScan<std::string>> m_unvisited_links;
+    std::shared_ptr<SafeScaner<std::string>> m_linkScheduler;
     SafeUnorderedSet<std::string> m_unique_links;
     SafeLimitCounter m_limitScans;
     SafeLimitCounter m_countForFlash;

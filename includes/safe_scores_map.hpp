@@ -19,7 +19,7 @@ public:
     SafeScoresPointer(const SafeScoresPointer&) = default;
     SafeScoresPointer& operator= (const SafeScoresPointer&) = default;
 
-    std::shared_ptr<ScorsMap> getMap()const;
+    std::shared_ptr<ScorsMap> getScores()const;
     void updateScores(const ScorsMap& scorsMap);
 
 private:

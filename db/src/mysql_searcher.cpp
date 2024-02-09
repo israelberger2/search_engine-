@@ -4,38 +4,37 @@
 
 #include "mysql_searcher.hpp"
 #include "connector.hpp"
-#include <iostream>
-
+ 
 
 db::MysqlSearcher::MysqlSearcher()
 : m_wordLinks()
 , m_wordData()
 {}
 
-std::vector<db::WordsInstance> db::MysqlSearcher::search(const Links& positiveWords, const Links& negativeWords)const
+std::vector<db::LinksAndCount> db::MysqlSearcher::search(const Links& positiveWords, const Links& negativeWords)const
 {
   std::vector<std::pair<std::string, int>> result;
 
   try{
     if(positiveWords.empty()){
-      return std::vector<WordsInstance>{};
+      return std::vector<LinksAndCount>{};
     }
 
     Links links = m_wordLinks.getLinksForWord(positiveWords[0]);
     std::vector<int> wordsID = m_wordData.getWordsID(positiveWords);
     
     if(links.empty() || wordsID.size() < positiveWords.size()){
-      return std::vector<WordsInstance>{};
+      return std::vector<LinksAndCount>{};
     }
 
-    std::vector<WordsInstance> IntermediateResult;
+    std::vector<LinksAndCount> IntermediateResult;
 
     for(auto& link : links){
       checkPositiveWords(wordsID, link, IntermediateResult);
     }
     
     if(IntermediateResult.empty()){
-      return std::vector<WordsInstance>{};
+      return std::vector<LinksAndCount>{};
     }
 
     std::vector<int> negativewordsID = m_wordData.getWordsID(negativeWords);
@@ -84,7 +83,7 @@ std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<
   return std::pair<int,int>{count,sum};
 }
 
-void db::MysqlSearcher::checkPositiveWords(const std::vector<int>& wordsID, const std::string& url, std::vector<WordsInstance>& resLinks)const
+void db::MysqlSearcher::checkPositiveWords(const std::vector<int>& wordsID, const std::string& url, std::vector<LinksAndCount>& resLinks)const
 {
   std::pair<size_t,int> result = sumAndCountOfwordInLink(wordsID, url);
   
@@ -93,13 +92,13 @@ void db::MysqlSearcher::checkPositiveWords(const std::vector<int>& wordsID, cons
   }
 }
 
-std::vector<db::WordsInstance> db::MysqlSearcher::checkNegativeWords(const std::vector<int>& wordsID, std::vector<WordsInstance>& IntermediateResult)const
+std::vector<db::LinksAndCount> db::MysqlSearcher::checkNegativeWords(const std::vector<int>& wordsID, std::vector<LinksAndCount>& IntermediateResult)const
 {
   if(wordsID.empty()){
     return IntermediateResult;
   }
 
-  std::vector<WordsInstance> result;
+  std::vector<LinksAndCount> result;
 
   for(auto& pair : IntermediateResult){
     std::pair<size_t, int> res = sumAndCountOfwordInLink(wordsID, pair.first);

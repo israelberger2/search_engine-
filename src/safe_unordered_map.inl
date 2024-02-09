@@ -17,16 +17,7 @@ SafeUnorderedMap<Key, Value>::SafeUnorderedMap(SafeUnorderedMap&& other)
 }
 
 template <typename Key, typename Value>
-bool SafeUnorderedMap<Key, Value>::is_here(const Key &key) const
-{
-    std::shared_lock<std::shared_mutex> lock(m_mutex);
-    
-    auto res = m_map.find(key);
-    return res != m_map.end();
-}
-
-template <typename Key, typename Value>
-Value SafeUnorderedMap<Key, Value>::get_element(const Key& key)const
+Value SafeUnorderedMap<Key, Value>::get(const Key& key)const
 {
     std::shared_lock<std::shared_mutex> lock(m_mutex);
     
@@ -55,17 +46,6 @@ bool SafeUnorderedMap<Key, Value>::insert(Key key, Value value)
 
     auto res = m_map.insert({key,value});
     return res.second;
-}
-
-template <typename Key, typename Value>
-void SafeUnorderedMap<Key, Value>::update(std::function<void(Value& v)>& updateKey ,Key& k)
-{
-    std::unique_lock<std::shared_mutex> locker(m_mutex);
-    
-    auto it = m_map.find(k);
-    auto& refer = it->second;
-    
-    updateKey(refer);
 }
 
 template <typename Key, typename Value>

@@ -8,13 +8,11 @@
  
 namespace db{
 
-using WordsInstance = std::pair<std::string,int>;
-
 class Searcher 
 {
 public:
     virtual ~Searcher() = default;
-    virtual std::vector<WordsInstance> search(const std::vector<std::string>& positiveWords, const std::vector<std::string>& negativeWords)const = 0;
+    virtual std::vector<std::pair<std::string,int>> search(const std::vector<std::string>& positiveWords, const std::vector<std::string>& negativeWords)const = 0;
 };
 
 }// namespace se

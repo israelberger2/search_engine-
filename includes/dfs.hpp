@@ -13,7 +13,7 @@
 namespace se{
 
 template <typename T> 
-class Dfs : public SafeScan<T>
+class Dfs : public SafeScaner<T>
 {
 public:
     Dfs();

@@ -1,18 +1,13 @@
-#include <string>
 #include <vector>
 #include <sstream>
  
 #include "string_split.hpp"
 
 
-se::StringSplit::StringSplit(std::string& htmt_m_text)
-: m_text(htmt_m_text)
-{}
-
-se::WordsMap se::StringSplit::parser()
+se::WordsMap se::split(std::string& htmt_text)
 {
     std::vector<std::string> words;
-    std::istringstream iss(m_text);  
+    std::istringstream iss(htmt_text);  
     WordsMap allWords;
     std::string word;
     while (iss >> word) {

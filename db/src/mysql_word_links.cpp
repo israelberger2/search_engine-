@@ -125,31 +125,3 @@ std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& 
 
     return links;
 }
-
-std::vector<int> db::MysqlWordLinks::getIDLinksForWord(const std::string& word)const
-{
-    std::string query = " SELECT Link.ID FROM Link \
-        JOIN WordLink ON Link.ID = WordLink.LinkID \
-        JOIN Word ON WordLink.WordID = Word.ID \
-        WHERE Word.Token = ?";
-
-    Connector connector{};
-
-    std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
-
-    stmt->setString(1, word);
-
-    std::vector<int> linksID;
-
-    try{
-        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
-
-        while(res->next()){
-            linksID.push_back(res->getInt("id"));
-        }
-    } catch(const sql::SQLException& e){
-        std::clog << "error from the MysqlWordLinks::getIDLinksForWord: " << e.what() << '\n';
-    }
-
-    return linksID;
-}

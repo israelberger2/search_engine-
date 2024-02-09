@@ -21,8 +21,7 @@ std::pair<Map, Map> ParserHtml::result_parser(const std::string& url)
 
     std::string words = get_text();
     
-    StringSplit spliter(words);
-    WordsMap textMap = spliter.parser();
+    WordsMap textMap = split(words);
      
     Map linksMap = convertToMap(links);
 

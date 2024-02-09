@@ -22,10 +22,8 @@ public:
     Value operator[] (const Key& key);
 
     bool insert(Key key,Value value);
-    bool is_here(const Key& key)const;
-    Value get_element(const Key& key)const;
+    Value get(const Key& key)const;
     size_t size()const;
-    void update(std::function<void(Value& v)>& updateKey ,Key& k);
     std::unordered_map<Key, Value> getMap()const;
     std::vector<Key> getKeys()const;
     void clear();

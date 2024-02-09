@@ -22,7 +22,7 @@ void PrSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector,
         num_res = linksVector.size() -1;
     }
 
-    std::shared_ptr<std::unordered_map<std::string, double>> scores = m_score.getMap();
+    std::shared_ptr<std::unordered_map<std::string, double>> scores = m_score.getScores();
     
     if (!scores) {
         std::cout << "no scors" << '\n';

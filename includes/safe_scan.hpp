@@ -6,10 +6,10 @@
 namespace se{
 
 template <typename T> 
-class SafeScan 
+class SafeScaner 
 {
 public:
-    virtual ~SafeScan() = default;
+    virtual ~SafeScaner() = default;
      
     virtual void add(const T& element) = 0;
     virtual bool get(T& t,const std::function<bool(size_t m_numSleeping)>& status_member_handleer) = 0;
