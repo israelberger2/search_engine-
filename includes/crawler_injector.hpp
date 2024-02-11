@@ -24,7 +24,7 @@ public:
 private:
     db::MysqlLinksRankManager m_rankManager;
     Publisher m_publisher;
-    db::MysqlGraphData m_graph;
+    db::MysqlGraph m_graph;
     db::MysqlWordLinks m_wordLinks;
     Updater m_updater;
 };

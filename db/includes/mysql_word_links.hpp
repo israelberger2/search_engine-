@@ -25,7 +25,7 @@ public:
 
     void insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const override;
     void insert(const Map& words, const std::string& link)const override;
-    std::vector<std::string> getLinksForWord(const std::string& word)const override;
+    std::vector<std::string> getLinksContainingWord(const std::string& word)const override;
  
 private:
     std::string createJsonPages(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const;

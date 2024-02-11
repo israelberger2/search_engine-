@@ -15,8 +15,8 @@ db::MysqlLinksRankManager::MysqlLinksRankManager(se::SafeScoresPointer& scoresMa
 void db::MysqlLinksRankManager::update()
 {
     try{
-        MysqlGraphData graphData{};
-        auto graph = graphData.linkRelationships();
+        MysqlGraph graphData{};
+        auto graph = graphData.getLinkRelationships();
 
         se::PageRank pagerank{graph};
         auto scoreMam = pagerank.getScores();

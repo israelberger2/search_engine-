@@ -20,7 +20,7 @@ std::vector<db::LinksAndCount> db::MysqlSearcher::search(const Links& positiveWo
       return std::vector<LinksAndCount>{};
     }
 
-    Links links = m_wordLinks.getLinksForWord(positiveWords[0]);
+    Links links = m_wordLinks.getLinksContainingWord(positiveWords[0]);
     std::vector<int> wordsID = m_wordData.getWordsID(positiveWords);
     
     if(links.empty() || wordsID.size() < positiveWords.size()){
@@ -46,8 +46,7 @@ std::vector<db::LinksAndCount> db::MysqlSearcher::search(const Links& positiveWo
 
   return result;
 }
-
-std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<int>& wordsID, const std::string& url)const
+std::pair<int,int> db::MysqlSearcher::getwordsCountSum(const std::vector<int>& wordsID, const std::string& url)const
 {  
   std::string query  = "SELECT COUNT(WordLink.LinkID), SUM(WordLink.Count) FROM Link JOIN WordLink ON"
   " Link.ID = WordLink.LinkID WHERE Link.Address = ? and (WordLink.WordID = ? ";
@@ -77,7 +76,7 @@ std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<
       sum = result->getInt(2);
     }
   }catch(const sql::SQLException& e){
-    std::clog << "error from MysqlSearcher::sumAndCountOfwordInLink: " << e.what() << '\n';
+    std::clog << "error from MysqlSearcher::getwordsCountSum: " << e.what() << '\n';
   }
 
   return std::pair<int,int>{count,sum};
@@ -85,9 +84,9 @@ std::pair<int,int> db::MysqlSearcher::sumAndCountOfwordInLink(const std::vector<
 
 void db::MysqlSearcher::checkPositiveWords(const std::vector<int>& wordsID, const std::string& url, std::vector<LinksAndCount>& resLinks)const
 {
-  std::pair<size_t,int> result = sumAndCountOfwordInLink(wordsID, url);
+  std::pair<size_t,int> result = getwordsCountSum(wordsID, url);
   
-  if(result.first == wordsID.size()){      
+  if(result.first >= wordsID.size()){      
     resLinks.push_back({url,result.second});
   }
 }
@@ -101,7 +100,7 @@ std::vector<db::LinksAndCount> db::MysqlSearcher::checkNegativeWords(const std::
   std::vector<LinksAndCount> result;
 
   for(auto& pair : IntermediateResult){
-    std::pair<size_t, int> res = sumAndCountOfwordInLink(wordsID, pair.first);
+    std::pair<size_t, int> res = getwordsCountSum(wordsID, pair.first);
     if(res.first == 0){
       result.push_back({pair.first, pair.second});
     }

@@ -9,10 +9,10 @@
 
 using json = nlohmann::json;
 
-db::MysqlGraphData::MysqlGraphData()
+db::MysqlGraph::MysqlGraph()
 {}
 
-std::string db::MysqlGraphData::createJsonPages(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+std::string db::MysqlGraph::createJsonPages(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
 {
     std::vector<std::string> keys = buffer.getKeys();        
     json alllinksPages;
@@ -38,7 +38,7 @@ std::string db::MysqlGraphData::createJsonPages(se::SafeUnorderedMap<std::string
     return alllinksPages.dump();
 }
 
-void db::MysqlGraphData::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
+void db::MysqlGraph::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
 {
     std::string json_pages = createJsonPages(buffer);
     std::string query = "CALL search_engine.inserLinksPages(?)";
@@ -55,7 +55,7 @@ void db::MysqlGraphData::insert(se::SafeUnorderedMap<std::string, std::pair<Map,
     } 
 }
 
-void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)const
+void db::MysqlGraph::insert(const Map& destinations, const std::string& src)const
 {    
     MysqlLinksData sqlLinks{};
     int srcID;
@@ -63,7 +63,7 @@ void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)
     try{        
         srcID = sqlLinks.insertAndGetLinkID(src);            
     } catch(const se::MysqlLinksDataExeption& e){
-        std::clog << "error from the MysqlGraphData::insert: " << e.what() << "/n";
+        std::clog << "error from the MysqlGraph::insert: " << e.what() << "/n";
         return;
     } 
 
@@ -72,7 +72,7 @@ void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)
         try{
             desID = sqlLinks.insertAndGetLinkID(des.first);
         } catch(const se::MysqlLinksDataExeption& e){
-            std::clog << "error from the MysqlGraphData::insert: " << e.what() << "/n";
+            std::clog << "error from the MysqlGraph::insert: " << e.what() << "/n";
             continue;
         }
 
@@ -88,14 +88,14 @@ void db::MysqlGraphData::insert(const Map& destinations, const std::string& src)
                 stmt->execute();               
                 break;
             } catch(const sql::SQLException& e){
-                std::clog << "error from the MysqlGraphData::insert:  " << e.what() << '\n';   
+                std::clog << "error from the MysqlGraph::insert:  " << e.what() << '\n';   
                 continue;
             }
         }
     }    
 }
  
-db::Graph db::MysqlGraphData::linkRelationships()const
+db::Graph db::MysqlGraph::getLinkRelationships()const
 {
     Graph graph{};
 
@@ -118,13 +118,13 @@ db::Graph db::MysqlGraphData::linkRelationships()const
 
     for(auto link : uniqueLinks){  
         try{  
-            std::pair<std::string, std::vector<std::string>> resut = relatedLinksfromOneLink(link);
+            std::pair<std::string, std::vector<std::string>> resut = getRelatedLinks(link);
             graph.insert({resut.first,resut.second});
         }catch(const sql::SQLException& e){
-            std::clog << "error from MysqlGraphData::linkRelationships/relatedLinksfromOneLink/linkRelated: " << e.what() << '\n';
+            std::clog << "error from MysqlGraph::linkRelationships/relatedLinksfromOneLink/linkRelated: " << e.what() << '\n';
             continue;
         }catch(const se::MysqlLinksDataExeption& e){
-            std::clog << "error from MysqlGraphData::linkRelationships/relatedLinksfromOneLink/linksData: " << e.what() << '\n';
+            std::clog << "error from MysqlGraph::linkRelationships/relatedLinksfromOneLink/linksData: " << e.what() << '\n';
             continue;
         }
     }
@@ -132,7 +132,7 @@ db::Graph db::MysqlGraphData::linkRelationships()const
     return graph;
 }
 
-std::vector<int> db::MysqlGraphData::linkRelated(int linkID)const
+std::vector<int> db::MysqlGraph::RelatedLinksID(int linkID)const
 {
     std::string query = "SELECT Destination FROM Graph WHERE Src = ?";
 
@@ -152,9 +152,9 @@ std::vector<int> db::MysqlGraphData::linkRelated(int linkID)const
     return links;    
 }
 
-std::pair<std::string, std::vector<std::string>> db::MysqlGraphData::relatedLinksfromOneLink(int linkID)const
+std::pair<std::string, std::vector<std::string>> db::MysqlGraph::getRelatedLinks(int linkID)const
 {
-    std::vector<int> linksID = linkRelated(linkID); 
+    std::vector<int> linksID = RelatedLinksID(linkID); 
 
     MysqlLinksData linksData{};
     std::vector<std::string> linksAddresses =  linksData.getLink(linksID);

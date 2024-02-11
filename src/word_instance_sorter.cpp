@@ -1,9 +1,9 @@
 #include <algorithm>
  
-#include "regular_sorter.hpp"
+#include "word_instance_sorter.hpp"
 
  
-void se::RegularSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
+void se::WordInstanceSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
 {           
     if(num_res >= linksVector.size()){
         num_res = linksVector.size();

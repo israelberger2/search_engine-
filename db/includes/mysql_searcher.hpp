@@ -26,7 +26,7 @@ public:
     std::vector<LinksAndCount> search(const Links& positiveWords, const Links& negativeWords)const override;
 
 private:
-    std::pair<int,int> sumAndCountOfwordInLink(const std::vector<int>& wordsID, const std::string& url)const;
+    std::pair<int,int> getwordsCountSum(const std::vector<int>& wordsID, const std::string& url)const;
     std::vector<LinksAndCount> checkNegativeWords(const std::vector<int>& wordsID, std::vector<LinksAndCount>& IntermediateResult)const;
     void checkPositiveWords(const std::vector<int>& wordsID, const std::string& url, std::vector<LinksAndCount>& resLinks)const;
 

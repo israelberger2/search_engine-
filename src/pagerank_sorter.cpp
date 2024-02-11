@@ -2,15 +2,15 @@
 #include <memory>
 #include <iostream>
 
-#include "pr_sorter.hpp"
+#include "pagerank_sorter.hpp"
  
 namespace se{
 
-PrSorter::PrSorter(const SafeScoresPointer& score)
+PageRankSorter::PageRankSorter(const SafeScoresPointer& score)
 : m_score(score)
 {}
 
-void PrSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
+void PageRankSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
 {        
     std::cout << "sort link" << '\n';
     

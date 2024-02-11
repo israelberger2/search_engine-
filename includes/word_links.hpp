@@ -20,7 +20,7 @@ public:
 
     virtual void insert(const Map& words, const std::string& link)const = 0;
     virtual void insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const = 0;
-    virtual std::vector<std::string> getLinksForWord(const std::string& word)const = 0;
+    virtual std::vector<std::string> getLinksContainingWord(const std::string& word)const = 0;
 };
 
 } // db

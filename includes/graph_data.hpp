@@ -19,7 +19,7 @@ public:
     virtual ~GraphData() = default;
     virtual void insert(const Map& destinations, const std::string& src)const = 0;
     virtual void insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const = 0;
-    virtual Graph linkRelationships()const =0; 
+    virtual Graph getLinkRelationships()const =0; 
 };
  
 } //db

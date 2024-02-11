@@ -100,7 +100,7 @@ void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
     }       
 }
 
-std::vector<std::string> db::MysqlWordLinks::getLinksForWord(const std::string& word)const
+std::vector<std::string> db::MysqlWordLinks::getLinksContainingWord(const std::string& word)const
 {
     std::string query = "SELECT Link.Address FROM Link \
         JOIN WordLink ON Link.ID = WordLink.LinkID \
