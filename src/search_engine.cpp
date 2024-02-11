@@ -7,10 +7,10 @@
 
 namespace se{
 
-SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, std::shared_ptr<Client> client, std::shared_ptr<Isorter> sorter)
+SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, std::shared_ptr<Client> client, std::shared_ptr<Sorter> Sorter)
 : m_searcher(searcher)
 , m_client(client)
-, m_arranger(sorter)
+, m_arranger(Sorter)
 {}
 
 void SearchEngine::run(size_t length)const

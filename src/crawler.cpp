@@ -31,6 +31,11 @@ void Crawler::insert_src_url()
   }
 }
 
+void Crawler::close()
+{
+  m_limitScans.jumpToLimit();
+}
+
 void Crawler::executeCrawling()
 {
   insert_src_url();

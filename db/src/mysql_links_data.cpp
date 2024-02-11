@@ -70,7 +70,7 @@ std::string db::MysqlLinksData::getLink(int id)const
   return link;
 }
 
-std::vector<std::string> db::MysqlLinksData::getLink(std::vector<int> linksID)const
+std::vector<std::string> db::MysqlLinksData::getLinks(std::vector<int> linksID)const
 {
   std::vector<std::string> links;
 

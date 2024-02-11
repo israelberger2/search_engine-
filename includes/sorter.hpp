@@ -8,10 +8,10 @@
 
 namespace se{
 
-class Isorter
+class Sorter
 {
 public:
-    virtual ~Isorter() = default;
+    virtual ~Sorter() = default;
     virtual void sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const = 0;
 };
 

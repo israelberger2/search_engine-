@@ -157,7 +157,7 @@ std::pair<std::string, std::vector<std::string>> db::MysqlGraph::getRelatedLinks
     std::vector<int> linksID = RelatedLinksID(linkID); 
 
     MysqlLinksData linksData{};
-    std::vector<std::string> linksAddresses =  linksData.getLink(linksID);
+    std::vector<std::string> linksAddresses =  linksData.getLinks(linksID);
     std::string srcAddress = linksData.getLink(linkID);
      
     return std::pair<std::string, std::vector<std::string>>(srcAddress, linksAddresses);

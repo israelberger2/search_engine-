@@ -11,7 +11,7 @@
 namespace se
 {
 
-class WordInstanceSorter : public Isorter
+class WordInstanceSorter : public Sorter
 {
 public:
     WordInstanceSorter() = default;

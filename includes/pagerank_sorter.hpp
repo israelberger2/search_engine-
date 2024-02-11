@@ -11,7 +11,7 @@
 
 namespace se{
 
-class PageRankSorter : public Isorter
+class PageRankSorter : public Sorter
 {
 public:
     explicit PageRankSorter(const SafeScoresPointer& score);

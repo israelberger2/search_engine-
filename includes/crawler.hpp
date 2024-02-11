@@ -24,6 +24,7 @@ public:
     Crawler& operator= (const Crawler&) = delete;
 
     void executeCrawling();
+    void close();
  
 private:
     void insertLinks(const std::unordered_map<std::string, int>& result_links);

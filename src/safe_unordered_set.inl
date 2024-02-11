@@ -9,13 +9,6 @@ SafeUnorderedSet<T>::SafeUnorderedSet()
 {}
 
 template <typename T> 
-SafeUnorderedSet<T>::~SafeUnorderedSet()
-{
-    std::cout << "SafeUnorderedSet" << '\n';
-    
-}
-
-template <typename T> 
 bool SafeUnorderedSet<T>::insert(T element)
 {
     std::unique_lock<std::shared_mutex> locker(m_mutx);

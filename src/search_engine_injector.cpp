@@ -17,8 +17,8 @@ SearchEngine searchEngine_injector(SafeScoresPointer& scores)
         std::shared_ptr<Client>(std::make_shared<TextClient>());
     
     auto sorter = (Config::getSortType() == "pageRank") ?
-        std::shared_ptr<Isorter>(std::make_shared<PageRankSorter>(scores)):
-        std::shared_ptr<Isorter>(std::make_shared<WordInstanceSorter>());
+        std::shared_ptr<Sorter>(std::make_shared<PageRankSorter>(scores)):
+        std::shared_ptr<Sorter>(std::make_shared<WordInstanceSorter>());
 
     auto mysql_searcher = std::make_shared<db::MysqlSearcher>();
 

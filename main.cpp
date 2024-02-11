@@ -19,6 +19,7 @@ int main()
     Crawler_Injector crawler_injector(scores);
     auto crawler = crawler_injector.create();
     crawler.executeCrawling();
+    crawler.close();
 
     auto search_engine = searchEngine_injector(scores);  
     search_engine.run(Config::getLengthResult());       
