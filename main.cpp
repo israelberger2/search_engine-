@@ -19,10 +19,10 @@ int main()
     Crawler_Injector crawler_injector(scores);
     auto crawler = crawler_injector.create();
     crawler.executeCrawling();
-    crawler.close();
 
     auto search_engine = searchEngine_injector(scores);  
     search_engine.run(Config::getLengthResult());       
+    crawler.close();
     return 0; 
   }catch (const SocketError& error){
     std::clog << error.what() << "\n";

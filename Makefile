@@ -12,7 +12,7 @@ LDLIBS = -lgumbo -lcurl -lcurlpp -lmysqlcppconn
 main : main.o src/parser_html.o src/crawler.o src/extract_html.o \
 src/link_maintenance_manager.o src/search_engine.o src/text_client.o  src/communicator.o \
 src/word_instance_sorter.o src/socket.o src/net_client.o src/publisher.o \
-src/updater.o src/threads.o src/configuration.o db/src/mysql_searcher.o db/src/mysql_links_rank_manager.o \
+src/updater.o src/threads.o src/configuration.o db/src/mysql_searcher.o db/src/links_rank_manager.o \
 src/pageRank.o src/pagerank_sorter.o src/string_split.o src/safe_scores_map.o src/connector.o \
 db/src/mysql_links_data.o db/src/mysql_graph_data.o db/src/mysql_word_data.o db/src/mysql_word_links.o src/safe_limit_counter.o src/crawler_injector.o src/search_engine_injector.o
 
@@ -24,7 +24,7 @@ src/search_engine_injector.o : src/search_engine_injector.cpp includes/search_en
 includes/pagerank_sorter.hpp includes/word_instance_sorter.hpp db/includes/mysql_searcher.hpp includes/configuration.hpp includes/net_client.hpp includes/text_client.hpp
  
 src/crawler_injector.o : src/crawler_injector.cpp includes/crawler_injector.hpp includes/safe_scores_map.hpp includes/crawler.hpp \
-db/includes/mysql_links_rank_manager.hpp includes/updater.hpp db/includes/mysql_graph_data.hpp db/includes/mysql_word_links.hpp \
+db/includes/links_rank_manager.hpp includes/updater.hpp db/includes/mysql_graph_data.hpp db/includes/mysql_word_links.hpp \
 includes/configuration.hpp includes/dfs.hpp includes/bfs.hpp
 
 src/parser_html.o : src/parser_html.cpp includes/parser_html.hpp includes/string_split.hpp
@@ -50,8 +50,8 @@ db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_
 db/src/mysql_word_data.0 : db/src/mysql_word_data.cpp db/includes/mysql_word_data.hpp includes/word_data.hpp
 db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp includes/word_links.hpp
 db/src/mysql_searcher.o : db/src/mysql_searcher.cpp db/includes/mysql_searcher.hpp includes/searcher.hpp
-db/src/mysql_links_rank_manager.o : db/src/mysql_links_rank_manager.cpp db/includes/mysql_links_rank_manager.hpp includes/links_rank_manager.hpp includes/safe_scores_map.hpp db/includes/mysql_graph_data.hpp
-src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/links_rank_manager.hpp 
+db/src/links_rank_manager.o : db/src/links_rank_manager.cpp db/includes/links_rank_manager.hpp includes/subscriber.hpp includes/safe_scores_map.hpp db/includes/mysql_graph_data.hpp
+src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/subscriber.hpp 
 src/threads.o : src/threads.cpp includes/threads.hpp src/configuration.cpp
 src/safe_limit_counter.o : src/safe_limit_counter.cpp  includes/safe_limit_counter.hpp
  

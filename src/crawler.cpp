@@ -7,9 +7,7 @@
 #include "se_exceptions.hpp"
 #include "configuration.hpp"
 
-#include <iostream>
-#include <thread>
-
+ 
 namespace se{
 
 Crawler::Crawler(Updater& updater, std::shared_ptr<SafeScaner<std::string>> scaner)
@@ -32,7 +30,7 @@ void Crawler::insert_src_url()
 }
 
 void Crawler::close()
-{
+{  
   m_limitScans.jumpToLimit();
 }
 

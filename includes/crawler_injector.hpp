@@ -3,7 +3,7 @@
 
 #include "safe_scores_map.hpp"
 #include "crawler.hpp"
-#include "mysql_links_rank_manager.hpp"
+#include "links_rank_manager.hpp"
 #include "updater.hpp"
 #include "mysql_graph_data.hpp"
 #include "mysql_word_links.hpp"
@@ -22,8 +22,8 @@ public:
     Crawler create();
 
 private:
-    db::MysqlLinksRankManager m_rankManager;
     Publisher m_publisher;
+    db::LinksRankManager m_rankManager;
     db::MysqlGraph m_graph;
     db::MysqlWordLinks m_wordLinks;
     Updater m_updater;

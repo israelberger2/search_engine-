@@ -1,7 +1,8 @@
 #ifndef publisher_HPP
 #define publisher_HPP
 
-#include "links_rank_manager.hpp"
+#include <vector>
+#include "subscriber.hpp"
 
 
 namespace se{
@@ -9,15 +10,17 @@ namespace se{
 class Publisher
 {
 public:
-    explicit Publisher(db::LinkRankManager& linkRankManager);
+    Publisher();
     ~Publisher() = default;
     Publisher(const Publisher&) = default;
     Publisher& operator= (const Publisher&) = default;
 
     void notify();
+    void add(Subscriber* subscriber);
+    void remove(Subscriber* subscriber);
 
 private:
-    db::LinkRankManager& m_coordinator;
+    std::vector<Subscriber*> m_subscribers;
 };
 
 } // namespace se
