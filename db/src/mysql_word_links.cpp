@@ -1,7 +1,6 @@
 
 #include <cppconn/prepared_statement.h>
 #include <memory>
-#include <iostream>
 #include  "json.hpp" 
 
 #include "mysql_word_links.hpp"
@@ -9,9 +8,9 @@
 #include "mysql_word_data.hpp"
 #include "se_exceptions.hpp"
 
+
 using json = nlohmann::json;
   
-
 db::MysqlWordLinks::MysqlWordLinks()
 {}
 

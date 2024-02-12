@@ -6,7 +6,6 @@
 #include <unordered_map>
 
 #include "word_links.hpp"
-#include "connector.hpp"
 #include "safe_unordered_map.hpp"
 
 

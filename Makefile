@@ -45,7 +45,7 @@ src/pageRank.o : src/pageRank.cpp includes/pageRank.hpp
 src/pagerank_sorter.o : src/pagerank_sorter.cpp includes/pagerank_sorter.hpp includes/pageRank.hpp
 src/configuration.o : src/configuration.cpp includes/configuration.hpp
 src/connector.o : src/connector.cpp includes/connector.hpp
-db/src/mysql_links_data.o : db/src/mysql_links_data.cpp db/includes/mysql_links_data.hpp includes/links_data.hpp
+db/src/mysql_links_data.o : db/src/mysql_links_data.cpp db/includes/mysql_links_data.hpp db/includes/links_data.hpp
 db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_data.hpp includes/graph_data.hpp
 db/src/mysql_word_data.0 : db/src/mysql_word_data.cpp db/includes/mysql_word_data.hpp includes/word_data.hpp
 db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp includes/word_links.hpp

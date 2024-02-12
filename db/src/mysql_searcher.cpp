@@ -46,10 +46,11 @@ std::vector<db::LinksAndCount> db::MysqlSearcher::search(const Links& positiveWo
 
   return result;
 }
+
 std::pair<int,int> db::MysqlSearcher::getwordsCountSum(const std::vector<int>& wordsID, const std::string& url)const
 {  
-  std::string query  = "SELECT COUNT(WordLink.LinkID), SUM(WordLink.Count) FROM Link JOIN WordLink ON"
-  " Link.ID = WordLink.LinkID WHERE Link.Address = ? and (WordLink.WordID = ? ";
+  std::string query  = "SELECT COUNT(WordLink.LinkID), SUM(WordLink.Count) FROM Link JOIN WordLink ON \
+  Link.ID = WordLink.LinkID WHERE Link.Address = ? and (WordLink.WordID = ? ";
   
   for(size_t i = 1; i < wordsID.size(); ++i){        
     std::string appendString = " OR WordLink.WordID = ?";

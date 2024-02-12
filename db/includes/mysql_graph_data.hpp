@@ -11,7 +11,7 @@
 namespace db{
 
 using Map = std::unordered_map<std::string, int>;
-
+ 
 class MysqlGraph : public GraphData
 {
 public:
