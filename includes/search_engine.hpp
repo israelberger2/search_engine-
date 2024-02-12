@@ -21,12 +21,12 @@ public:
     SearchEngine& operator= (const SearchEngine&) = delete;
     
     void run(size_t length)const;
-    bool createQueriesVectors(std::vector<std::string>& positive, std::vector<std::string>& negative, const std::vector<std::string>& input)const;
+    std::pair<std::vector<std::string>, std::vector<std::string>> createQueriesVectors(const std::vector<std::string>& input)const;
 
 private:
     std::shared_ptr<db::Searcher> m_searcher;
     std::shared_ptr<Client> m_client;
-    std::shared_ptr<Sorter> m_arranger;
+    std::shared_ptr<Sorter> m_sorter;
 };
 
 } // namespace se

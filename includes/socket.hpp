@@ -18,7 +18,7 @@ public:
     Socket(const Socket&) = delete;
     Socket& operator= (const Socket&) = delete;
 
-    std::shared_ptr<Communicator> creat_communicator()const;
+    std::shared_ptr<Communicator> create_communicator()const;
 
 private:
     void init();

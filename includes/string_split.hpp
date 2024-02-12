@@ -9,7 +9,7 @@ namespace se{
  
 using WordsMap = std::unordered_map<std::string, int>;
  
-WordsMap split(std::string& htmt_text);
+WordsMap split(std::string& html_text);
 
 } //namespace 
 #endif

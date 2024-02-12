@@ -39,7 +39,7 @@ void Socket::create_socket()
     }
 }
 
-std::shared_ptr<Communicator> Socket::creat_communicator()const
+std::shared_ptr<Communicator> Socket::create_communicator()const
 {
     struct sockaddr_in client_addr;
     socklen_t client_addr_size = sizeof(client_addr);

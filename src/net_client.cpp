@@ -16,7 +16,7 @@ NetClient::NetClient()
 std::vector<std::string> NetClient::load_query()
 {           
     try{
-        m_communicator =  m_socket.creat_communicator();                
+        m_communicator =  m_socket.create_communicator();                
     } catch (const SocketError& error){        
         throw SocketError(error.what());
     }

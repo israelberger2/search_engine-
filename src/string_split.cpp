@@ -4,10 +4,10 @@
 #include "string_split.hpp"
 
 
-se::WordsMap se::split(std::string& htmt_text)
+se::WordsMap se::split(std::string& html_text)
 {
     std::vector<std::string> words;
-    std::istringstream iss(htmt_text);  
+    std::istringstream iss(html_text);  
     WordsMap allWords;
     std::string word;
     while (iss >> word) {

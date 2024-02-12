@@ -20,8 +20,8 @@ public:
     std::vector<std::string> load_query()override;
     void send_data(const std::vector<std::pair<std::string, int>>& links)const;
 
-private:
-    bool is_valide_input(const std::string& input)const;
+private: 
+    bool is_valid_input(const std::string& input)const;
     std::vector<std::string> get_substrings(const std::string& input)const;
 };
     

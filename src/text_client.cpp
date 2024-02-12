@@ -22,7 +22,7 @@ std::vector<std::string> TextClient::load_query()
             throw Exit("");
         }
 
-        if(is_valide_input(input)){
+        if(is_valid_input(input)){
             keywords = get_substrings(input);
             break;
         }     
@@ -32,7 +32,7 @@ std::vector<std::string> TextClient::load_query()
 } 
 
 
-bool TextClient::is_valide_input(const std::string& input)const
+bool TextClient::is_valid_input(const std::string& input)const
 {
     if (input.length() < 3){
         std::cout << "A keyword should be at least two letters long\n";

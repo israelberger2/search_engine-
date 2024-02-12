@@ -10,7 +10,7 @@ namespace se{
 SearchEngine::SearchEngine(std::shared_ptr<db::Searcher> searcher, std::shared_ptr<Client> client, std::shared_ptr<Sorter> Sorter)
 : m_searcher(searcher)
 , m_client(client)
-, m_arranger(Sorter)
+, m_sorter(Sorter)
 {}
 
 void SearchEngine::run(size_t length)const
@@ -19,15 +19,15 @@ void SearchEngine::run(size_t length)const
         try{            
             std::vector<std::string> keywords = m_client->load_query();
              
-            std::vector<std::string> positive;
-            std::vector<std::string> negative;
-            if(! createQueriesVectors(positive, negative, keywords)){                
+           auto queriesVectors = createQueriesVectors(keywords);
+           
+            if(queriesVectors.first.empty()){                
                 continue;
             }
             
-            std::vector<std::pair<std::string,int>> links =  m_searcher->search(positive, negative);
+            std::vector<std::pair<std::string,int>> links =  m_searcher->search(queriesVectors.first, queriesVectors.second);
              
-            m_arranger->sort_links(links , length);            
+            m_sorter->sort_links(links , length);            
             
             if(links.size() > length){
                 links.resize(length);
@@ -47,8 +47,11 @@ void SearchEngine::run(size_t length)const
     }
 }
 
-bool SearchEngine::createQueriesVectors(std::vector<std::string>& positive, std::vector<std::string>& negative, const std::vector<std::string>& input)const
+std::pair<std::vector<std::string>, std::vector<std::string>> SearchEngine::createQueriesVectors(const std::vector<std::string>& input)const
 {
+    std::vector<std::string> positive;
+    std::vector<std::string> negative;
+
     for(auto& str : input){
         if(str[0] != '-'){
             positive.push_back(str);
@@ -57,7 +60,7 @@ bool SearchEngine::createQueriesVectors(std::vector<std::string>& positive, std:
         }
     }
 
-    return positive.empty() ? false : true;
+    return std::pair<std::vector<std::string>, std::vector<std::string>>{positive, negative};
 }
 
 } // namespace se
