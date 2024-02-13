@@ -2,7 +2,7 @@
 #include  "json.hpp" 
 
 #include "mysql_graph_data.hpp"
-#include "mysql_links_data.hpp"
+#include "mysql_links.hpp"
 #include "connector.hpp"
 #include "se_exceptions.hpp"
 
@@ -57,12 +57,12 @@ void db::MysqlGraph::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map
 
 void db::MysqlGraph::insert(const Map& destinations, const std::string& src)const
 {    
-    MysqlLinksData sqlLinks{};
+    MysqlLinks sqlLinks{};
     int srcID;
 
     try{        
         srcID = sqlLinks.insertAndGetLinkID(src);            
-    } catch(const se::MysqlLinksDataExeption& e){
+    } catch(const se::MysqlLinksExeption& e){
         std::clog << "error from the MysqlGraph::insert: " << e.what() << "/n";
         return;
     } 
@@ -71,7 +71,7 @@ void db::MysqlGraph::insert(const Map& destinations, const std::string& src)cons
         int desID;
         try{
             desID = sqlLinks.insertAndGetLinkID(des.first);
-        } catch(const se::MysqlLinksDataExeption& e){
+        } catch(const se::MysqlLinksExeption& e){
             std::clog << "error from the MysqlGraph::insert: " << e.what() << "/n";
             continue;
         }
@@ -123,7 +123,7 @@ db::Graph db::MysqlGraph::getLinkRelationships()const
         }catch(const sql::SQLException& e){
             std::clog << "error from MysqlGraph::linkRelationships/relatedLinksfromOneLink/linkRelated: " << e.what() << '\n';
             continue;
-        }catch(const se::MysqlLinksDataExeption& e){
+        }catch(const se::MysqlLinksExeption& e){
             std::clog << "error from MysqlGraph::linkRelationships/relatedLinksfromOneLink/linksData: " << e.what() << '\n';
             continue;
         }
@@ -156,7 +156,7 @@ std::pair<std::string, std::vector<std::string>> db::MysqlGraph::getRelatedLinks
 {
     std::vector<int> linksID = RelatedLinksID(linkID); 
 
-    MysqlLinksData linksData{};
+    MysqlLinks linksData{};
     std::vector<std::string> linksAddresses =  linksData.getLinks(linksID);
     std::string srcAddress = linksData.getLink(linkID);
      

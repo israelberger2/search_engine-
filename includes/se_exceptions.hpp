@@ -18,13 +18,13 @@ class DataError : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
 class OpenFileError : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
-class MysqlWordDataException : public BaseExcaption {using BaseExcaption::BaseExcaption;};
+class MysqlWordsException : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
-class InValidWord : public MysqlWordDataException {using MysqlWordDataException::MysqlWordDataException;};
+class InValidWord : public MysqlWordsException {using MysqlWordsException::MysqlWordsException;};
 
-class MysqlLinksDataExeption : public BaseExcaption {using BaseExcaption::BaseExcaption;};
+class MysqlLinksExeption : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 
-class InValidLink : public MysqlLinksDataExeption {using MysqlLinksDataExeption::MysqlLinksDataExeption;};
+class InValidLink : public MysqlLinksExeption {using MysqlLinksExeption::MysqlLinksExeption;};
 
 class NoGraph : public BaseExcaption {using BaseExcaption::BaseExcaption;};
 

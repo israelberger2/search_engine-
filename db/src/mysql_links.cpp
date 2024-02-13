@@ -2,14 +2,14 @@
 #include <cppconn/resultset.h>
 #include <memory>
 
-#include "mysql_links_data.hpp"
+#include "mysql_links.hpp"
 #include "se_exceptions.hpp"
 
 
-db::MysqlLinksData::MysqlLinksData()
+db::MysqlLinks::MysqlLinks()
 {}
 
-int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
+int db::MysqlLinks::insertAndGetLinkID(const std::string &link) const
 { 
   int idLink;
 
@@ -41,12 +41,12 @@ int db::MysqlLinksData::insertAndGetLinkID(const std::string &link) const
     }
 
   } catch(const sql::SQLException& e){
-    throw(se::MysqlLinksDataExeption("error from the MysqlLinksData::insertAndGetLinkID: " + std::string(e.what())));
+    throw(se::MysqlLinksExeption("error from the MysqlLinks::insertAndGetLinkID: " + std::string(e.what())));
   }
   return idLink;
 }
 
-std::string db::MysqlLinksData::getLink(int id)const
+std::string db::MysqlLinks::getLink(int id)const
 {
   std::string link;
 
@@ -64,13 +64,13 @@ std::string db::MysqlLinksData::getLink(int id)const
       link = resQuery->getString(1);
     }
   } catch(const sql::SQLException& e){
-    throw(se::MysqlLinksDataExeption("error from the MysqlLinksData::getLink: " + std::string(e.what())));
+    throw(se::MysqlLinksExeption("error from the MysqlLinks::getLink: " + std::string(e.what())));
   }
 
   return link;
 }
 
-std::vector<std::string> db::MysqlLinksData::getLinks(std::vector<int> linksID)const
+std::vector<std::string> db::MysqlLinks::getLinks(std::vector<int> linksID)const
 {
   std::vector<std::string> links;
 
@@ -95,7 +95,7 @@ std::vector<std::string> db::MysqlLinksData::getLinks(std::vector<int> linksID)c
       links.push_back(resQuery->getString("Address"));
     }
   } catch(const sql::SQLException& e){
-    throw(se::MysqlLinksDataExeption("error from the MysqlLinksData::getLink: " + std::string(e.what())));
+    throw(se::MysqlLinksExeption("error from the MysqlLinks::getLink: " + std::string(e.what())));
   }
 
   return links;

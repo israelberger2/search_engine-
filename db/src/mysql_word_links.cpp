@@ -4,8 +4,8 @@
 #include  "json.hpp" 
 
 #include "mysql_word_links.hpp"
-#include "mysql_links_data.hpp"
-#include "mysql_word_data.hpp"
+#include "mysql_links.hpp"
+#include "mysql_words.hpp"
 #include "se_exceptions.hpp"
 
 
@@ -58,22 +58,22 @@ void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map,
 
 void db::MysqlWordLinks::insert(const Map& words, const std::string& link)const
 {   
-    MysqlLinksData linksData{};
+    MysqlLinks linksData{};
     int linkID;
 
     try{
         linkID = linksData.insertAndGetLinkID(link);
-    } catch(const se::MysqlLinksDataExeption& e){
+    } catch(const se::MysqlLinksExeption& e){
         std::clog << "error from the MysqlWordLinks::insert: " << e.what() << "\n";
         return;
     }  
 
     for(auto& word : words){
-        MysqlWordData wordData{};
+        MysqlWords wordData{};
         int wordID;
         try{            
             wordID = wordData.insertAndGetID(word.first);            
-        } catch(const se::MysqlWordDataException& e){
+        } catch(const se::MysqlWordsException& e){
             std::clog << "error from the MysqlWordLinks::insert: " << e.what() << '\n';
             continue;
         }  

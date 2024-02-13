@@ -7,7 +7,7 @@
 
 #include "searcher.hpp"
 #include "mysql_word_links.hpp"
-#include "mysql_word_data.hpp"
+#include "mysql_words.hpp"
 
  
 namespace db{
@@ -32,7 +32,7 @@ private:
 
 private:
     MysqlWordLinks m_wordLinks;
-    MysqlWordData m_wordData;
+    MysqlWords m_wordData;
 };
  
 } //se

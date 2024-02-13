@@ -2,15 +2,15 @@
 #include <cppconn/resultset.h>
 #include <memory>
  
-#include "mysql_word_data.hpp"
+#include "mysql_words.hpp"
 #include "connector.hpp"
 #include "se_exceptions.hpp"
 
 
-db::MysqlWordData::MysqlWordData()
+db::MysqlWords::MysqlWords()
 {}
 
-int db::MysqlWordData::insertAndGetID(const std::string &word)const
+int db::MysqlWords::insertAndGetID(const std::string &word)const
 {
   int wordId = 0;
   try{
@@ -41,13 +41,13 @@ int db::MysqlWordData::insertAndGetID(const std::string &word)const
       wordId = res->getInt(1);
     }
   } catch(const sql::SQLException& e){
-    throw se::MysqlWordDataException("error from the MysqlWordData::getWordsID: " + std::string(e.what()) );
+    throw se::MysqlWordsException("error from the MysqlWords::getWordsID: " + std::string(e.what()) );
   }
 
   return wordId;
 }
 
-std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& queries)const
+std::vector<int> db::MysqlWords::getWordsID(const std::vector<std::string>& queries)const
 {
   std::vector<int> result;
   
@@ -78,7 +78,7 @@ std::vector<int> db::MysqlWordData::getWordsID(const std::vector<std::string>& q
       result.push_back(linkResultes->getInt("id"));
     }
   } catch(const sql::SQLException& e){
-    throw se::MysqlWordDataException("error from the MysqlWordData::getWordsID: " + std::string(e.what()) );
+    throw se::MysqlWordsException("error from the MysqlWords::getWordsID: " + std::string(e.what()) );
   }
 
   return result;
