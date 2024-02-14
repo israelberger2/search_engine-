@@ -40,7 +40,7 @@ src/communicator.o : src/communicator.cpp includes/communicator.hpp includes/se_
 src/socket.o : src/socket.cpp includes/socket.hpp includes/communicator.hpp includes/se_exceptions.hpp
 src/word_instance_sorter.o : src/word_instance_sorter.cpp includes/word_instance_sorter.hpp
 src/string_split.o : src/string_split.cpp includes/string_split.hpp
-src/updater.o : src/updater.cpp includes/updater.hpp includes/publisher.hpp includes/safe_unordered_map.hpp includes/word_links.hpp includes/graph_data.hpp
+src/updater.o : src/updater.cpp includes/updater.hpp includes/publisher.hpp includes/safe_unordered_map.hpp db/includes/mysql_word_links.hpp db/includes/mysql_graph_data.hpp
 src/pageRank.o : src/pageRank.cpp includes/pageRank.hpp
 src/pagerank_sorter.o : src/pagerank_sorter.cpp includes/pagerank_sorter.hpp includes/pageRank.hpp
 src/configuration.o : src/configuration.cpp includes/configuration.hpp
@@ -48,7 +48,7 @@ src/connector.o : src/connector.cpp includes/connector.hpp
 db/src/mysql_links.o : db/src/mysql_links.cpp db/includes/mysql_links.hpp
 db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_data.hpp includes/graph_data.hpp
 db/src/mysql_words.0 : db/src/mysql_words.cpp db/includes/mysql_words.hpp 
-db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp includes/word_links.hpp
+db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp db/includes/word_links.hpp
 db/src/mysql_searcher.o : db/src/mysql_searcher.cpp db/includes/mysql_searcher.hpp includes/searcher.hpp
 db/src/links_rank_manager.o : db/src/links_rank_manager.cpp db/includes/links_rank_manager.hpp includes/subscriber.hpp includes/safe_scores_map.hpp db/includes/mysql_graph_data.hpp
 src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/subscriber.hpp 

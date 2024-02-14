@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <memory>
-#include <iostream>
-
+ 
 #include "pagerank_sorter.hpp"
+ 
  
 namespace se{
 
@@ -11,9 +11,7 @@ PageRankSorter::PageRankSorter(const SafeScoresPointer& score)
 {}
 
 void PageRankSorter::sort_links(std::vector<std::pair<std::string, int>>& linksVector, size_t num_res)const
-{        
-    std::cout << "sort link" << '\n';
-    
+{            
     if(linksVector.empty()){
         return;
     }
@@ -24,22 +22,16 @@ void PageRankSorter::sort_links(std::vector<std::pair<std::string, int>>& linksV
 
     std::shared_ptr<std::unordered_map<std::string, double>> scores = m_score.getScores();
     
-    if (!scores) {
-        std::cout << "no scors" << '\n';
-        
+    if (!scores) {        
         std::partial_sort(linksVector.begin(), linksVector.begin() + num_res, linksVector.end());      
-    } else{
-        std::cout << "size of scores is: " << scores->size() << '\n';
-        
+    } else{        
         std::partial_sort(linksVector.begin(), linksVector.begin() + num_res, linksVector.end(),
             [&scores](const std::pair<std::string, int>& part1, const std::pair<std::string, int>& part2){
                 return (static_cast<double>(part1.second) * scores->at(part1.first)) >
                 (static_cast<double>(part2.second) * scores->at(part2.first));
             }
         ); 
-    }
-    std::cout << "end of sort" << '\n';
-    
+    }    
 }
  
 } // namespace se

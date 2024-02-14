@@ -49,25 +49,29 @@ CREATE PROCEDURE search_engine.graphInsert(IN src VARCHAR(5000), IN json_data LO
         DECLARE dis_address VARCHAR(5000);
         DECLARE count_val INT;
         DECLARE i INT DEFAULT 0;
-    
-    
-        INSERT IGNORE INTO Link (Address) VALUES (src);
-        SELECT ID INTO src_id FROM Link WHERE Address = src;
-       
-        WHILE i < JSON_LENGTH(json_data) DO
-            SET dis_address = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].address')));
-            SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
+        DECLARE sign int DEFAULT 0;
+
+        SELECT count(*) INTO sign FROM LinksVisited WHERE Address = src;
+
+        IF sign = 0 THEN
+            INSERT IGNORE INTO Link (Address) VALUES (src);
+            SELECT ID INTO src_id FROM Link WHERE Address = src;
         
-            INSERT IGNORE INTO Link (Address) VALUES (dis_address);
-            SELECT ID INTO dis_id FROM Link WHERE Address = dis_address;
- 
-            INSERT IGNORE INTO Graph (Src, Destination, Count) VALUES (src_id, dis_id, count_val);
+            WHILE i < JSON_LENGTH(json_data) DO
+                SET dis_address = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].address')));
+                SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
+            
+                INSERT IGNORE INTO Link (Address) VALUES (dis_address);
+                SELECT ID INTO dis_id FROM Link WHERE Address = dis_address;
+    
+                INSERT IGNORE INTO Graph (Src, Destination, Count) VALUES (src_id, dis_id, count_val);
 
-            SET i = i + 1;
-        END WHILE; 
+                SET i = i + 1;
+            END WHILE; 
+        END IF;
     END //
-
 DELIMITER ;
+
 
 
 DELIMITER //
@@ -78,24 +82,33 @@ CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(5000), IN json_data
         DECLARE newWord VARCHAR(5000);
         DECLARE count_val INT;
         DECLARE i INT DEFAULT 0;
-       
-        INSERT IGNORE INTO Link (Address) VALUES (src);
-        SELECT id INTO src_id FROM Link WHERE Address = src;
+        DECLARE sign INT DEFAULT 0;
+
+        SELECT COUNT(*) INTO sign FROM LinksVisited WHERE Address = src;
+        
+        IF sign = 0 THEN
+			INSERT IGNORE into LinksVisited (Address) VALUES (src);
+            
+            INSERT IGNORE INTO Link (Address) VALUES (src);
+            SELECT id INTO src_id FROM Link WHERE Address = src;
+        
+            WHILE i < JSON_LENGTH(json_data) DO
+                SET newWord = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].word')));
+                SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
+
+                INSERT IGNORE INTO Word (Token) VALUES (newWord);
+                SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
     
-        WHILE i < JSON_LENGTH(json_data) DO
-            SET newWord = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].word')));
-            SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
+                INSERT IGNORE INTO WordLink (WordID, LinkID, Count) VALUES (newWord_id, src_id, count_val);
 
-            INSERT IGNORE INTO Word (Token) VALUES (newWord);
-            SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
- 
-            INSERT IGNORE INTO WordLink (WordID, LinkID, Count) VALUES (newWord_id, src_id, count_val);
+                SET i = i + 1;
+            END WHILE;
 
-            SET i = i + 1;
-        END WHILE;
+        END IF;
+
     END //
 DELIMITER ;
-
+ 
 
 DELIMITER //
 CREATE PROCEDURE search_engine.insertWordsPages(IN json_data LONGTEXT)
@@ -134,44 +147,3 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
-
-
- 
-
-
-DELIMITER //
-CREATE PROCEDURE search_engine.wordLinkInsert(IN src VARCHAR(5000), IN json_data LONGTEXT)
-    BEGIN
-        DECLARE src_id INT;
-        DECLARE newWord_id INT;
-        DECLARE newWord VARCHAR(5000);
-        DECLARE count_val INT;
-        DECLARE i INT DEFAULT 0;
-        DECLARE sign INT DEFAULT 0;
-
-        SELECT COUNT(*) INTO sign FROM LinksVisited WHERE Address = src;
-        
-        IF sign = 0 THEN
-			INSERT IGNORE into LinksVisited (Address) VALUES (src);
-            
-            INSERT IGNORE INTO Link (Address) VALUES (src);
-            SELECT id INTO src_id FROM Link WHERE Address = src;
-        
-            WHILE i < JSON_LENGTH(json_data) DO
-                SET newWord = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].word')));
-                SET count_val = JSON_UNQUOTE(JSON_EXTRACT(json_data, CONCAT('$[', i, '].count')));
-
-                INSERT IGNORE INTO Word (Token) VALUES (newWord);
-                SELECT ID INTO newWord_id FROM Word WHERE Token = newWord;
-    
-                INSERT IGNORE INTO WordLink (WordID, LinkID, Count) VALUES (newWord_id, src_id, count_val);
-
-                SET i = i + 1;
-            END WHILE;
-
-        END IF;
-
-    END //
-DELIMITER ;
