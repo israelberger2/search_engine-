@@ -43,7 +43,7 @@ void Crawler::executeCrawling()
 void Crawler::process_link()
 {  
   std::string current_url;
-  while(true){                     
+  while(true){                         
     if(! m_limitScans.CheckLimitAndIncrement()){       
       m_linkScheduler->stop();
       break;
@@ -76,7 +76,7 @@ void Crawler::process_link()
     insertLinks(linksList);
     m_updater.fill(result, current_url);
     
-  }  
+  }    
    
   if(! m_countForFlash.CheckLimitAndIncrement()){    
     m_updater.bufferFlush();

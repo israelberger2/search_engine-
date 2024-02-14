@@ -22,7 +22,7 @@ int main()
 
     auto search_engine = searchEngine_injector(scores);  
     search_engine.run(Config::getLengthResult());       
-    crawler.close();
+    crawler.close();    
     return 0; 
   }catch (const SocketError& error){
     std::clog << error.what() << "\n";

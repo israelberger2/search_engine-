@@ -17,6 +17,7 @@ public:
     Threads& operator= (const Threads&) = delete;
 
     void run_threads(std::function<void()> func);
+    void wait_to_threads();
  
 private:
     std::vector<std::thread> m_threads;

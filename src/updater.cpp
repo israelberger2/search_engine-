@@ -26,7 +26,9 @@ void se::Updater::fill(std::pair<Map, Map>& resCrewl ,const std::string& url)
 }
  
 void se::Updater::bufferFlush()
-{        
+{   
+    std::unique_lock<std::shared_mutex> locker(m_mtx);     
+    
     if(m_buffer.size() > 0){ 
         m_graphData.insert(m_buffer);
         m_publisher.notify();

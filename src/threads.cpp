@@ -1,6 +1,6 @@
 #include "threads.hpp"
 #include "configuration.hpp"
-  
+#include <iostream>
 
 namespace se{
 
@@ -24,6 +24,15 @@ void Threads::run_threads(std::function<void()> func)
     for(size_t i = 0; i < numThreads; ++i){
         m_threads.emplace_back(func);
     }
+}
+
+void Threads::wait_to_threads()
+{    
+    for(auto& t : m_threads){
+        if(t.joinable()){            
+            t.join();
+        }
+    }    
 }
 
 } // namespace se

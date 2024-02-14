@@ -30,9 +30,9 @@ void Bfs<T>::add(const T& element)
  
 template <typename T>
 bool Bfs<T>::get(T& t, const std::function<bool(size_t m_numSleeping)>& status_member_handleer)
-{
+{    
     std::unique_lock<std::shared_mutex> lock(m_mtx);
-    while(m_queue.empty()){
+    while(m_queue.empty()){        
         ++m_numSleeping;
         m_status =  status_member_handleer(m_numSleeping);
         if(!m_status){

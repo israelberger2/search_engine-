@@ -40,19 +40,19 @@ std::string db::MysqlWordLinks::createJsonPages(se::SafeUnorderedMap<std::string
 }
 
 void db::MysqlWordLinks::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
-{
+{    
     std::string json_data = createJsonPages(buffer);
-    std::string query = "CALL search_engine.inserWordsPages(?)";
-
+    std::string query = "CALL search_engine.insertWordsPages(?)";
+ 
     db::Connector connector{};
     std::unique_ptr<sql::PreparedStatement> stmt = connector.get_conector(query);
 
     stmt->setString(1, json_data);
 
-    try {
+    try {        
         stmt->execute();
     } catch (const sql::SQLException& error) {
-        std::cerr << "error::" << error.what() << '\n';           
+        std::clog << "error::" << error.what() << '\n';           
     }                      
 }
 

@@ -40,6 +40,8 @@ std::string db::MysqlGraph::createJsonPages(se::SafeUnorderedMap<std::string, st
 
 void db::MysqlGraph::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map>>& buffer)const
 {
+    std::cout << "graph insert" << '\n';
+    
     std::string json_pages = createJsonPages(buffer);
     std::string query = "CALL search_engine.inserLinksPages(?)";
 
@@ -47,12 +49,17 @@ void db::MysqlGraph::insert(se::SafeUnorderedMap<std::string, std::pair<Map, Map
     auto stmt = connector.get_conector(query);
 
     stmt->setString(1, json_pages);
-
+    std::cout << "befor execute" << '\n';
+    
     try{
         stmt->execute();
-    } catch(const sql::SQLException& error){
+        std::cout << "after execute" << '\n';
+        
+    } catch(const sql::SQLException& error){        
         std::cerr << "SQL Error Code: " << error.getErrorCode() <<  "SQL State: " << error.getSQLState() <<  "Error Message: " << error.what() << '\n';
     } 
+    std::cout << "graph insert end" << '\n';
+    
 }
 
 void db::MysqlGraph::insert(const Map& destinations, const std::string& src)const
