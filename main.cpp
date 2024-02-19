@@ -10,7 +10,7 @@
  
 using namespace se;
   
-eeee
+
 int main() 
 {      
   try{
