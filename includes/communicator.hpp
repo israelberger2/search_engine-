@@ -1,8 +1,8 @@
 #ifndef COMMUNICATOR_HPP
 #define COMMUNICATOR_HPP
 
-#include <unistd.h>
- 
+#include <string>
+
 
 namespace se{
 

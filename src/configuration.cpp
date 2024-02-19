@@ -1,6 +1,6 @@
-#include "json.hpp"
 #include <fstream>
 
+#include "json.hpp"
 #include "se_exceptions.hpp"
 #include "configuration.hpp"
 

@@ -1,5 +1,5 @@
 #include <arpa/inet.h>
-#include <string>
+#include <unistd.h>
 
 #include "communicator.hpp"
 #include "se_exceptions.hpp"
