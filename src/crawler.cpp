@@ -1,5 +1,5 @@
 #include <utility>
-#include <unordered_map>
+#include <vector>
  
 #include "crawler.hpp"
 #include "parser_html.hpp"
@@ -71,6 +71,7 @@ void Crawler::process_link()
     if(result.first.empty() && result.second.empty()){
       continue;
     }
+
     std::unordered_map<std::string, int>& linksList = result.first;
     
     insertLinks(linksList);
@@ -81,7 +82,6 @@ void Crawler::process_link()
   if(! m_countForFlash.CheckLimitAndIncrement()){    
     m_updater.bufferFlush();
   }
-  
 }
 
 void Crawler::insertLinks(const std::unordered_map<std::string, int>& result_links) 

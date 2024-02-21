@@ -17,7 +17,7 @@ Crawler_Injector::Crawler_Injector(SafeScoresPointer& scores)
 Crawler Crawler_Injector::create() 
 {
     auto scaner = (Config::getScanType() == "bfs") ?
-    std::shared_ptr<SafeScaner<std::string>>(std::make_shared<Bfs<std::string>>()) :
+    std::shared_ptr<SafeScaner<std::string>>(std::make_shared<Bfs<std::string>>()):
     std::shared_ptr<SafeScaner<std::string>>(std::make_shared<Dfs<std::string>>());
 
     return Crawler(m_updater, scaner);

@@ -2,8 +2,7 @@
 #define CRAWLER_HPP
 
 #include <string>
-#include <vector>
-#include <functional>
+#include <unordered_map>
 #include <memory>
 
 #include "threads.hpp"
