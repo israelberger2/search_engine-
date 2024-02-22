@@ -46,7 +46,7 @@ src/pagerank_sorter.o : src/pagerank_sorter.cpp includes/pagerank_sorter.hpp inc
 src/configuration.o : src/configuration.cpp includes/configuration.hpp
 src/connector.o : src/connector.cpp includes/connector.hpp
 db/src/mysql_links.o : db/src/mysql_links.cpp db/includes/mysql_links.hpp
-db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_data.hpp includes/graph_data.hpp
+db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_data.hpp db/includes/graph_data.hpp
 db/src/mysql_words.0 : db/src/mysql_words.cpp db/includes/mysql_words.hpp 
 db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp db/includes/word_links.hpp
 db/src/mysql_searcher.o : db/src/mysql_searcher.cpp db/includes/mysql_searcher.hpp includes/searcher.hpp

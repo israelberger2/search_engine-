@@ -1,5 +1,4 @@
 #include  "json.hpp" 
-
 #include "net_client.hpp"
 #include "se_exceptions.hpp"
 

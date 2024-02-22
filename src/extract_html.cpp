@@ -2,8 +2,7 @@
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 #include <sstream>
-#include <string>
-
+ 
 #include "extract_html.hpp"
 #include "se_exceptions.hpp"
 
@@ -27,7 +26,6 @@ std::string extract_html(const std::string& url)
   } catch (const curlpp::RuntimeError& error){
     throw HtmlExcaption(std::string("ERROR: curlpp::runtime_error: ") + error.what());     
   }
-}
-     
+}  
 
 } // namespace se

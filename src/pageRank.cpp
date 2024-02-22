@@ -35,7 +35,7 @@ DoubleMap PageRank::getScores()
             curGradesSum += c.second;
         } 
          
-        if(gradesSum - curGradesSum < 0.0001 ){
+        if(gradesSum - curGradesSum < 0.0001){
             return currentMap;
         }
 
