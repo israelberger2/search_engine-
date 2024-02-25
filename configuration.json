@@ -10,7 +10,7 @@
   "linksMountForPagerank": 5,
   "ip": "127.0.0.1",
   "port": 8080,
-  "clientType": "net",
+  "clientType": "local",
   "sortType": "pageRank",
   "StartOfLink": "https://harrypotter.fandom.com",
   "addresses": [

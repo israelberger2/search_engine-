@@ -6,7 +6,6 @@
 #include <string>
 
  
- 
 namespace se{
 
 using ScorsMap = std::unordered_map<std::string, double>;

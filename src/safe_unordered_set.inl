@@ -1,5 +1,3 @@
-#include <iostream>
-
 namespace se{
 
 template <typename T> 
@@ -12,6 +10,7 @@ template <typename T>
 bool SafeUnorderedSet<T>::insert(T element)
 {
     std::unique_lock<std::shared_mutex> locker(m_mutx);
+
     auto status = m_set.insert(element);
     return status.second;
 }

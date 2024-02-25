@@ -1,6 +1,3 @@
-#include "safe_unordered_map.hpp"
-
-
 namespace se{
 
 template <typename Key, typename Value>
@@ -68,12 +65,6 @@ std::vector<Key> SafeUnorderedMap<Key, Value>::getKeys()const
     }
 
     return result;
-}
-
-template <typename Key, typename Value>
-void SafeUnorderedMap<Key, Value>::clear()
-{
-    m_map.clear();
 }
 
 } // namespase se

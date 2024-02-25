@@ -8,7 +8,7 @@ namespace se {
  
 class SafeLimitCounter {
 public:
-  SafeLimitCounter(int limit);
+  explicit SafeLimitCounter(int limit);
   ~SafeLimitCounter() = default;
   SafeLimitCounter(const SafeLimitCounter&) = default;
   SafeLimitCounter& operator= (const SafeLimitCounter&) = default;

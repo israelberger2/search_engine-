@@ -26,8 +26,7 @@ public:
     size_t size()const;
     std::unordered_map<Key, Value> getMap()const;
     std::vector<Key> getKeys()const;
-    void clear();
-    
+     
 private:
     std::unordered_map<Key, Value> m_map;
     mutable std::shared_mutex m_mutex;

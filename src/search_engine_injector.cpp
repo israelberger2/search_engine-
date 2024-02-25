@@ -5,6 +5,7 @@
 #include "configuration.hpp"
 #include "net_client.hpp"
 #include "text_client.hpp"
+#include "search_engine.hpp"
 
 
 namespace se

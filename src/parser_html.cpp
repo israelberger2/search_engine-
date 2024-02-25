@@ -1,4 +1,3 @@
-#include "gumbo.h"
 #include <regex>
  
 #include "parser_html.hpp"
@@ -25,9 +24,7 @@ std::pair<Map, Map> ParserHtml::result_parser(const std::string& url)
      
     Map linksMap = convertToMap(links);
 
-    std::pair<Map, Map> result = {linksMap, textMap};
-
-    return result;
+    return std::pair<Map, Map>{linksMap, textMap};
 }
 
 std::string ParserHtml::cleantext(GumboNode* node)const
