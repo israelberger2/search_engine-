@@ -25,7 +25,7 @@ public:
 
 private:
     Socket m_socket;
-    std::shared_ptr<Communicator> m_communicator;
+    std::unique_ptr<Communicator> m_communicator;
 };
 
 } // namespace se

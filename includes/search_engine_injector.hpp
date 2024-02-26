@@ -2,6 +2,7 @@
 #define SEARCH_ENGINE_INJECTOR_HPP 
 
 #include "safe_scores_map.hpp"
+#include "search_engine.hpp"
  
 
 namespace se

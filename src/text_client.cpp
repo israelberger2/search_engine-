@@ -34,18 +34,15 @@ std::vector<std::string> TextClient::load_query()
 
 bool TextClient::is_valid_input(const std::string& input)const
 {
-    if (input.length() < 3){
-        std::cout << "A keyword should be at least two letters long\n";
-        return false;  
-    }
-
-    for (size_t i = 0; i < input.length() - 1; i++){
-        if(input[i] != ' ' && input[i+1] != ' ') {
-            return true;  
+    if (input.length() >= 3){
+        for (size_t i = 0; i < input.length() - 1; i++){
+            if(input[i] != ' ' && input[i+1] != ' ') {
+                return true;  
+            }
         }
     }
 
-    std::cout << "A keyword should be at least two letters long\n";
+    std::cout << "A keyword should be at least three letters long\n";
     
     return false; 
 }

@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include  <utility>
 
 #include "searcher.hpp"
 #include "client.hpp"
@@ -11,6 +12,8 @@
 
 
 namespace se{
+
+using Parsed_query = std::pair<std::vector<std::string>, std::vector<std::string>>;
 
 class SearchEngine
 {
@@ -21,7 +24,9 @@ public:
     SearchEngine& operator= (const SearchEngine&) = delete;
     
     void run(size_t length)const;
-    std::pair<std::vector<std::string>, std::vector<std::string>> createQueriesVectors(const std::vector<std::string>& input)const;
+
+private:
+    Parsed_query createQueriesVectors(const std::vector<std::string>& input)const;
 
 private:
     std::shared_ptr<db::Searcher> m_searcher;

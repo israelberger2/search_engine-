@@ -39,7 +39,7 @@ void Socket::create_socket()
     }
 }
 
-std::shared_ptr<Communicator> Socket::create_communicator()const
+std::unique_ptr<Communicator> Socket::create_communicator()const
 {
     struct sockaddr_in client_addr;
     socklen_t client_addr_size = sizeof(client_addr);
@@ -49,7 +49,7 @@ std::shared_ptr<Communicator> Socket::create_communicator()const
         throw SocketError("ERROR: the accept function is failed");
     }
 
-    std::shared_ptr<Communicator> communicator = std::make_shared<Communicator>(client_socket);
+    std::unique_ptr<Communicator> communicator = std::make_unique<Communicator>(client_socket);
     return communicator;
 }
 

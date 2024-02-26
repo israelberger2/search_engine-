@@ -1,4 +1,3 @@
-#include  <utility>
 #include <iostream>
 
 #include "search_engine.hpp"
@@ -47,7 +46,7 @@ void SearchEngine::run(size_t length)const
     }
 }
 
-std::pair<std::vector<std::string>, std::vector<std::string>> SearchEngine::createQueriesVectors(const std::vector<std::string>& input)const
+Parsed_query SearchEngine::createQueriesVectors(const std::vector<std::string>& input)const
 {
     std::vector<std::string> positive;
     std::vector<std::string> negative;
@@ -60,7 +59,7 @@ std::pair<std::vector<std::string>, std::vector<std::string>> SearchEngine::crea
         }
     }
 
-    return std::pair<std::vector<std::string>, std::vector<std::string>>{positive, negative};
+    return Parsed_query{positive, negative};
 }
 
 } // namespace se
