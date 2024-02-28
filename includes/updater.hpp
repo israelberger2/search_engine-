@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <shared_mutex>
  
 #include "publisher.hpp"
 #include "safe_unordered_map.hpp"

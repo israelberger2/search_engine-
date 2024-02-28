@@ -42,7 +42,7 @@ bool TextClient::is_valid_input(const std::string& input)const
         }
     }
 
-    std::cout << "A keyword should be at least three letters long\n";
+    std::cout << "Please enter a keyword with at least three letters" << "/n";
     
     return false; 
 }

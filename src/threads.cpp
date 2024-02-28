@@ -1,7 +1,7 @@
 #include "threads.hpp"
 #include "configuration.hpp"
-#include <iostream>
-
+ 
+ 
 namespace se{
 
 Threads::Threads()
