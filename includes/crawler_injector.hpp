@@ -14,7 +14,7 @@ namespace se{
 class Crawler_Injector
 {
 public:
-    Crawler_Injector(SafeScoresPointer& scores);
+    explicit Crawler_Injector(SafeScoresPointer& scores);
     ~Crawler_Injector() = default;
     Crawler_Injector(const Crawler_Injector&) = default;
     Crawler_Injector& operator= (const Crawler_Injector&) = default;

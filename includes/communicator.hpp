@@ -9,7 +9,7 @@ namespace se{
 class Communicator
 {
 public:
-    Communicator(int fileDiscriptor);
+    explicit Communicator(int fileDiscriptor);
     ~Communicator();
     Communicator(const Communicator&) = delete;
     Communicator& operator= (const Communicator&) = delete;

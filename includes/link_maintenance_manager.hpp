@@ -10,7 +10,7 @@ namespace se{
 class LinkMaintenanceManager
 {
 public:
-    LinkMaintenanceManager(std::vector<std::string>& links);
+    explicit LinkMaintenanceManager(std::vector<std::string>& links);
     ~LinkMaintenanceManager() = default;
     LinkMaintenanceManager(const LinkMaintenanceManager&) = default;
     LinkMaintenanceManager& operator= (const LinkMaintenanceManager&) = default;

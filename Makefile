@@ -34,7 +34,7 @@ includes/se_exceptions.hpp includes/configuration.hpp includes/updater.hpp inclu
 src/extract_html.o : src/extract_html.cpp includes/extract_html.hpp includes/se_exceptions.hpp
 src/link_maintenance_manager.o : src/link_maintenance_manager.cpp includes/link_maintenance_manager.hpp 
 
-src/search_engine.o : src/search_engine.cpp includes/search_engine.hpp includes/searcher.hpp 
+src/search_engine.o : src/search_engine.cpp includes/search_engine.hpp db/includes/searcher.hpp 
 src/net_client.o : src/net_client.cpp includes/net_client.hpp includes/client.hpp includes/socket.hpp includes/communicator.hpp includes/se_exceptions.hpp 
 src/communicator.o : src/communicator.cpp includes/communicator.hpp includes/se_exceptions.hpp
 src/socket.o : src/socket.cpp includes/socket.hpp includes/communicator.hpp includes/se_exceptions.hpp
@@ -49,7 +49,7 @@ db/src/mysql_links.o : db/src/mysql_links.cpp db/includes/mysql_links.hpp
 db/src/mysql_graph_data.o : db/src/mysql_graph_data.cpp db/includes/mysql_graph_data.hpp db/includes/graph_data.hpp
 db/src/mysql_words.0 : db/src/mysql_words.cpp db/includes/mysql_words.hpp 
 db/src/mysql_word_links.o : db/src/mysql_word_links.cpp db/includes/mysql_word_links.hpp db/includes/word_links.hpp
-db/src/mysql_searcher.o : db/src/mysql_searcher.cpp db/includes/mysql_searcher.hpp includes/searcher.hpp
+db/src/mysql_searcher.o : db/src/mysql_searcher.cpp db/includes/mysql_searcher.hpp db/includes/searcher.hpp
 db/src/links_rank_manager.o : db/src/links_rank_manager.cpp db/includes/links_rank_manager.hpp includes/subscriber.hpp includes/safe_scores_map.hpp db/includes/mysql_graph_data.hpp
 src/publisher.o : src/publisher.cpp includes/publisher.hpp includes/subscriber.hpp 
 src/threads.o : src/threads.cpp includes/threads.hpp src/configuration.cpp
