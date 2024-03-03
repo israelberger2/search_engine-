@@ -9,7 +9,7 @@ namespace se{
 
 Config::Config()
 {
-    std::ifstream input_file("configuration.json");
+    std::ifstream input_file("includes/configuration.json");
 
     if (!input_file.is_open()){
         throw OpenFileError("ERROR:: not opem file");

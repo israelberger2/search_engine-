@@ -27,9 +27,9 @@ int main()
   }catch (const SocketError& error){
     std::clog << error.what() << "\n";
     return 1;
-  } catch (...){
-    std::cout << "ERROR:: the Program failed" << std::endl;
-    return 1;
+  // } catch (...){
+  //   std::cout << "ERROR:: the Program failed" << std::endl;
+  //   return 1;
   }
 }
 

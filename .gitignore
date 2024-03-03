@@ -1,3 +1,5 @@
 *.o
 test
 main
+.vscode
+.gitignore
