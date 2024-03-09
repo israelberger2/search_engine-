@@ -43,6 +43,8 @@ The Observer pattern is utilized in the project to handle dependencies between c
 - **Curlpp**: Used for downloading pages from URLs. 
 <br />Install it using the command: `sudo apt install -y libcurlpp-dev`
 
+- **MySQL Connector/C++**: Required for database interaction.<br />Install using the command: `sudo apt-get install libmysqlcppconn-dev`
+
 - **GCC Compiler**: Project requires `g++` compiler (version 7.3+) with C++17 support.
 
  
