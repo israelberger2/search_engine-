@@ -39,10 +39,10 @@ The Observer pattern is utilized in the project to handle dependencies between c
 ## Dependencies
 
 - **Gumbo Parser** : Used for parsing HTML content and extracting links from web pages. 
-<br /Install it using the command: `sudo apt install -y libgumbo-dev`
+<br />Install it using the command: `sudo apt install -y libgumbo-dev`
 
 - **Curlpp**: Used for downloading pages from URLs. 
-<br /Install it using the command: `sudo apt install -y libcurlpp-dev`
+<br />Install it using the command: `sudo apt install -y libcurlpp-dev`
 
 - **GCC Compiler**: The project is developed using the `g++` compiler, which supports the C++17 standard. It's recommended to use `g++` version 7.3 or higher for compatibility with all features and libraries used in the project. Ensure that the compiler is installed on your system and accessible from the command line.
 
