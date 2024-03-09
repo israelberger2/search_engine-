@@ -17,8 +17,7 @@ The `Search_engine` class is the application responsible for handling user queri
 - **Searcher Instance**: The `Search_engine` utilizes an instance of the `Searcher` interface to retrieve relevant search results from a specific database.
 - **Sorter Instance**: Additionally, the `Search_engine` holds an instance of the `Sorter` interface to organize search results effectively. It can sort results either by word instances, the Pagerank algorithm, or any other custom sorting method specified.
 
-Additionally, injector implementations for `Search_engine_injector` and `Crawler_injector` to create tailored objects based on the configuration file.
-
+ 
 
 ## Design Patterns
 
