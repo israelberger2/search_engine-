@@ -28,7 +28,7 @@ The Singleton pattern is implemented for the `Configuration` class because many 
  
 ### Observer
 
-The Observer pattern is utilized in the project to handle dependencies between components, particularly in the context of the Pagerank algorithm during the crawling process. When the `Updater` class finishes inserting links into the database, it notifies the `Pagerank` class, which calculates the Pagerank scores for the newly inserted links. This allows for efficient handling of dependencies and ensures that Pagerank scores are updated in real-time as new data is added to the database.
+During the crawling process, whenever the `Updater` class finishes inserting a buffer of links into the database, it notifies the `Pagerank` class. The `Pagerank` class then calculates the Pagerank scores for the newly inserted links. This allows for efficient handling of dependencies and ensures that Pagerank scores are updated in real-time as new data is added to the database.
 
 ### Dependency Injection
 
@@ -43,7 +43,7 @@ The Observer pattern is utilized in the project to handle dependencies between c
 - **Curlpp**: Used for downloading pages from URLs. 
 <br />Install it using the command: `sudo apt install -y libcurlpp-dev`
 
-- **MySQL Connector/C++**: Required for database interaction.<br />Install using the command: `sudo apt-get install libmysqlcppconn-dev`
+- **MySQL Connector/C++**: Required for database interaction.<br />Install it using the command: `sudo apt-get install libmysqlcppconn-dev`
 
 - **GCC Compiler**: Project requires `g++` compiler (version 7.3+) with C++17 support.
 
