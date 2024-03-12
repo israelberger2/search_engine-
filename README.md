@@ -28,7 +28,7 @@ The Singleton pattern is implemented for the `Configuration` class because many 
  
 ### Observer
 
-During the crawling process, whenever the `Updater` class finishes inserting a buffer of links into the database, it notifies the `Pagerank` class. The `Pagerank` class then calculates the Pagerank scores for the newly inserted links. This allows for efficient handling of dependencies and ensures that Pagerank scores are updated in real-time as new data is added to the database.
+During the crawling process, whenever the `Updater` class finishes inserting a buffer of links into the database, it notifies the `Pagerank` class. The `Pagerank` class then calculates the Pagerank scores for the newly inserted links. This ensures that Pagerank scores are updated in real-time as new data is added to the database.
 
 ### Dependency Injection
 
